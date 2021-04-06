@@ -143,7 +143,7 @@ class BootstrapTableHelper{
     public function make(){
         $columns = "";
         foreach($this->columns as $col){
-            $columns .= "<th scope='col'>$col</th>";
+            $columns .= "<th scope='col' class='text-start'>$col</th>";
         }
         $table = "";
         $table .= ($this->responsive)?"<div class='table-responsive'>":"";
@@ -165,9 +165,18 @@ class BootstrapTableHelper{
         $table .= "</thead>";
         $table .= "<tbody>";
         foreach($this->rows as $row){
-            $table .= "<tr class='table-light'>";
+
+            $table .= "<tr class='table-light'";
+            if( isset($row['data-id']) && isset($row['data-type']) ){
+                $table .= " onclick='launch(this);' style='cursor:pointer;'";
+                $table .= " data-action='chg' data-type='".$row['data-type']."' data-id='".$row['data-id']."'";
+                unset($row['data-id']);
+                unset($row['data-type']);
+            }
+            $table .= ">";
+
             foreach($row as $column){
-                $table .= "<td>$column</td>";
+                $table .= "<td class='text-start'>$column</td>";
             }
             $table .= "</tr>";
         }

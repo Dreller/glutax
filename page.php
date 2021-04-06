@@ -59,6 +59,7 @@ body {
   background: #007bff;
   background: linear-gradient(to right, #0062E6, #33AEFF);
 }
+
 </style>
 
 </head>
@@ -67,21 +68,22 @@ body {
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a id="glutaxTitle" class="navbar-brand" href="#">GluTax</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ml-auto">
+        <div class="collapse navbar-collapse" id="Navbar">
+            <ul class="navbar-nav">
             <!-- Shortcut to add a new expense -->
                 <li class="nav-item">
-                    <a class="nav-link" href="#">New Expense</a>
+                    <a id="NavNewPurchase" class="nav-link" href="#">New Purchase</a>
                 </li>
             <!-- Tables menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarTables" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarTables" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Tables
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarTables">
+                        <a class="dropdown-item navTable" href="#" data-table="category">Categories</a>
                         <a class="dropdown-item navTable" href="#" data-table="person">Persons</a>
                         <a class="dropdown-item navTable" href="#" data-table="product">Products</a>
                         <a class="dropdown-item navTable" href="#" data-table="store">Stores</a>
@@ -89,7 +91,7 @@ body {
                 </li>
             <!-- Options menu -->
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarOptions" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarOptions" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Options
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarOptions">
@@ -106,22 +108,20 @@ body {
 <!-- END: Navigation Bar -->
 
 <!-- Container -->
-<div id="myBox" class="container text-center">
-
-</div>
+<div id="myBox" class="container text-center"></div>
 <!-- END: Container -->
 
 <!-- JS Scripts imports -->
 <script src="js/jquery_3.5.1.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>
 <script src="js/glutax.js"></script>
+
 <!-- END: JS Scripts imports -->
 
-<!-- JQuery --> 
+<!-- JQuery/Other Script --> 
 <script>
-
-
 </script>
+
 
 </body>
 </html>

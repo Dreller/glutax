@@ -7,83 +7,104 @@ $tableName = 'tb' . ucwords($tableCode);
 # Initialize variables
 $pageHeader = "Unknown item ($tableName)";
 $foundFlag = true;
+$method = "add";
 
 require_once('../php/gtForm.php');
 $form = new gtForm();
+
+# If we are in EDIT mode, retrieve actual data from DB.
+if( isset($_GET['i']) ){
+    require_once('../php/gtDb.php');
+    $db = new gtDb();
+    $db->where($tableCode."AccountID", $_SESSION['accountID']);
+    $db->where($tableCode."ID", $_GET['i']);
+    $ad = $db->getOne($tableName);
+
+    if( $db->count == 1 ){
+        $method = "chg";
+        $form->addHidden('id', $_GET['i']);
+    }
+}
+
 
 /** Form properties */
 switch($tableName){
     case "tbStore":
         $pageHeader = "Store";
-
-        $a = Array(
-            "name" => "storeName",
-            "label" => "Store Name",
-            "type" => "text"
-        );$form->addControl($a);
-
-        $a = Array(
-            "name" => "storeAddress",
-            "label" => "Address",
-            "type" => "text"
-        );$form->addControl($a);
-        
+        insertInForm("storeName", "Store Name", "text");
+        insertInForm("storeAddress", "Address or Location", "text");
         break;
     case "tbPerson":
         $pageHeader = "Person";
-
-        $a = Array(
-            "name" => "personName",
-            "label" => "Name",
-            "type" => "text"
-        );$form->addControl($a);
-
+        insertInForm("personName", "Name", "text");
         break;
     case "tbProduct":
         $pageHeader = "Product";
-
-        $a = Array(
-            "name" => "productSKU",
-            "label" => "SKU (Barcode)",
-            "type" => "text"
-        );$form->addControl($a);
-
-        $a = Array(
-            "name" => "productName",
-            "label" => "Name",
-            "type" => "text"
-        );$form->addControl($a);
-
+        insertSectionInForm("Gluten-free Product");
+        insertInForm("productName", "Name or Description", "text");
+        insertInForm("productCategoryID", "Category", "product-category");
+        #insertInForm("productSKU", "SKU (Barcode)", "text");
+        insertInForm("productSize", "Size (eg. 200 ml, enter 200)", "number");
+        insertInForm("productFormat", "Format, measure (eg. 200 ml, choose ml)", "list-measure");
+        insertSectionInForm("Equivalent Product");
+        insertInForm("productEquName", "Name or Description", "text");
+        #insertInForm("productEquSKU", "SKU (Barcode)", "text");
+        insertInForm("productEquSize", "Size (eg. 200 ml, enter 200)", "number");
+        break;
+    case "tbCategory":
+        $pageHeader = "Category";
+        insertInForm("categoryName", "Name", "text");
         break;
     default:
         $foundFlag = false;
 }
 
+function insertInForm($name, $label, $type){
+    global $ad;
+    global $form;
+    $a = Array(
+        "name" => $name,
+        "label" => $label,
+        "type" => $type,
+        "value" => (isset($ad[$name])?$ad[$name]:'')
+    );
+    $form->addControl($a);
+}
+
+function insertSectionInForm($text){
+    global $form;
+    $a = Array(
+        "name" => "section",
+        "label" => $text,
+        "type" => "section"
+    );
+    $form->addControl($a);
+}
+
 ?>
 
-<h1 class="mt-5 text-white font-weight-light"><?php echo $pageHeader; ?> </h1>
+<h1 class="mt-5 text-white font-weight-light"><?php echo $pageHeader; ?></h1>
 <hr>
 
 <!-- Toolbar -->
-<div id="TableItemToolbar" class="btn-group my-2" role="group" aria-label="toolbar">
-    <button id="Delete" type="button" class="btn btn-light disabled">Delete</button>
-    <button id="Save" type="button" class="btn btn-light">Save</button>
+<div class="container text-end">
+    <div id="TableItemToolbar" class="btn-group my-2" role="group" aria-label="toolbar">
+        <button id="Delete" type="button" class="btn btn-light disabled">Delete</button>
+        <button id="Cancel" type="button" class="btn btn-light" onclick="loadTable('<?php echo $tableCode; ?>');">Cancel</button>
+        <button id="Save" type="button" class="btn btn-light" onclick="sendForm();">Save</button>
+    </div>
 </div>
 
-<div>
+<div class="bg-light p-3 rounded shadow-sm text-start">
 <?php 
 
 if( $foundFlag ){
-
+    $form->addHidden("method", $method);
+    $form->addHidden("type", $tableCode);
     echo $form->build();
-    
-
-
-    //require '../php/gtDb.php';
-    //$db = new gtDb();
-
-    
 }
+
+print "<hr>";
 
 ?>
 </div>
