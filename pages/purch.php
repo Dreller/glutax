@@ -65,7 +65,7 @@ $db = new gtDb();
     <h4>Products</h4>
 
     <div class="table-responsive">
-        <table class="table">
+        <table class="table table-hover" id="purchTable">
             <thead>
                 <th>
                     Gluten-free
@@ -92,6 +92,8 @@ $db = new gtDb();
                     Extra
                 </th>
             </thead>
+            <tbody id="purchTableBody">
+            </tbody>
         </table>
     </div>
     
@@ -120,29 +122,29 @@ $db = new gtDb();
                 <!-- Description -->
                     <div class="mb-3">
                         <label for="popProductName" class="form-label text-start">Description</label>
-                        <input type="text" class="form-control" id="popProductName">
+                        <input type="text" class="form-control" id="popProductName" value="Feuilles de laurier">
                     </div>
                 <!-- GF: Quantity & Price -->
                     <div class="row mb-3 g-3">
                         <div class="col">
                             <label for="popProductQuantity" class="form-label text-start">Quantity</label>
-                            <input type="number" min="0" class="form-control" id="popProductQuantity">
+                            <input type="number" min="0" class="form-control" id="popProductQuantity" value="1">
                         </div>
                         <div class="col">
                             <label for="popProductPrice" class="form-label text-start">Price per unit</label>
-                            <input type="number" min="0" class="form-control" id="popProductPrice">
+                            <input type="number" min="0" class="form-control" id="popProductPrice" value="4.99">
                         </div>
                     </div>
                 <!-- GF: Size & Format -->
                     <div class="row mb-3 g-3">
                         <div class="col">
                             <label for="popProductSize" class="form-label text-start">Size</label>
-                            <input type="number" min="0" class="form-control" id="popProductSize">
+                            <input type="number" min="0" class="form-control" id="popProductSize" value="10">
                         </div>
                         <div class="col">
                             <label for="popProductFormat" class="form-label text-start">Format</label>
                             <select class="form-select" id="popProductFormat">
-                                <option value="g">grams</option>
+                                <option value="g" selected>grams</option>
                                 <option value="mL">milliliters</option>
                             </select>
                         </div>
@@ -152,17 +154,17 @@ $db = new gtDb();
                 <!-- Description -->
                     <div class="mb-3">
                         <label for="popEquProductName" class="form-label text-start">Description</label>
-                        <input type="text" class="form-control" id="popEquProductName">
+                        <input type="text" class="form-control" id="popEquProductName" value="Nos Compliments">
                     </div>
                 <!-- Price & Size -->
                     <div class="row mb-3 g-3">
                         <div class="col">
                             <label for="popEquProductPrice" class="form-label text-start">Price</label>
-                            <input type="number" min="0" class="form-control" id="popEquProductPrice">
+                            <input type="number" min="0" class="form-control" id="popEquProductPrice" value="2.79">
                         </div>
                         <div class="col">
                             <label for="popEquProductSize" class="form-label text-start">Size</label>
-                            <input type="number" min="0" class="form-control" id="popEquProductSize">
+                            <input type="number" min="0" class="form-control" id="popEquProductSize" value="22">
                         </div>
                     </div>
                 <!-- Note -->
@@ -184,6 +186,7 @@ $db = new gtDb();
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger disabled" id="modalProductDelete" onclick="deleteProduct();">Delete</button>
                 <button type="button" class="btn btn-success" onclick="calc();">CALC</button>
                 <button type="button" class="btn btn-primary" id="modalProductOK" onclick="saveProduct();">(OK)</button>
             </div>
@@ -193,6 +196,14 @@ $db = new gtDb();
 
 <script>
 var actualAction = "";
+var actualID = "";
+var myModal;
+
+var formatter = new Intl.NumberFormat('en-CA', {
+        style: 'currency',
+        currency: 'CAD',
+        currencyDisplay: 'narrowSymbol'
+    });
 
     function calc(){
         var qty = $("#popProductQuantity").val();
@@ -225,23 +236,46 @@ var actualAction = "";
         actualAction = "add";
         document.getElementById("modalProductTitle").innerHTML = "Add a Product";
         document.getElementById("modalProductOK").innerHTML = "Save";
-        var myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
+        $("#modalProductDelete").addClass('disabled');
+        myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
             keyboard: false,
             backdrop: 'static'
         });
         myModal.show();
     }
-    function chgProduct(){
+    function chgProduct(lineID){
         actualAction = "chg";
+        actualID = lineID;
         document.getElementById("modalProductTitle").innerHTML = "Change a Product";
         document.getElementById("modalProductOK").innerHTML = "Update";
-        var myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
+        $("#modalProductDelete").removeClass('disabled');
+        document.getElementById("modalProductDelete").dataset.stage='';
+        $("#modalProductDelete").html("Delete");
+        myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
             keyboard: false,
             backdrop: 'static'
         });
+
+        // Extract data from the line
+        var dat = JSON.parse(document.getElementById(lineID).dataset.raw);
+            // Set data in the modal form
+            for( var key in dat ){
+                if( dat.hasOwnProperty(key)){
+                    $("#" + key).val(dat[key]);
+                }
+            }
         myModal.show();
     }
 
+    function deleteProduct(){
+        if( document.getElementById("modalProductDelete").dataset.stage !== 'ready'){
+            $("#modalProductDelete").html("Are you sure?");
+            document.getElementById("modalProductDelete").dataset.stage='ready';
+        }else{
+            $("#" + actualID).remove();
+            myModal.hide();
+        }
+    }
 
     function saveProduct(){
         calc();
@@ -252,14 +286,102 @@ var actualAction = "";
         if( actualAction == "add" ){
             addLine(myData);
         }else{
-            chgLine(0, myData);
+            chgLine(myData);
         }
     }
 
     function addLine(data){
+        var dat = JSON.parse(data);
+        var table = document.getElementById('purchTableBody');
 
-    }
-    function chgLine(number, data){
+        var row = table.insertRow(0);
+        var newID = makeID();
+        row.id = newID;
+        row.style.cursor = 'pointer';
+        row.onclick = function(){
+            chgProduct(newID);
+        }
+        row.dataset.raw = data;
 
+        // Insert Cells
+            var cell_ProductName = row.insertCell(0);
+            var cell_ProductQty = row.insertCell(1);
+            var cell_ProductPrice = row.insertCell(2);
+            var cell_ProductFormat = row.insertCell(3);
+            var cell_EquName = row.insertCell(4);
+            var cell_EquPrice = row.insertCell(5);
+            var cell_EquFormat = row.insertCell(6);
+            var cell_EquExtra = row.insertCell(7);
+
+
+        // Gluten-Free 
+            // Product Name/Description
+                cell_ProductName.innerHTML = dat['popProductName'];
+                cell_ProductName.classList.add(newID + 'popProductName');
+            // Product Quantity
+                cell_ProductQty.innerHTML = dat['popProductQuantity'];
+                cell_ProductQty.classList.add(newID + 'popProductQuantity');
+            // Price
+                cell_ProductPrice.innerHTML = formatter.format(dat['popProductPrice']);
+                cell_ProductPrice.classList.add(newID + 'popProductPrice');
+            // Format
+                cell_ProductFormat.innerHTML = dat['popProductSize'] + ' ' + dat['popProductFormat']+ '.';
+                cell_ProductFormat.classList.add(newID + 'popProductSize');
+
+        // Regular Product
+            // Product Name/Description
+                cell_EquName.innerHTML = dat['popEquProductName'];
+                cell_EquName.classList.add(newID + 'popEquProductName');
+            // Price
+                cell_EquPrice.innerHTML = formatter.format(dat['popEquProductPrice']);
+                cell_EquPrice.classList.add(newID + 'popEquProductPrice');
+            // Format
+                cell_EquFormat.innerHTML = dat['popEquProductSize'] + ' ' + dat['popProductFormat'] + '.';
+                cell_EquFormat.classList.add(newID + 'popEquProductSize');
+            
+        // Extra Paid Amount
+            cell_EquExtra.dataset.amount = dat['popCalcExtra'];
+            cell_EquExtra.innerHTML = formatter.format(dat['popCalcExtra']);
+            cell_EquExtra.classList.add(newID + 'popCalcExtra');
+
+        myModal.hide();
     }
+    function chgLine(data){
+        var dat = JSON.parse(data);
+
+        // Update raw data in the line
+        document.getElementById(actualID).dataset.raw = data;
+
+        // Update data in the table
+            $('.' + actualID + 'popProductName').html(dat['popProductName']);
+
+            $('.' + actualID + 'popProductQuantity').html(dat['popProductQuantity']);
+            $('.' + actualID + 'popProductPrice').html(formatter.format(dat['popProductPrice']));
+            $('.' + actualID + 'popProductSize').html(dat['popProductSize'] + ' ' + dat['popProductFormat'] + '.');
+
+            $('.' + actualID + 'popEquProductName').html(dat['popEquProductName']);
+            $('.' + actualID + 'popEquProductPrice').html(formatter.format(dat['popEquProductPrice']));
+            $('.' + actualID + 'popEquProductSize').html(dat['popEquProductSize'] + ' ' + dat['popProductFormat'] + '.');
+
+            $('.' + actualID + 'popCalcExtra').html(formatter.format(dat['popCalcExtra']));
+
+        myModal.hide();
+        
+    }
+
+
+
+    function makeID(){
+        var result = [];
+        var length = 5;
+        var characters = "ABCDEF0123456789";
+        var charactersLength = characters.length;
+        for( var i = 0; i < length; i++ ){
+            result.push(characters.charAt(Math.floor(Math.random()*charactersLength)))
+        }
+        return result.join('');
+    }
+
+    
+
 </script>
