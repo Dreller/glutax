@@ -16,6 +16,13 @@ $("#NavNewPurchase").on("click", function(){
 });
 
 /**
+ * Refresh the whole page (F5)
+ */
+function bigRefresh(){
+    location.reload();
+}
+
+/**
  * Load the page 'table.php' and pass the table to display on screen.
  * @param {String} type Table Type -> person, product, store.
  */

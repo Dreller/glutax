@@ -19,6 +19,91 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
     $http = 0;
     $json = Array();
 
+    if( $method == "updateProfile" ){
+        $db->where('accountID', $_SESSION['accountID']);
+        $db->update('tbAccount', $input);
+
+        foreach($input as $key=>$value){
+            $_SESSION[$key] = $value;
+        }
+
+        $http = 200;
+        $json['status'] = "callback";
+        $json['cb_fct'] = "bigRefresh";
+        goto OutputJSON;
+    }
+
+    if( $method == "newPurchase" ){
+        # Create the purchase
+        $new = Array(
+            "purchaseAccountID" => $_SESSION['accountID'],
+            "purchaseDate" => $input['purchaseDate'],
+            "purchaseReference" => $input['purchaseReference'],
+            "purchasePersonID" => $input['purchasePersonID'],
+            "purchaseStoreID" => $input['purchaseStoreID']
+        );
+        $id = $db->insert('tbPurchase', $new);
+
+        if( $id ){
+            # Multi Insert
+            $new = Array();
+            $upd = Array(
+                "purchaseAmountNormal" => 0,
+                "purchaseAmountGF" => 0,
+                "purchaseAmountExtra" => 0
+            );
+
+            foreach( $input['expenses'] as $key=>$exp ){
+                $new[] = Array(
+                    "expenseAccountID" => $_SESSION['accountID'],
+                    "expensePurchaseID" => $id,
+                    "expenseLineID" => $key,
+                    "expenseProductName" => $exp['popProductName'],
+                    "expenseQuantity" => $exp['popProductQuantity'],
+                    "expenseProductSize" => $exp['popProductSize'],
+                    "expenseProductFormat" => $exp['popProductFormat'],
+                    "expensePrice" => $exp['popProductPrice'],
+                    "expenseEquName" => $exp['popEquProductName'],
+                    "expenseEquProductSize" => $exp['popEquProductSize'],
+                    "expenseEquPrice" => $exp['popEquProductPrice'],
+                    "expenseExtra" => $exp['popCalcExtra']
+                );
+
+                # Add to totals
+                $upd["purchaseAmountNormal"] = floatval($upd["purchaseAmountNormal"]) + floatval(($exp['popCalcREG_PricePer100']/100)*$exp['popProductSize']);
+                $upd["purchaseAmountGF"] = floatval($upd["purchaseAmountGF"]) + floatval(($exp['popCalcGF_PricePer100']/100)*$exp['popProductSize']);
+                $upd["purchaseAmountExtra"] = floatval($upd["purchaseAmountExtra"]) + floatval($exp['popCalcExtra']);
+            }
+            $ids = $db->insertMulti('tbExpense', $new);
+            if( !$ids ){
+                $http = 500;
+                $json['status'] = "error";
+                $json['description'] = "Unable to save Expenses for Purchase # $id .";
+                $json['error'] = $db->getLastError();
+                $json['query'] = $db->getLastQuery();
+                goto OutputJSON;
+            }else{
+                
+                # Add totals to purchase record
+                $db->where('purchaseID', $id);
+                $db->where('purchaseAccountID', $_SESSION['accountID']);
+                $db->update('tbPurchase', $upd);
+
+                $http = 201;
+                $json['status'] = "callback";
+                $json['cb_fct'] = "loadPage";
+                goto OutputJSON;
+            }
+        }else{
+            $http = 500;
+            $json['status'] = "error";
+            $json['description'] = "Unable to create the new Purchase.  Expenses wasn't saved either.";
+            $json['error'] = $db->getLastError();
+            $json['query'] = $db->getLastQuery();
+        }
+        goto OutputJSON;
+    }
+
     if( $method == "add" ){
 
         $type = $input['type'];

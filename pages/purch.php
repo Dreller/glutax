@@ -101,9 +101,10 @@ $db = new gtDb();
 
 </div>
 
-<div class="bg-light p-3 rounded shadow-sm mt-2">
+<div class="bg-light p-3 rounded shadow-sm my-2">
     <h4>Summary</h4>
 
+    <button class="btn btn-primary" onclick="savePurchase();">Save</button>
 </div>
 
 
@@ -380,6 +381,34 @@ var formatter = new Intl.NumberFormat('en-CA', {
             result.push(characters.charAt(Math.floor(Math.random()*charactersLength)))
         }
         return result.join('');
+    }
+
+    function savePurchase(){
+        var myData = {
+            method: 'newPurchase',
+            purchaseDate: $("#purchaseDate").val(),
+            purchaseStoreID: $("#purchaseStoreID").val(),
+            purchasePersonID: $("#purchasePersonID").val(),
+            purchaseReference: $("#purchaseReference").val()
+        }
+
+        var myExpenses = {};
+        $('#purchTable > tbody  > tr').each(function() {
+            myExpenses[$(this).attr('id')] = $(this).data('raw');
+        });
+
+        myData.expenses = myExpenses;
+
+        var json = JSON.stringify(myData);
+        
+        $.ajax({
+        type: "POST",
+        url: "php/gtEngine.php",
+        data: json,
+        success: function(result){
+            processResult(result);
+        }
+        });
     }
 
     
