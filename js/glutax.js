@@ -112,9 +112,13 @@ function sendForm(){
 /**
  * Wrap controls found in div 'gtForm' to send it to the Engine.
  */
-function wrapForm(){
+function wrapForm(formID){
+    var myForm = "gtForm";
+    if( typeof(formID) !== "undefined" ){
+        myForm = formID;
+    }
     var myArray = {};
-    $('#gtForm').find('input,textarea,select').each(function(){
+    $('#' + myForm).find('input,textarea,select').each(function(){
         myArray[$(this).attr('id')] = $(this).val();
     });
     var jsonWIP = JSON.stringify(myArray);

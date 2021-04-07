@@ -113,24 +113,116 @@ $db = new gtDb();
                 <h5 class="modal-title" id="modalProductTitle">(Title)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                
-                <label for="popProductName" class="form-label text-start">Gluten-free Product</label>
-                <input type="text" class="form-control" id="popProductName">
+            <div class="modal-body" id="modalProductForm">
 
+                <!-- Gluten-free Product -->
+                    <h4>Glute-free Product</h4>
+                <!-- Description -->
+                    <div class="mb-3">
+                        <label for="popProductName" class="form-label text-start">Description</label>
+                        <input type="text" class="form-control" id="popProductName">
+                    </div>
+                <!-- GF: Quantity & Price -->
+                    <div class="row mb-3 g-3">
+                        <div class="col">
+                            <label for="popProductQuantity" class="form-label text-start">Quantity</label>
+                            <input type="number" min="0" class="form-control" id="popProductQuantity">
+                        </div>
+                        <div class="col">
+                            <label for="popProductPrice" class="form-label text-start">Price per unit</label>
+                            <input type="number" min="0" class="form-control" id="popProductPrice">
+                        </div>
+                    </div>
+                <!-- GF: Size & Format -->
+                    <div class="row mb-3 g-3">
+                        <div class="col">
+                            <label for="popProductSize" class="form-label text-start">Size</label>
+                            <input type="number" min="0" class="form-control" id="popProductSize">
+                        </div>
+                        <div class="col">
+                            <label for="popProductFormat" class="form-label text-start">Format</label>
+                            <select class="form-select" id="popProductFormat">
+                                <option value="g">grams</option>
+                                <option value="mL">milliliters</option>
+                            </select>
+                        </div>
+                    </div>
+                <!-- Equivalent (with gluten) product -->
+                    <h4>Equivalent Product</h4>
+                <!-- Description -->
+                    <div class="mb-3">
+                        <label for="popEquProductName" class="form-label text-start">Description</label>
+                        <input type="text" class="form-control" id="popEquProductName">
+                    </div>
+                <!-- Price & Size -->
+                    <div class="row mb-3 g-3">
+                        <div class="col">
+                            <label for="popEquProductPrice" class="form-label text-start">Price</label>
+                            <input type="number" min="0" class="form-control" id="popEquProductPrice">
+                        </div>
+                        <div class="col">
+                            <label for="popEquProductSize" class="form-label text-start">Size</label>
+                            <input type="number" min="0" class="form-control" id="popEquProductSize">
+                        </div>
+                    </div>
+                <!-- Note -->
+                    <h4>Note</h4>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" id="popProductNote">
+                    </div>
                 
+                <!-- Hidden controls --> 
+                    <input type="hidden" id="popCalcGF_PricePer100" value="0">
+                    <input type="hidden" id="popCalcREG_PricePer100" value="0">
+                    <input type="hidden" id="popCalcDiffPer100" value="0">
+                    <input type="hidden" id="popCalcExtra" value="0">
+                
+                <!-- Calculations details --> 
+                    <div id="calcDetails" class="alert alert-secondary" role="alert">
 
+                    </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="modalProductOK">(OK)</button>
+                <button type="button" class="btn btn-success" onclick="calc();">CALC</button>
+                <button type="button" class="btn btn-primary" id="modalProductOK" onclick="saveProduct();">(OK)</button>
             </div>
         </div>
     </div>
 </div>
 
 <script>
+var actualAction = "";
+
+    function calc(){
+        var qty = $("#popProductQuantity").val();
+        // Price per 100 for GF Product
+        var GF_price = $("#popProductPrice").val();
+        var GF_size = $("#popProductSize").val();
+        var GF_100 = (GF_price/GF_size)*100;
+        $("#popCalcGF_PricePer100").val(GF_100);
+
+        // Price per 100 for Regular Product
+        var REG_price = $("#popEquProductPrice").val();
+        var REG_size = $("#popEquProductSize").val();
+        var REG_100 = (REG_price/REG_size)*100;
+
+        $("#popCalcREG_PricePer100").val(REG_100);
+
+        // Show info
+        document.getElementById('calcDetails').innerHTML = (GF_100.toFixed(2) + "$ vs. " + REG_100.toFixed(2) + "$ / 100 " + $("#popProductFormat").val());
+
+        // Difference
+        var DIFF_100 = (GF_100/100)- (REG_100/100);
+        $("#popCalcDiffPer100").val(DIFF_100.toFixed(2));
+
+        // Extra
+        var Extra = (DIFF_100*GF_size)*qty;
+        $("#popCalcExtra").val(Extra.toFixed(2));
+    }
+
     function addProduct(){
+        actualAction = "add";
         document.getElementById("modalProductTitle").innerHTML = "Add a Product";
         document.getElementById("modalProductOK").innerHTML = "Save";
         var myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
@@ -140,6 +232,7 @@ $db = new gtDb();
         myModal.show();
     }
     function chgProduct(){
+        actualAction = "chg";
         document.getElementById("modalProductTitle").innerHTML = "Change a Product";
         document.getElementById("modalProductOK").innerHTML = "Update";
         var myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
@@ -147,5 +240,26 @@ $db = new gtDb();
             backdrop: 'static'
         });
         myModal.show();
+    }
+
+
+    function saveProduct(){
+        calc();
+        var myData = wrapForm('modalProductForm');
+        console.log("ACTION: " + actualAction);
+        console.log(myData);
+
+        if( actualAction == "add" ){
+            addLine(myData);
+        }else{
+            chgLine(0, myData);
+        }
+    }
+
+    function addLine(data){
+
+    }
+    function chgLine(number, data){
+
     }
 </script>
