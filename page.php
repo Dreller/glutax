@@ -73,7 +73,7 @@ body {
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#Navbar" aria-controls="Navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="Navbar">
+        <div class="collapse navbar-collapse justify-content-end" id="Navbar">
             <ul class="navbar-nav">
             <!-- Shortcut to add a new expense -->
                 <li class="nav-item">
