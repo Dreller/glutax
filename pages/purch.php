@@ -1,25 +1,24 @@
 <?php 
 session_start();
-
-$pageHeader = "New Purchase";
+include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
 
 require_once('../php/gtDb.php');
 $db = new gtDb();
 ?>
 
-<h1 class="mt-5 text-white font-weight-light"><?php echo $pageHeader; ?> </h1>
+<h1 class="mt-5 text-white font-weight-light"><?= _LABEL_PURCH_NEW ?> </h1>
 <p class="lead text-white-50"></p>
 <hr>
 
 <div class="bg-light p-3 rounded shadow-sm">
-<h4>Purchase infos</h4>
+<h4><?= _LABEL_PURCH_INFO ?></h4>
     <div class="row g-3">
         <div class="col-md-6">
-            <label for="purchaseDate" class="form-label text-start">Date</label>
+            <label for="purchaseDate" class="form-label text-start"><?= _LABEL_PURCH_DATE ?></label>
             <input type="date" id="purchaseDate" name="purchaseDate" value="" class="form-control">
         </div>
         <div class="col-md-6">
-            <label for="purchaseStoreID" class="form-label">Store</label>
+            <label for="purchaseStoreID" class="form-label"><?= _LABEL_STORE ?></label>
             <select id='purchaseStoreID' name='purchaseStoreID' class='form-select'>
                 <?php 
                     $db->where('storeAccountID', $_SESSION['accountID']);
@@ -38,9 +37,9 @@ $db = new gtDb();
 
     <div class="row g-3">
         <div class="col-md-6">
-            <label for="purchasePersonID" class="form-label text-start">Person</label>
+            <label for="purchasePersonID" class="form-label text-start"><?= _LABEL_PERSON ?></label>
             <select id='purchasePersonID' name='purchasePersonID' class='form-select'>
-                <option value='0'>Choose...</option>
+                <option value='0'><?= _LABEL_CHOOSE ?></option>
                 <?php 
                     $db->where('personAccountID', $_SESSION['accountID']);
                     $db->orderBy('personName', 'ASC');
@@ -55,41 +54,41 @@ $db = new gtDb();
             </select>
         </div>
         <div class="col-md-6">
-            <label for="purchaseReference" class="form-label">Reference</label>
+            <label for="purchaseReference" class="form-label"><?= _LABEL_REF ?></label>
             <input type="text" class="form-control" id="purchaseReference" name="purchaseReference">
         </div>
     </div>
 </div>
 
 <div class="bg-light p-3 rounded shadow-sm mt-2">
-    <h4>Products</h4>
+    <h4><?= _LABEL_PRODUCTS ?></h4>
 
     <div class="table-responsive">
         <table class="table table-hover" id="purchTable">
             <thead>
                 <th>
-                    Gluten-free
+                    <?= _LABEL_PRODUCT_GF_SHORT ?>
                 </th>
                 <th>
-                    Quantity
+                    <?= _LABEL_QUANTIY ?>
                 </th>
                 <th>
-                    Price
+                    <?= _LABEL_PRICE ?>
                 </th>
                 <th>
-                    Format
+                    <?= _LABEL_SIZE ?>
                 </th>
                 <th>
-                    Regular
+                    <?= _LABEL_PRODUCT_EQU_SHORT ?>
                 </th>
                 <th>
-                    Price
+                    <?= _LABEL_PRICE ?>
                 </th>
                 <th>
-                    Format
+                    <?= _LABEL_SIZE ?>
                 </th>
                 <th>
-                    Extra
+                    <?= _LABEL_PURCH_EXTRA_SHORT ?>
                 </th>
             </thead>
             <tbody id="purchTableBody">
@@ -97,14 +96,14 @@ $db = new gtDb();
         </table>
     </div>
     
-    <button class="btn btn-primary" onclick="addProduct();">Add a product</button>
+    <button class="btn btn-primary" onclick="addProduct();"><?= _BUTTON_ADD_PRODUCT ?></button>
 
 </div>
 
 <div class="bg-light p-3 rounded shadow-sm my-2">
-    <h4>Summary</h4>
+    <h4><?= _LABEL_SUMMARY ?></h4>
 
-    <button class="btn btn-primary" onclick="savePurchase();">Save</button>
+    <button class="btn btn-primary" onclick="savePurchase();"><?= _BUTTON_SAVE ?></button>
 </div>
 
 
@@ -119,57 +118,57 @@ $db = new gtDb();
             <div class="modal-body" id="modalProductForm">
 
                 <!-- Gluten-free Product -->
-                    <h4>Glute-free Product</h4>
+                    <h4><?= _LABEL_PRODUCT_GF ?></h4>
                 <!-- Description -->
                     <div class="mb-3">
-                        <label for="popProductName" class="form-label text-start">Description</label>
+                        <label for="popProductName" class="form-label text-start"><?= _LABEL_DESCRIPTION ?></label>
                         <input type="text" class="form-control" id="popProductName" value="Feuilles de laurier">
                     </div>
                 <!-- GF: Quantity & Price -->
                     <div class="row mb-3 g-3">
                         <div class="col">
-                            <label for="popProductQuantity" class="form-label text-start">Quantity</label>
+                            <label for="popProductQuantity" class="form-label text-start"><?= _LABEL_QUANTIY ?></label>
                             <input type="number" min="0" class="form-control" id="popProductQuantity" value="1">
                         </div>
                         <div class="col">
-                            <label for="popProductPrice" class="form-label text-start">Price per unit</label>
+                            <label for="popProductPrice" class="form-label text-start"><?= _LABEL_PRICE_UNIT ?></label>
                             <input type="number" min="0" class="form-control" id="popProductPrice" value="4.99">
                         </div>
                     </div>
                 <!-- GF: Size & Format -->
                     <div class="row mb-3 g-3">
                         <div class="col">
-                            <label for="popProductSize" class="form-label text-start">Size</label>
+                            <label for="popProductSize" class="form-label text-start"><?= _LABEL_SIZE ?></label>
                             <input type="number" min="0" class="form-control" id="popProductSize" value="10">
                         </div>
                         <div class="col">
-                            <label for="popProductFormat" class="form-label text-start">Format</label>
+                            <label for="popProductFormat" class="form-label text-start"><?= _LABEL_FORMAT ?></label>
                             <select class="form-select" id="popProductFormat">
-                                <option value="g" selected>grams</option>
-                                <option value="mL">milliliters</option>
+                                <option value="g" selected><%= _LABEL_G ?></option>
+                                <option value="mL"><?= _LABEL_ML ?></option>
                             </select>
                         </div>
                     </div>
                 <!-- Equivalent (with gluten) product -->
-                    <h4>Equivalent Product</h4>
+                    <h4><?= _LABEL_PRODUCT_EQU ?></h4>
                 <!-- Description -->
                     <div class="mb-3">
-                        <label for="popEquProductName" class="form-label text-start">Description</label>
+                        <label for="popEquProductName" class="form-label text-start"><?= _LABEL_DESCRIPTION ?></label>
                         <input type="text" class="form-control" id="popEquProductName" value="Nos Compliments">
                     </div>
                 <!-- Price & Size -->
                     <div class="row mb-3 g-3">
                         <div class="col">
-                            <label for="popEquProductPrice" class="form-label text-start">Price</label>
+                            <label for="popEquProductPrice" class="form-label text-start"><?= _LABEL_PRICE_UNIT ?></label>
                             <input type="number" min="0" class="form-control" id="popEquProductPrice" value="2.79">
                         </div>
                         <div class="col">
-                            <label for="popEquProductSize" class="form-label text-start">Size</label>
+                            <label for="popEquProductSize" class="form-label text-start"><?= _LABEL_SIZE ?></label>
                             <input type="number" min="0" class="form-control" id="popEquProductSize" value="22">
                         </div>
                     </div>
                 <!-- Note -->
-                    <h4>Note</h4>
+                    <h4><?= _LABEL_NOTE ?></h4>
                     <div class="mb-3">
                         <input type="text" class="form-control" id="popProductNote">
                     </div>
@@ -186,8 +185,8 @@ $db = new gtDb();
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-danger disabled" id="modalProductDelete" onclick="deleteProduct();">Delete</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
+                <button type="button" class="btn btn-danger disabled" id="modalProductDelete" onclick="deleteProduct();"><?= _BUTTON_DELETE?></button>
                 <button type="button" class="btn btn-success" onclick="calc();">CALC</button>
                 <button type="button" class="btn btn-primary" id="modalProductOK" onclick="saveProduct();">(OK)</button>
             </div>
@@ -236,7 +235,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
     function addProduct(){
         actualAction = "add";
         document.getElementById("modalProductTitle").innerHTML = "Add a Product";
-        document.getElementById("modalProductOK").innerHTML = "Save";
+        document.getElementById("modalProductOK").innerHTML = "<?= _BUTTON_SAVE ?>";
         $("#modalProductDelete").addClass('disabled');
         myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
             keyboard: false,
@@ -248,7 +247,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
         actualAction = "chg";
         actualID = lineID;
         document.getElementById("modalProductTitle").innerHTML = "Change a Product";
-        document.getElementById("modalProductOK").innerHTML = "Update";
+        document.getElementById("modalProductOK").innerHTML = "<?= _BUTTON_UPDATE ?>";
         $("#modalProductDelete").removeClass('disabled');
         document.getElementById("modalProductDelete").dataset.stage='';
         $("#modalProductDelete").html("Delete");
@@ -270,7 +269,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
 
     function deleteProduct(){
         if( document.getElementById("modalProductDelete").dataset.stage !== 'ready'){
-            $("#modalProductDelete").html("Are you sure?");
+            $("#modalProductDelete").html("<?= _BUTTON_CONFIRM ?>");
             document.getElementById("modalProductDelete").dataset.stage='ready';
         }else{
             $("#" + actualID).remove();

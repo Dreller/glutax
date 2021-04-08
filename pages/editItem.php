@@ -1,5 +1,6 @@
 <?php 
 session_start();
+include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
 
 $tableCode = strtolower($_GET['t']);
 $tableName = 'tb' . ucwords($tableCode);
@@ -30,16 +31,16 @@ if( isset($_GET['i']) ){
 /** Form properties */
 switch($tableName){
     case "tbStore":
-        $pageHeader = "Store";
+        $pageHeader = _TABLE_STORE;
         insertInForm("storeName", "Store Name", "text");
         insertInForm("storeAddress", "Address or Location", "text");
         break;
     case "tbPerson":
-        $pageHeader = "Person";
+        $pageHeader = _TABLE_PERSON;
         insertInForm("personName", "Name", "text");
         break;
     case "tbProduct":
-        $pageHeader = "Product";
+        $pageHeader = _TABLE_PRODUCT;
         insertSectionInForm("Gluten-free Product");
         insertInForm("productName", "Name or Description", "text");
         insertInForm("productCategoryID", "Category", "product-category");
@@ -52,7 +53,7 @@ switch($tableName){
         insertInForm("productEquSize", "Size (eg. 200 ml, enter 200)", "number");
         break;
     case "tbCategory":
-        $pageHeader = "Category";
+        $pageHeader = _TABLE_CATEGORY;
         insertInForm("categoryName", "Name", "text");
         break;
     default:
@@ -89,9 +90,9 @@ function insertSectionInForm($text){
 <!-- Toolbar -->
 <div class="container text-end">
     <div id="TableItemToolbar" class="btn-group my-2" role="group" aria-label="toolbar">
-        <button id="Delete" type="button" class="btn btn-light disabled">Delete</button>
-        <button id="Cancel" type="button" class="btn btn-light" onclick="loadTable('<?php echo $tableCode; ?>');">Cancel</button>
-        <button id="Save" type="button" class="btn btn-light" onclick="sendForm();">Save</button>
+        <button id="Delete" type="button" class="btn btn-light disabled"><?= _BUTTON_CANCEL ?></button>
+        <button id="Cancel" type="button" class="btn btn-light" onclick="loadTable('<?php echo $tableCode; ?>');"><?= _BUTTON_CANCEL ?></button>
+        <button id="Save" type="button" class="btn btn-light" onclick="sendForm();"><?= _BUTTON_SAVE ?></button>
     </div>
 </div>
 

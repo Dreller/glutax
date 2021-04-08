@@ -1,5 +1,6 @@
 <?php 
 session_start();
+include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
 
 $tableCode = strtolower($_GET['t']);
 $tableName = 'tb' . ucwords($tableCode);
@@ -12,30 +13,30 @@ $foundFlag = true;
 /** Table properties */
 switch($tableName){
     case "tbStore":
-        $pageHeader = "Stores";
-        $pageSubHeader = "Record informations about stores you often go, to avoid re-entering the same infos again and again.";
-        $tblColumns = Array("Name", "Address");
+        $pageHeader = _TABLE_STORE."s";
+        $pageSubHeader = _TABLE_STORE_HELP;
+        $tblColumns = Array(_LABEL_NAME, _LABEL_ADDRESS);
         $tblSqlID = "storeID";
         $tblSqlCol = Array("storeName", "storeAddress");
         break;
     case "tbPerson":
-        $pageHeader = "Persons";
-        $pageSubHeader = "You may often buy products by yourself, and sometime, other can buy them for you.  Track who is the buyer of each expenses for a more accurage tracking.";
-        $tblColumns = Array("Name");
+        $pageHeader = _TABLE_PERSON."s";
+        $pageSubHeader = _TABLE_PERSON_HELP;
+        $tblColumns = Array(_LABEL_NAME);
         $tblSqlID = "personID";
         $tblSqlCol = Array("personName");
         break;
     case "tbProduct":
-        $pageHeader = "Products";
-        $pageSubHeader = "Record informations about products you often buy, to avoid re-entering the same infos again and again.";
-        $tblColumns = Array("Category", "Product", "Equivalent");
+        $pageHeader = _TABLE_PRODUCT."s";
+        $pageSubHeader = _TABLE_PRODUCT_HELP;
+        $tblColumns = Array(_LABEL_CATEGORY, _LABEL_PRODUCT_GF, _LABEL_PRODUCT_EQU);
         $tblSqlID = "productID";
         $tblSqlCol = Array("(SELECT categoryName FROM tbCategory where categoryID = productCategoryID) As Category", "CONCAT(productName, ' (', productSize, ' ', productFormat, ')') As GFProduct", "CONCAT(productEquName, ' (', productEquSize, ' ', productFormat, ')') AS GProduct");
         break;
     case "tbCategory":
-        $pageHeader = "Categories";
-        $pageSubHeader = "Add a category to each of your purchases, for a better summary on reports.";
-        $tblColumns = Array("Name");
+        $pageHeader = _TABLE_CATEGORY."s";
+        $pageSubHeader = _TABLE_CATEGORY_HELP;
+        $tblColumns = Array(_LABEL_NAME);
         $tblSqlID = "categoryID";
         $tblSqlCol = Array("categoryName");
         break;
@@ -52,8 +53,8 @@ switch($tableName){
 <!-- Toolbar -->
 <div class="container text-end">
     <div id="TableToolbar" class="btn-group my-2" role="group" aria-label="toolbar">
-        <button data-type="<?php echo $tableCode; ?>" data-action="export" type="button" class="btn btn-light disabled" onclick="launch(this);">Export</button>
-        <button data-type="<?php echo $tableCode; ?>" data-action="add" type="button" class="btn btn-light" onclick="launch(this);">Add new</button>
+        <button data-type="<?php echo $tableCode; ?>" data-action="export" type="button" class="btn btn-light disabled" onclick="launch(this);"><?= _BUTTON_EXPORT ?></button>
+        <button data-type="<?php echo $tableCode; ?>" data-action="add" type="button" class="btn btn-light" onclick="launch(this);"><?= _BUTTON_ADD_NEW ?></button>
     </div>
 </div>
 
