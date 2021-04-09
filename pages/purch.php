@@ -25,7 +25,7 @@ $db = new gtDb();
                     $db->orderBy('storeName', 'ASC');
                     $options = $db->get('tbStore');
                     if( $db->count > 1 ){
-                        echo "<option value='0'>Choose...</option>";
+                        echo "<option value='0'>" . _LABEL_CHOOSE . "</option>";
                     }
                     foreach($options as $option){
                         echo '<option value="'.$option['storeID'].'">'.$option['storeName'].' - '.$option['storeAddress'].'</option>';
@@ -39,13 +39,12 @@ $db = new gtDb();
         <div class="col-md-6">
             <label for="purchasePersonID" class="form-label text-start"><?= _LABEL_PERSON ?></label>
             <select id='purchasePersonID' name='purchasePersonID' class='form-select'>
-                <option value='0'><?= _LABEL_CHOOSE ?></option>
                 <?php 
                     $db->where('personAccountID', $_SESSION['accountID']);
                     $db->orderBy('personName', 'ASC');
                     $options = $db->get('tbPerson');
                     if( $db->count > 1 ){
-                        echo "<option value='0'>Choose...</option>";
+                        echo "<option value='0'>" . _LABEL_CHOOSE . "</option>";
                     }
                     foreach($options as $option){
                         echo '<option value="'.$option['personID'].'">'.$option['personName'].'</option>';
@@ -96,6 +95,7 @@ $db = new gtDb();
         </table>
     </div>
     
+    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalLoadProduct"><?= _BUTTON_ADD_PRODUCT_TABLE ?></button>
     <button class="btn btn-primary" onclick="addProduct();"><?= _BUTTON_ADD_PRODUCT ?></button>
 
 </div>
@@ -121,30 +121,30 @@ $db = new gtDb();
                     <h4><?= _LABEL_PRODUCT_GF ?></h4>
                 <!-- Description -->
                     <div class="mb-3">
-                        <label for="popProductName" class="form-label text-start"><?= _LABEL_DESCRIPTION ?></label>
-                        <input type="text" class="form-control" id="popProductName" value="Feuilles de laurier">
+                        <label for="popProductName" class="form-label"><?= _LABEL_DESCRIPTION ?></label>
+                        <input type="text" class="form-control" id="popProductName" value="">
                     </div>
                 <!-- GF: Quantity & Price -->
                     <div class="row mb-3 g-3">
                         <div class="col">
                             <label for="popProductQuantity" class="form-label text-start"><?= _LABEL_QUANTIY ?></label>
-                            <input type="number" min="0" class="form-control" id="popProductQuantity" value="1">
+                            <input type="number" min="0" class="form-control" id="popProductQuantity" value="">
                         </div>
                         <div class="col">
                             <label for="popProductPrice" class="form-label text-start"><?= _LABEL_PRICE_UNIT ?></label>
-                            <input type="number" min="0" class="form-control" id="popProductPrice" value="4.99">
+                            <input type="number" min="0" class="form-control" id="popProductPrice" value="">
                         </div>
                     </div>
                 <!-- GF: Size & Format -->
                     <div class="row mb-3 g-3">
                         <div class="col">
                             <label for="popProductSize" class="form-label text-start"><?= _LABEL_SIZE ?></label>
-                            <input type="number" min="0" class="form-control" id="popProductSize" value="10">
+                            <input type="number" min="0" class="form-control" id="popProductSize" value="">
                         </div>
                         <div class="col">
                             <label for="popProductFormat" class="form-label text-start"><?= _LABEL_FORMAT ?></label>
                             <select class="form-select" id="popProductFormat">
-                                <option value="g" selected><%= _LABEL_G ?></option>
+                                <option value="g"><?= _LABEL_G ?></option>
                                 <option value="mL"><?= _LABEL_ML ?></option>
                             </select>
                         </div>
@@ -154,17 +154,17 @@ $db = new gtDb();
                 <!-- Description -->
                     <div class="mb-3">
                         <label for="popEquProductName" class="form-label text-start"><?= _LABEL_DESCRIPTION ?></label>
-                        <input type="text" class="form-control" id="popEquProductName" value="Nos Compliments">
+                        <input type="text" class="form-control" id="popEquProductName" value="">
                     </div>
                 <!-- Price & Size -->
                     <div class="row mb-3 g-3">
                         <div class="col">
                             <label for="popEquProductPrice" class="form-label text-start"><?= _LABEL_PRICE_UNIT ?></label>
-                            <input type="number" min="0" class="form-control" id="popEquProductPrice" value="2.79">
+                            <input type="number" min="0" class="form-control" id="popEquProductPrice" value="">
                         </div>
                         <div class="col">
                             <label for="popEquProductSize" class="form-label text-start"><?= _LABEL_SIZE ?></label>
-                            <input type="number" min="0" class="form-control" id="popEquProductSize" value="22">
+                            <input type="number" min="0" class="form-control" id="popEquProductSize" value="">
                         </div>
                     </div>
                 <!-- Note -->
@@ -194,16 +194,113 @@ $db = new gtDb();
     </div>
 </div>
 
+
+<!-- MODAL: Add a product from saved products -->  
+<div class="modal fade" id="modalLoadProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLoadProductTitle"><?= _BUTTON_ADD_PRODUCT_TABLE ?></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalLoadProductForm">
+                    <label for="loadProduct" class="form-label">Product to load</label>
+                    <select class="form-select" id="loadProduct" onchange="displayProductToLoad();">
+                    <option value="0"><?= _LABEL_CHOOSE ?></option>
+                        <?php  
+                            $db->where('productAccountID', $_SESSION['accountID']);
+                            $db->orderBy('productName', 'ASC');
+                            $products = $db->get('tbProduct');
+                            foreach( $products as $product ){
+                                echo '<option id="option_' . $product['productID']  . '" value="option_'. $product['productID'];
+                                echo '" data-equProd="' . $product['productEquName'] . '" data-equSize="' . $product['productEquSize'] . '" ';
+                                echo 'data-format="' . $product['productFormat'] . '" data-product="' . $product['productName'] . '" ';
+                                echo 'data-size="' . $product['productSize'] . '" >';
+                                echo $product['productName'] . ' (' . $product['productSize'] . ' ' . $product['productFormat'] . ')</option>';
+                            }
+                        ?>
+                    </select>
+                <hr>
+                <div id="displayEquivalent"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
+                <button type="button" class="btn btn-primary" id="modalProductOK" onclick="loadProduct();"><?= _BUTTON_NEXT ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 <script>
 var actualAction = "";
 var actualID = "";
 var myModal;
+
+var loadProductName = "";
+var loadProductSize = 0;
+var loadProductFormat = "";
+var loadProductEquName = "";
+var loadProductEquSize = "";
+
+var modalProductEntry;
+var modalProductLoad;
+
+$(document).ready(function(){
+    modalProductEntry = new bootstrap.Modal(document.getElementById('modalProduct'), {
+            keyboard: false,
+            backdrop: 'static'
+        });
+
+    modalProductLoad = new bootstrap.Modal(document.getElementById('modalLoadProduct'),{
+        keyboard: false,
+        backdrop: 'static'
+    });
+});
 
 var formatter = new Intl.NumberFormat('en-CA', {
         style: 'currency',
         currency: 'CAD',
         currencyDisplay: 'narrowSymbol'
     });
+
+    function displayProductToLoad(){
+        var selectValue = $('#loadProduct').val();
+        if( selectValue == '0' ){
+            display = '';
+
+            loadProductName = '';
+            loadProductSize = '';
+            loadProductFormat = '';
+            loadProductEquName = '';
+            loadProductEquSize = '';
+
+        }else{
+            var option = document.getElementById(selectValue).dataset;
+            var display = '<dl class="row"><dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_EQU ?></dt><dd class="col-sm-7 text-start">' + option.equprod + '</dd>';
+            display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.equsize + ' ' + option.format + '</dd></dl>';
+
+            loadProductName = option.product;
+            loadProductSize = option.size;
+            loadProductFormat = option.format;
+            loadProductEquName = option.equprod;
+            loadProductEquSize = option.equsize;
+        }
+        
+        document.getElementById('displayEquivalent').innerHTML = display;
+    }
+
+    function loadProduct(){
+        $("#popProductName").val(loadProductName);
+        $("#popProductSize").val(loadProductSize);
+        $("#popProductFormat").val(loadProductFormat);
+        $("#popEquProductName").val(loadProductEquName);
+        $("#popEquProductSize").val(loadProductEquSize);
+        modalProductLoad.toggle();
+        addProduct();
+    }
+
 
     function calc(){
         var qty = $("#popProductQuantity").val();
@@ -234,28 +331,21 @@ var formatter = new Intl.NumberFormat('en-CA', {
 
     function addProduct(){
         actualAction = "add";
-        document.getElementById("modalProductTitle").innerHTML = "Add a Product";
+        document.getElementById("modalProductTitle").innerHTML = "<?= _LABEL_PURCH_ADD_PRODUCT ?>";
         document.getElementById("modalProductOK").innerHTML = "<?= _BUTTON_SAVE ?>";
         $("#modalProductDelete").addClass('disabled');
-        myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
-            keyboard: false,
-            backdrop: 'static'
-        });
-        myModal.show();
+        modalProductEntry.toggle();
+        modalProductEntry.handleUpdate();
     }
     function chgProduct(lineID){
         actualAction = "chg";
         actualID = lineID;
-        document.getElementById("modalProductTitle").innerHTML = "Change a Product";
+        document.getElementById("modalProductTitle").innerHTML = "<?= _LABEL_PURCH_CHG_PRODUCT ?>";
         document.getElementById("modalProductOK").innerHTML = "<?= _BUTTON_UPDATE ?>";
         $("#modalProductDelete").removeClass('disabled');
         document.getElementById("modalProductDelete").dataset.stage='';
         $("#modalProductDelete").html("Delete");
-        myModal = new bootstrap.Modal(document.getElementById('modalProduct'), {
-            keyboard: false,
-            backdrop: 'static'
-        });
-
+        
         // Extract data from the line
         var dat = JSON.parse(document.getElementById(lineID).dataset.raw);
             // Set data in the modal form
@@ -264,7 +354,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
                     $("#" + key).val(dat[key]);
                 }
             }
-        myModal.show();
+        modalProductEntry.show();
     }
 
     function deleteProduct(){
@@ -273,7 +363,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
             document.getElementById("modalProductDelete").dataset.stage='ready';
         }else{
             $("#" + actualID).remove();
-            myModal.hide();
+            modalProductEntry.hide();
         }
     }
 
@@ -409,6 +499,9 @@ var formatter = new Intl.NumberFormat('en-CA', {
         }
         });
     }
+
+
+
 
     
 

@@ -169,6 +169,21 @@ function wrapForm(formID){
         if( myData['toastType'] != undefined ){
             tType = myData['toastType'];
         }
-        //showToast(myData['toast'], tType);
+        toast(myData['toast']);
     }
+}
+
+/**
+ * Display a message as a toast.
+ * @param {String} message Message to show in the Toast.
+ */
+function toast(message){
+
+    document.getElementById('toast-message').innerHTML = message;
+
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'))
+    var toastList = toastElList.map(function (toastEl) {
+        return new bootstrap.Toast(toastEl)
+    });
+    toastList.forEach(toast => toast.show());
 }

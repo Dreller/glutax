@@ -112,6 +112,21 @@ body {
 <div id="myBox" class="container text-center"></div>
 <!-- END: Container -->
 
+<!-- Toast -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+    <div id="liveToast" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="">
+            <strong class="me-auto"><?= _NAME ?></strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="<?= _BUTTON_CLOSE ?>"></button>
+        </div>
+        <div class="toast-body" id="toast-message">
+
+        </div>
+    </div>
+</div>
+<!-- END: Toast -->
+
 <!-- JS Scripts imports -->
 <script src="js/jquery_3.5.1.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>

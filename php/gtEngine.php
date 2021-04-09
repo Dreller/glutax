@@ -1,5 +1,6 @@
 <?php 
 session_start();
+include_once( 'lang/' . $_SESSION['accountLanguage'] . '.php' );
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -78,9 +79,9 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             if( !$ids ){
                 $http = 500;
                 $json['status'] = "error";
-                $json['description'] = "Unable to save Expenses for Purchase # $id .";
                 $json['error'] = $db->getLastError();
                 $json['query'] = $db->getLastQuery();
+                $json['toast'] = "Unable to save Expenses for Purchase # $id .";
                 goto OutputJSON;
             }else{
                 
@@ -92,14 +93,15 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 $http = 201;
                 $json['status'] = "callback";
                 $json['cb_fct'] = "loadPage";
+                $json['toast'] = _TOAST_PURCH_ADDED;
                 goto OutputJSON;
             }
         }else{
             $http = 500;
             $json['status'] = "error";
-            $json['description'] = "Unable to create the new Purchase.  Expenses wasn't saved either.";
             $json['error'] = $db->getLastError();
             $json['query'] = $db->getLastQuery();
+            $json['toast'] = "Unable to create the new Purchase.  Expenses wasn't saved either.";
         }
         goto OutputJSON;
     }
@@ -118,12 +120,13 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             $json['status'] = "callback";
             $json['cb_fct'] = "loadTable";
             $json['cb_arg'] = $type;
+            $json['toast'] = _TOAST_TABLE_ADDED;
         }else{
             $http = 500;
             $json['status'] = "error";
-            $json['description'] = "Unable to insert new record in table '$tableName'.";
             $json['error'] = $db->getLastError();
             $json['query'] = $db->getLastQuery();
+            $json['toast'] = "Unable to insert new record in table '$tableName'.";
         }
         goto OutputJSON;
     }
@@ -146,12 +149,13 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             $json['status'] = "callback";
             $json['cb_fct'] = "loadTable";
             $json['cb_arg'] = $type;
+            $json['toast'] = _TOAST_TABLE_UPDATED;
         }else{
             $http = 500;
             $json['status'] = "error";
-            $json['description'] = "Unable to update record # $id in table '$tableName'.";
             $json['error'] = $db->getLastError();
             $json['query'] = $db->getLastQuery();
+            $json['toast'] = "ERROR: Unable to update record # $id in table '$tableName'.";
         }
         goto OutputJSON;
     }

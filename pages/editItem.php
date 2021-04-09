@@ -90,7 +90,7 @@ function insertSectionInForm($text){
 <!-- Toolbar -->
 <div class="container text-end">
     <div id="TableItemToolbar" class="btn-group my-2" role="group" aria-label="toolbar">
-        <button id="Delete" type="button" class="btn btn-light disabled"><?= _BUTTON_CANCEL ?></button>
+        <button id="Delete" type="button" class="btn btn-light disabled"><?= _BUTTON_DELETE ?></button>
         <button id="Cancel" type="button" class="btn btn-light" onclick="loadTable('<?php echo $tableCode; ?>');"><?= _BUTTON_CANCEL ?></button>
         <button id="Save" type="button" class="btn btn-light" onclick="sendForm();"><?= _BUTTON_SAVE ?></button>
     </div>

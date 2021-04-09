@@ -51,6 +51,8 @@ define("_LABEL_SUMMARY", "Summary");
 define("_LABEL_G", "grams");
 define("_LABEL_ML", "millilitres");
 define("_LABEL_CHOOSE", "Choose...");
+define("_LABEL_PURCH_ADD_PRODUCT", "Add a Product");
+define("_LABEL_PURCH_CHG_PRODUCT", "Edit a Product");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");
@@ -68,10 +70,18 @@ define("_SETTING_REGION_LOCALE_HELP", "Choose the region that fits your local pr
 
 define("_BUTTON_EXPORT", "Export");
 define("_BUTTON_ADD_NEW", "Add New");
-define("_BUTTON_ADD_PRODUCT", "Add a Product");
+define("_BUTTON_ADD_PRODUCT", "Product Entry");
+define("_BUTTON_ADD_PRODUCT_TABLE", "Load a Product");
 define("_BUTTON_DELETE", "Delete");
 define("_BUTTON_CANCEL", "Cancel");
 define("_BUTTON_SAVE", "Save");
 define("_BUTTON_UPDATE", "Update");
 define("_BUTTON_CONFIRM", "Are you sure ?");
+define("_BUTTON_CLOSE", "Close");
+define("_BUTTON_NEXT", "Next");
+
+define("_TOAST_PURCH_ADDED", "Purchase saved");
+define("_TOAST_TABLE_ADDED", "New item added");
+define("_TOAST_TABLE_UPDATED", "Item updated");
+
 ?>

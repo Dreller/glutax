@@ -51,6 +51,8 @@ define("_LABEL_SUMMARY", "Sommaire");
 define("_LABEL_G", "grammes");
 define("_LABEL_ML", "millilitres");
 define("_LABEL_CHOOSE", "Choisir...");
+define("_LABEL_PURCH_ADD_PRODUCT", "Ajouter un produit");
+define("_LABEL_PURCH_CHG_PRODUCT", "Modifier un produit");
 
 define("_SETTING_TITLE", "Pr&eacute;f&eacute;rences");
 define("_SETTING_SUBTITLE", "Personnalisez "._NAME." pour le faire fonctionner &agrave; votre go&ucirc;t !");
@@ -68,11 +70,18 @@ define("_SETTING_REGION_LOCALE_HELP", "Choisir la r&eacute;gion qui vous convien
 
 define("_BUTTON_EXPORT", "Exporter");
 define("_BUTTON_ADD_NEW", "Nouveau");
-define("_BUTTON_ADD_PRODUCT", "Ajouter un produit");
+define("_BUTTON_ADD_PRODUCT", "Entrer un produit");
+define("_BUTTON_ADD_PRODUCT_TABLE", "Charger un produit");
 define("_BUTTON_DELETE", "Supprimer");
 define("_BUTTON_CANCEL", "Annuler");
 define("_BUTTON_SAVE", "Sauvegarder");
 define("_BUTTON_UPDATE", "Modifier");
 define("_BUTTON_CONFIRM", "Certain ?");
+define("_BUTTON_CLOSE", "Fermer");
+define("_BUTTON_NEXT", "Suivant");
+
+define("_TOAST_PURCH_ADDED", "Achat sauvegard&eacute;");
+define("_TOAST_TABLE_ADDED", "Nouvel item ajout&eacute;");
+define("_TOAST_TABLE_UPDATED", "Item modifi&eacute;");
 
 ?>
