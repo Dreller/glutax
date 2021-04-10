@@ -1,7 +1,7 @@
 # Welcome to GluTax code repository
 Online tool to track Gluten-free expenses for easy tax reporting.  In Canada, Canada Revenue Avency does allow a tax deduction for the extra amount you pay for a Gluten-free product.  Unfortunately, managing a spreadsheet can be complicated and the calculation for the *extra* amount is not simple.
 
-#⚠️ GluTax is still under development and not available online yet.
+# ⚠️ GluTax is still under development and not available online yet.
 
 ---
 
@@ -20,5 +20,5 @@ GluTax is open source, so everyone can take the code to build it's own GluTax sy
 ## Resouces
 GluTax uses:
 * [Bootstrap](https://getbootstrap.com/)
-* [PHP MySQLi Database Class](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class) by @ThingEngineer
+* [PHP MySQLi Database Class by ThingEngineer](https://github.com/ThingEngineer/PHP-MySQLi-Database-Class)
 * [Bootstrap Table Generator: Generate HTML table using Bootstrap styles](https://www.phpclasses.org/package/9212-PHP-Generate-HTML-table-using-Bootstrap-styles.html#information)
