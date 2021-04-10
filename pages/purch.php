@@ -95,7 +95,7 @@ $db = new gtDb();
         </table>
     </div>
     
-    <button class="btn btn-info" data-bs-toggle="modal" data-bs-target="#modalLoadProduct"><?= _BUTTON_ADD_PRODUCT_TABLE ?></button>
+    <button class="btn btn-info" onclick="openProductLoader();"><?= _BUTTON_ADD_PRODUCT_TABLE ?></button>
     <button class="btn btn-primary" onclick="addProduct();"><?= _BUTTON_ADD_PRODUCT ?></button>
 
 </div>
@@ -115,8 +115,8 @@ $db = new gtDb();
                 <h5 class="modal-title" id="modalProductTitle">(Title)</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <!-- First body for manual product entry -->
             <div class="modal-body" id="modalProductForm">
-
                 <!-- Gluten-free Product -->
                     <h4><?= _LABEL_PRODUCT_GF ?></h4>
                 <!-- Description -->
@@ -184,26 +184,8 @@ $db = new gtDb();
 
                     </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
-                <button type="button" class="btn btn-danger disabled" id="modalProductDelete" onclick="deleteProduct();"><?= _BUTTON_DELETE?></button>
-                <button type="button" class="btn btn-success" onclick="calc();">CALC</button>
-                <button type="button" class="btn btn-primary" id="modalProductOK" onclick="saveProduct();">(OK)</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- MODAL: Add a product from saved products -->  
-<div class="modal fade" id="modalLoadProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalLoadProductTitle"><?= _BUTTON_ADD_PRODUCT_TABLE ?></h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="modalLoadProductForm">
+            <!-- Additional body to select a product -->
+            <div class="modal-body d-none" id="modalLoadProductForm">
                     <label for="loadProduct" class="form-label">Product to load</label>
                     <select class="form-select" id="loadProduct" onchange="displayProductToLoad();">
                     <option value="0"><?= _LABEL_CHOOSE ?></option>
@@ -223,15 +205,19 @@ $db = new gtDb();
                 <hr>
                 <div id="displayEquivalent"></div>
             </div>
-            <div class="modal-footer">
+            <div class="modal-footer d-none" id="modalFooterProductLoad">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
-                <button type="button" class="btn btn-primary" id="modalProductOK" onclick="loadProduct();"><?= _BUTTON_NEXT ?></button>
+                <button type="button" class="btn btn-primary" id="modalLoadProductOK" onclick="loadProduct();"><?= _BUTTON_NEXT ?></button>
+            </div>
+            <div class="modal-footer" id="modalFooterProductEntry">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
+                <button type="button" class="btn btn-danger disabled" id="modalProductDelete" onclick="deleteProduct();"><?= _BUTTON_DELETE?></button>
+                <button type="button" class="btn btn-success" onclick="calc();">CALC</button>
+                <button type="button" class="btn btn-primary" id="modalProductOK" onclick="saveProduct();">(OK)</button>
             </div>
         </div>
     </div>
 </div>
-
-
 
 <script>
 var actualAction = "";
@@ -265,8 +251,23 @@ var formatter = new Intl.NumberFormat('en-CA', {
         currencyDisplay: 'narrowSymbol'
     });
 
+    function prepareFormForLoad(){
+        $("#modalFooterProductLoad").removeClass("d-none");
+        $("#modalFooterProductEntry").addClass("d-none");
+        $("#modalLoadProductForm").removeClass("d-none");
+        $("#modalProductForm").addClass("d-none");
+    }
+
+    function prepareFormForEntry(){
+        $("#modalFooterProductLoad").addClass("d-none");
+        $("#modalFooterProductEntry").removeClass("d-none");
+        $("#modalLoadProductForm").addClass("d-none");
+        $("#modalProductForm").removeClass("d-none");
+    }
+
     function displayProductToLoad(){
         var selectValue = $('#loadProduct').val();
+        console.log(selectValue);
         if( selectValue == '0' ){
             display = '';
 
@@ -297,8 +298,8 @@ var formatter = new Intl.NumberFormat('en-CA', {
         $("#popProductFormat").val(loadProductFormat);
         $("#popEquProductName").val(loadProductEquName);
         $("#popEquProductSize").val(loadProductEquSize);
-        modalProductLoad.toggle();
-        addProduct();
+        
+        prepareFormForEntry();
     }
 
 
@@ -329,7 +330,18 @@ var formatter = new Intl.NumberFormat('en-CA', {
         $("#popCalcExtra").val(Extra.toFixed(2));
     }
 
+    function openProductLoader(){
+        prepareFormForLoad();
+        actualAction = "add";
+        document.getElementById("modalProductTitle").innerHTML = "<?= _LABEL_PURCH_ADD_PRODUCT ?>";
+        document.getElementById("modalProductOK").innerHTML = "<?= _BUTTON_SAVE ?>";
+        $("#modalProductDelete").addClass('disabled');
+        modalProductEntry.toggle();
+        modalProductEntry.handleUpdate();
+    }
+
     function addProduct(){
+        prepareFormForEntry();
         actualAction = "add";
         document.getElementById("modalProductTitle").innerHTML = "<?= _LABEL_PURCH_ADD_PRODUCT ?>";
         document.getElementById("modalProductOK").innerHTML = "<?= _BUTTON_SAVE ?>";
@@ -338,6 +350,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
         modalProductEntry.handleUpdate();
     }
     function chgProduct(lineID){
+        prepareFormForEntry();
         actualAction = "chg";
         actualID = lineID;
         document.getElementById("modalProductTitle").innerHTML = "<?= _LABEL_PURCH_CHG_PRODUCT ?>";
