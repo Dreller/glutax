@@ -127,6 +127,23 @@ body {
 </div>
 <!-- END: Toast -->
 
+<!-- Modal / Purchase Receipt -->
+<div class="modal fade" id="purchaseReceipt" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Purchase Details
+            </div>
+            <div class="modal-content p-3" id="purchaseReceiptBody">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END: Modal / Purchase Receipt -->
+
 <!-- JS Scripts imports -->
 <script src="js/jquery_3.5.1.js"></script>
 <script src="js/bootstrap.bundle.min.js"></script>

@@ -39,6 +39,7 @@ $db = new gtDb();
         <div class="col-md-6">
             <label for="purchasePersonID" class="form-label text-start"><?= _LABEL_PERSON ?></label>
             <select id='purchasePersonID' name='purchasePersonID' class='form-select'>
+                <option value='0'>(<?= _SETTING_YOU ?>) <?php echo $_SESSION['accountName']; ?></value>
                 <?php 
                     $db->where('personAccountID', $_SESSION['accountID']);
                     $db->orderBy('personName', 'ASC');

@@ -1,4 +1,9 @@
+var modalPurchReceipt;
+
 $(document).ready(function(){
+    modalPurchReceipt = new bootstrap.Modal(document.getElementById('purchaseReceipt'), {
+        keyboard: false
+    });
     loadPage();
 });
 
@@ -91,6 +96,13 @@ function loadPage(page, args){
     console.log("(url) " + myURL);
 
     $("#myBox").load(myURL);
+}
+
+function purchReceipt(i){
+    modalPurchReceipt.show();
+    $("#purchaseReceiptBody").html("<div class='d-flex justify-content-center'><div class='spinner-border text-primary mt-5' role='status'><span class='visually hidden'></span></div></div>");
+    myURL = 'pages/purch_view.php?i=' + i;
+    $("#purchaseReceiptBody").load(myURL);
 }
 
 /**
