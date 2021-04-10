@@ -10,7 +10,7 @@ Online tool to track Gluten-free expenses for easy tax reporting.  In Canada, Ca
 
 * **Have a question ?** You can ask your question [here](https://github.com/Dreller/glutax/discussions/new?category=Questions).  It's a Q&A section and I will do my best to answer you.  Also, you can always take a look at the [Wiki](https://github.com/Dreller/glutax/wiki), which contains a lot of information.
 
-* **Have an idea ?** I would love to hear your ideas to improve GluTax !!  You can post your idea [here](https://github.com/Dreller/glutax/discussions/new?category=Ideas) !  It's with your ideas that GluTax will become more useful for everyone!  Thank you ­❤ ! ­
+* **Have an idea ?** I would love to hear your ideas to improve GluTax !!  You can post your idea [here](https://github.com/Dreller/glutax/discussions/new?category=Ideas) !  It's with your ideas that GluTax will become more useful for everyone!  Thank you ­❤
 
 ## Developers ?
 GluTax is open source, so everyone can take the code to build it's own GluTax system at home.  If you want to contribute, feel free to fork the repo and create a pull request !  I would love to see your contribution to my project !
