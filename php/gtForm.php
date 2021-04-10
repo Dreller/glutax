@@ -1,4 +1,5 @@
 <?php
+
 class gtForm{
     private $ctrls;
     private $hiddens;
@@ -76,8 +77,8 @@ class gtForm{
                 break;
             case "list-measure":
                 $wip = "<select class='form-select' id='$id' name='$id'>";
-                $wip.= "<option value='g'".($value=='g'?' selected':'').">grams</option>";
-                $wip.= "<option value='mL'".($value=='g'?' selected':'').">milliliters</option>";
+                $wip.= "<option value='g'".($value=='g'?' selected':'').">"._LABEL_G."</option>";
+                $wip.= "<option value='mL'".($value=='g'?' selected':'').">"._LABEL_ML."</option>";
                 $wip.= "</select>";
                 break;
             default:
