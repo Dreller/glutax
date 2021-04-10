@@ -102,6 +102,15 @@ $db = new gtDb();
 
 <div class="bg-light p-3 rounded shadow-sm my-2">
     <h4><?= _LABEL_SUMMARY ?></h4>
+    
+        <dl class="row mt-3 mb-3">
+            <dt class="col-sm-6 text-end">Nombre de produits</dt>
+            <dd id="summaryProdCount" class="col-sm-6 text-start">0</dd>
+            
+            <dt class="col-sm-6 text-end">Somme de Extra</dt>
+            <dd id="summaryExtraAmount" class="col-sm-6 text-start"></dd>
+        </dl>
+
 
     <button class="btn btn-primary" onclick="savePurchase();"><?= _BUTTON_SAVE ?></button>
 </div>
@@ -259,6 +268,12 @@ var loadProductEquSize = "";
 var modalProductEntry;
 var modalProductLoad;
 
+var formatter = new Intl.NumberFormat('<?php echo $_SESSION['accountLocale']; ?>', {
+        style: 'currency',
+        currency: 'CAD',
+        currencyDisplay: 'narrowSymbol'
+    });
+
 $(document).ready(function(){
     modalProductEntry = new bootstrap.Modal(document.getElementById('modalProduct'), {
             keyboard: false,
@@ -269,13 +284,23 @@ $(document).ready(function(){
         keyboard: false,
         backdrop: 'static'
     });
+
+    document.getElementById("summaryExtraAmount").innerHTML = formatter.format(0);
 });
 
-var formatter = new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-        currencyDisplay: 'narrowSymbol'
+
+
+function calcSummary(){
+    var runCount = 0;
+    var runTotal = 0;
+
+    $("#purchTableBody > tr").each(function(){
+        runCount ++;
+        runTotal += $(this).data('extra');
     });
+    document.getElementById("summaryProdCount").innerHTML = runCount;
+    document.getElementById("summaryExtraAmount").innerHTML = formatter.format(runTotal);
+}
 
     function prepareFormForLoad(){
         $("#modalFooterProductLoad").removeClass("d-none");
@@ -467,6 +492,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
             chgProduct(newID);
         }
         row.dataset.raw = data;
+        row.dataset.extra = dat['popCalcExtra'];
 
         // Insert Cells
             var cell_ProductName = row.insertCell(0);
@@ -509,7 +535,9 @@ var formatter = new Intl.NumberFormat('en-CA', {
             cell_EquExtra.innerHTML = formatter.format(dat['popCalcExtra']);
             cell_EquExtra.classList.add(newID + 'popCalcExtra');
 
-        myModal.hide();
+        // Calculate Purchase Summary
+        calcSummary();
+        modalProductEntry.hide();
     }
     function chgLine(data){
         var dat = JSON.parse(data);
