@@ -32,29 +32,29 @@ if( isset($_GET['i']) ){
 switch($tableName){
     case "tbStore":
         $pageHeader = _TABLE_STORE;
-        insertInForm("storeName", "Store Name", "text");
-        insertInForm("storeAddress", "Address or Location", "text");
+        insertInForm("storeName", _LABEL_NAME, "text");
+        insertInForm("storeAddress", _LABEL_ADDRESS, "text");
         break;
     case "tbPerson":
         $pageHeader = _TABLE_PERSON;
-        insertInForm("personName", "Name", "text");
+        insertInForm("personName", _LABEL_NAME, "text");
         break;
     case "tbProduct":
         $pageHeader = _TABLE_PRODUCT;
-        insertSectionInForm("Gluten-free Product");
-        insertInForm("productName", "Name or Description", "text");
-        insertInForm("productCategoryID", "Category", "product-category");
+        insertSectionInForm(_LABEL_PRODUCT_GF);
+        insertInForm("productName", _LABEL_NAME, "text");
+        insertInForm("productCategoryID", _LABEL_CATEGORY, "product-category");
         #insertInForm("productSKU", "SKU (Barcode)", "text");
-        insertInForm("productSize", "Size (eg. 200 ml, enter 200)", "number");
-        insertInForm("productFormat", "Format, measure (eg. 200 ml, choose ml)", "list-measure");
-        insertSectionInForm("Equivalent Product");
-        insertInForm("productEquName", "Name or Description", "text");
+        insertInForm("productSize", _LABEL_SIZE_HELP, "number");
+        insertInForm("productFormat", _LABEL_FORMAT_HELP, "list-measure");
+        insertSectionInForm(_LABEL_PRODUCT_EQU);
+        insertInForm("productEquName", _LABEL_NAME, "text");
         #insertInForm("productEquSKU", "SKU (Barcode)", "text");
-        insertInForm("productEquSize", "Size (eg. 200 ml, enter 200)", "number");
+        insertInForm("productEquSize", _LABEL_SIZE_HELP, "number");
         break;
     case "tbCategory":
         $pageHeader = _TABLE_CATEGORY;
-        insertInForm("categoryName", "Name", "text");
+        insertInForm("categoryName", _LABEL_NAME, "text");
         break;
     default:
         $foundFlag = false;
