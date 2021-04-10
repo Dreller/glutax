@@ -43,7 +43,9 @@ define("_LABEL_QUANTIY", "Quantity");
 define("_LABEL_PRICE_UNIT", "Price per unit");
 define("_LABEL_PRICE", "Price");
 define("_LABEL_SIZE", "Format");
+define("_LABEL_SIZE_HELP", "Format (eg. 200 ml, enter 200)");
 define("_LABEL_FORMAT", "Measure");
+define("_LABEL_FORMAT_HELP", "Measure (eg. 200 ml, select millilitres)");
 define("_LABEL_NOTE", "Note");
 define("_LABEL_REF", "Reference");
 define("_LABEL_PRODUCTS", _TABLE_PRODUCT.'s');
@@ -53,6 +55,8 @@ define("_LABEL_ML", "millilitres");
 define("_LABEL_CHOOSE", "Choose...");
 define("_LABEL_PURCH_ADD_PRODUCT", "Add a Product");
 define("_LABEL_PURCH_CHG_PRODUCT", "Edit a Product");
+define("_LABEL_SKU", "Product ID or SKU");
+define("_LABEL_OR", "Or");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");

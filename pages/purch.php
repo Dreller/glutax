@@ -102,6 +102,15 @@ $db = new gtDb();
 
 <div class="bg-light p-3 rounded shadow-sm my-2">
     <h4><?= _LABEL_SUMMARY ?></h4>
+    
+        <dl class="row mt-3 mb-3">
+            <dt class="col-sm-6 text-end">Nombre de produits</dt>
+            <dd id="summaryProdCount" class="col-sm-6 text-start">0</dd>
+            
+            <dt class="col-sm-6 text-end">Somme de Extra</dt>
+            <dd id="summaryExtraAmount" class="col-sm-6 text-start"></dd>
+        </dl>
+
 
     <button class="btn btn-primary" onclick="savePurchase();"><?= _BUTTON_SAVE ?></button>
 </div>
@@ -186,22 +195,48 @@ $db = new gtDb();
             </div>
             <!-- Additional body to select a product -->
             <div class="modal-body d-none" id="modalLoadProductForm">
-                    <label for="loadProduct" class="form-label">Product to load</label>
-                    <select class="form-select" id="loadProduct" onchange="displayProductToLoad();">
-                    <option value="0"><?= _LABEL_CHOOSE ?></option>
-                        <?php  
-                            $db->where('productAccountID', $_SESSION['accountID']);
-                            $db->orderBy('productName', 'ASC');
-                            $products = $db->get('tbProduct');
-                            foreach( $products as $product ){
-                                echo '<option id="option_' . $product['productID']  . '" value="option_'. $product['productID'];
-                                echo '" data-equProd="' . $product['productEquName'] . '" data-equSize="' . $product['productEquSize'] . '" ';
-                                echo 'data-format="' . $product['productFormat'] . '" data-product="' . $product['productName'] . '" ';
-                                echo 'data-size="' . $product['productSize'] . '" >';
-                                echo $product['productName'] . ' (' . $product['productSize'] . ' ' . $product['productFormat'] . ')</option>';
-                            }
-                        ?>
-                    </select>
+
+                <ul class="nav nav-tabs" id="tabsProductLoad" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="tabProductLoadList" data-bs-toggle="tab" data-bs-target="#prodLoadList" type="button" role="tab" aria-controls="prodLoadList" aria-selected="true" href="#">Choose from list</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="tabProductLoadCode" data-bs-toggle="tab" data-bs-target="#prodLoadCode" type="button" role="tab" aria-controls="prodLoadCode" aria-selected="false" href="#">Enter a code</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content mt-1" id="tabsProductLoadContent">
+                    <div class="tab-pane fade show active" id="prodLoadList" role="tabpanel" aria-labelledby="tabProductLoadList">
+                        <label for="loadProduct" class="form-label">Product to load</label>
+                        <select class="form-select" id="loadProduct" onchange="displayProductToLoad();">
+                        <option value="0"><?= _LABEL_CHOOSE ?></option>
+                            <?php  
+                                $db->where('productAccountID', $_SESSION['accountID']);
+                                $db->orderBy('productName', 'ASC');
+                                $products = $db->get('tbProduct');
+                                foreach( $products as $product ){
+                                    $pID = $product['productID'];
+                                    if( $product['productSKU'] !== '' ){
+                                        $pID = 'sku_'.$product['productSKU'];
+                                    }
+                                    echo '<option id="option_' . $pID  . '" value="option_'. $pID;
+                                    echo '" data-equProd="' . $product['productEquName'] . '" data-equSize="' . $product['productEquSize'] . '" ';
+                                    echo 'data-format="' . $product['productFormat'] . '" data-product="' . $product['productName'] . '" ';
+                                    echo 'data-size="' . $product['productSize'] . '" >';
+                                    echo $product['productName'] . ' (' . $product['productSize'] . ' ' . $product['productFormat'] . ')</option>';
+                                }
+                            ?>
+                        </select>
+                    </div>
+                    <div class="tab-pane fade show" id="prodLoadCode" role="tabpanel" aria-labelledby="tabProductLoadCode">
+                        <label for="loadProductCode" class="form-label">Product code or SKU</label>
+                            <div class="input-group mb-3">
+                                <input type="text" class="form-control" id="loadProductCode">
+                                <button class="btn btn-outline-primary" type="button" id="btnAddOnProdCode" onclick="searchProductToLoad();">&#128269;</button>
+                            </div>
+                    </div>
+                </div>
+
                 <hr>
                 <div id="displayEquivalent"></div>
             </div>
@@ -233,6 +268,12 @@ var loadProductEquSize = "";
 var modalProductEntry;
 var modalProductLoad;
 
+var formatter = new Intl.NumberFormat('<?php echo $_SESSION['accountLocale']; ?>', {
+        style: 'currency',
+        currency: 'CAD',
+        currencyDisplay: 'narrowSymbol'
+    });
+
 $(document).ready(function(){
     modalProductEntry = new bootstrap.Modal(document.getElementById('modalProduct'), {
             keyboard: false,
@@ -243,13 +284,23 @@ $(document).ready(function(){
         keyboard: false,
         backdrop: 'static'
     });
+
+    document.getElementById("summaryExtraAmount").innerHTML = formatter.format(0);
 });
 
-var formatter = new Intl.NumberFormat('en-CA', {
-        style: 'currency',
-        currency: 'CAD',
-        currencyDisplay: 'narrowSymbol'
+
+
+function calcSummary(){
+    var runCount = 0;
+    var runTotal = 0;
+
+    $("#purchTableBody > tr").each(function(){
+        runCount ++;
+        runTotal += $(this).data('extra');
     });
+    document.getElementById("summaryProdCount").innerHTML = runCount;
+    document.getElementById("summaryExtraAmount").innerHTML = formatter.format(runTotal);
+}
 
     function prepareFormForLoad(){
         $("#modalFooterProductLoad").removeClass("d-none");
@@ -265,9 +316,42 @@ var formatter = new Intl.NumberFormat('en-CA', {
         $("#modalProductForm").removeClass("d-none");
     }
 
+    function searchProductToLoad(){
+        loadProductName = '';
+        loadProductSize = '';
+        loadProductFormat = '';
+        loadProductEquName = '';
+        loadProductEquSize = '';
+
+        var enteredCode = $("#loadProductCode").val() + "";
+        if( enteredCode == "" ){
+            display = 'NO PRODUCT CODE ENTERED';
+        }else{
+            var el = document.getElementById('option_sku_' + enteredCode);
+            if( el === null ){
+                display = 'Product <strong>' + enteredCode + '</strong> not found!';
+            }else{
+                var option = el.dataset;
+                    var display = '<dl class="row">';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_GF ?></dt><dd class="col-sm-7 text-start">' + option.product + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.size + ' ' + option.format + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_EQU ?></dt><dd class="col-sm-7 text-start">' + option.equprod + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.equsize + ' ' + option.format + '</dd></dl>';
+
+                    loadProductName = option.product;
+                    loadProductSize = option.size;
+                    loadProductFormat = option.format;
+                    loadProductEquName = option.equprod;
+                    loadProductEquSize = option.equsize;
+                }
+            }
+        
+        document.getElementById('displayEquivalent').innerHTML = display;
+    }
+
     function displayProductToLoad(){
         var selectValue = $('#loadProduct').val();
-        console.log(selectValue);
+
         if( selectValue == '0' ){
             display = '';
 
@@ -279,7 +363,10 @@ var formatter = new Intl.NumberFormat('en-CA', {
 
         }else{
             var option = document.getElementById(selectValue).dataset;
-            var display = '<dl class="row"><dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_EQU ?></dt><dd class="col-sm-7 text-start">' + option.equprod + '</dd>';
+            var display = '<dl class="row">';
+            display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_GF ?></dt><dd class="col-sm-7 text-start">' + option.product + '</dd>';
+            display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.size + ' ' + option.format + '</dd>';
+            display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_EQU ?></dt><dd class="col-sm-7 text-start">' + option.equprod + '</dd>';
             display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.equsize + ' ' + option.format + '</dd></dl>';
 
             loadProductName = option.product;
@@ -405,6 +492,7 @@ var formatter = new Intl.NumberFormat('en-CA', {
             chgProduct(newID);
         }
         row.dataset.raw = data;
+        row.dataset.extra = dat['popCalcExtra'];
 
         // Insert Cells
             var cell_ProductName = row.insertCell(0);
@@ -447,7 +535,9 @@ var formatter = new Intl.NumberFormat('en-CA', {
             cell_EquExtra.innerHTML = formatter.format(dat['popCalcExtra']);
             cell_EquExtra.classList.add(newID + 'popCalcExtra');
 
-        myModal.hide();
+        // Calculate Purchase Summary
+        calcSummary();
+        modalProductEntry.hide();
     }
     function chgLine(data){
         var dat = JSON.parse(data);
