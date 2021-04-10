@@ -55,6 +55,8 @@ define("_LABEL_ML", "millilitres");
 define("_LABEL_CHOOSE", "Choisir...");
 define("_LABEL_PURCH_ADD_PRODUCT", "Ajouter un produit");
 define("_LABEL_PURCH_CHG_PRODUCT", "Modifier un produit");
+define("_LABEL_SKU", "Code de produit ou SKU");
+define("_LABEL_OR", "Ou");
 
 define("_SETTING_TITLE", "Pr&eacute;f&eacute;rences");
 define("_SETTING_SUBTITLE", "Personnalisez "._NAME." pour le faire fonctionner &agrave; votre go&ucirc;t !");

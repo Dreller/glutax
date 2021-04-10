@@ -44,12 +44,11 @@ switch($tableName){
         insertSectionInForm(_LABEL_PRODUCT_GF);
         insertInForm("productName", _LABEL_NAME, "text");
         insertInForm("productCategoryID", _LABEL_CATEGORY, "product-category");
-        #insertInForm("productSKU", "SKU (Barcode)", "text");
+        insertInForm("productSKU", _LABEL_SKU, "text");
         insertInForm("productSize", _LABEL_SIZE_HELP, "number");
         insertInForm("productFormat", _LABEL_FORMAT_HELP, "list-measure");
         insertSectionInForm(_LABEL_PRODUCT_EQU);
         insertInForm("productEquName", _LABEL_NAME, "text");
-        #insertInForm("productEquSKU", "SKU (Barcode)", "text");
         insertInForm("productEquSize", _LABEL_SIZE_HELP, "number");
         break;
     case "tbCategory":
@@ -96,7 +95,7 @@ function insertSectionInForm($text){
     </div>
 </div>
 
-<div class="bg-light p-3 rounded shadow-sm text-start">
+<div class="bg-light p-3 rounded shadow-sm text-start mb-3">
 <?php 
 
 if( $foundFlag ){
