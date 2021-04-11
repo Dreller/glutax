@@ -57,6 +57,7 @@ define("_LABEL_PURCH_ADD_PRODUCT", "Ajouter un produit");
 define("_LABEL_PURCH_CHG_PRODUCT", "Modifier un produit");
 define("_LABEL_SKU", "Code de produit ou SKU");
 define("_LABEL_OR", "Ou");
+define("_LABEL_PURCH_DETAILS_QUICK", "Aper&ccedil;u rapide");
 
 define("_SETTING_TITLE", "Pr&eacute;f&eacute;rences");
 define("_SETTING_SUBTITLE", "Personnalisez "._NAME." pour le faire fonctionner &agrave; votre go&ucirc;t !");

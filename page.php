@@ -132,12 +132,12 @@ body {
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                Purchase Details
+                <?= _LABEL_PURCH_DETAILS_QUICK ?>
             </div>
             <div class="modal-content p-3" id="purchaseReceiptBody">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CLOSE ?></button>
             </div>
         </div>
     </div>

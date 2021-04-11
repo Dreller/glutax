@@ -32,7 +32,7 @@ include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
                 $db->join('tbPerson', 'personID = purchasePersonID', 'LEFT');
                 $lines = $db->get('tbPurchase', 20);
                 foreach($lines as $line){
-                    echo '<tr onclick="purchReceipt('.$line['purchaseID'].');"><td>'.$line['purchaseDate'].'</td><td>'.$line['storeName'].'</td><td>'.$line['personName'].'</td><td>'.$fmt_cur->format($line['purchaseAmountExtra']).'</td></tr>';
+                    echo '<tr style="cursor:pointer;" onclick="purchReceipt('.$line['purchaseID'].');"><td>'.$line['purchaseDate'].'</td><td>'.$line['storeName'].'</td><td>'.$line['personName'].'</td><td>'.$fmt_cur->format($line['purchaseAmountExtra']).'</td></tr>';
                 }
             ?>
             </tbody>

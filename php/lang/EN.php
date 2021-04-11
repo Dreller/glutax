@@ -57,6 +57,7 @@ define("_LABEL_PURCH_ADD_PRODUCT", "Add a Product");
 define("_LABEL_PURCH_CHG_PRODUCT", "Edit a Product");
 define("_LABEL_SKU", "Product ID or SKU");
 define("_LABEL_OR", "Or");
+define("_LABEL_PURCH_DETAILS_QUICK", "Quick View");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");
