@@ -39,6 +39,7 @@ $db = new gtDb();
         <div class="col-md-6">
             <label for="purchasePersonID" class="form-label text-start"><?= _LABEL_PERSON ?></label>
             <select id='purchasePersonID' name='purchasePersonID' class='form-select'>
+                <option value='0'>(<?= _SETTING_YOU ?>) <?php echo $_SESSION['accountName']; ?></value>
                 <?php 
                     $db->where('personAccountID', $_SESSION['accountID']);
                     $db->orderBy('personName', 'ASC');
@@ -104,10 +105,10 @@ $db = new gtDb();
     <h4><?= _LABEL_SUMMARY ?></h4>
     
         <dl class="row mt-3 mb-3">
-            <dt class="col-sm-6 text-end">Nombre de produits</dt>
+            <dt class="col-sm-6 text-end"><?= _LABEL_SUMMARY_COUNT_PRODUCT ?></dt>
             <dd id="summaryProdCount" class="col-sm-6 text-start">0</dd>
             
-            <dt class="col-sm-6 text-end">Somme de Extra</dt>
+            <dt class="col-sm-6 text-end"><?= _LABEL_SUMMARY_TOTAL_EXTRA ?></dt>
             <dd id="summaryExtraAmount" class="col-sm-6 text-start"></dd>
         </dl>
 

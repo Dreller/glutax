@@ -50,6 +50,8 @@ define("_LABEL_NOTE", "Note");
 define("_LABEL_REF", "Reference");
 define("_LABEL_PRODUCTS", _TABLE_PRODUCT.'s');
 define("_LABEL_SUMMARY", "Summary");
+define("_LABEL_SUMMARY_COUNT_PRODUCT", "Product Count");
+define("_LABEL_SUMMARY_TOTAL_EXTRA", "Total Amount");
 define("_LABEL_G", "grams");
 define("_LABEL_ML", "millilitres");
 define("_LABEL_CHOOSE", "Choose...");
@@ -57,6 +59,7 @@ define("_LABEL_PURCH_ADD_PRODUCT", "Add a Product");
 define("_LABEL_PURCH_CHG_PRODUCT", "Edit a Product");
 define("_LABEL_SKU", "Product ID or SKU");
 define("_LABEL_OR", "Or");
+define("_LABEL_PURCH_DETAILS_QUICK", "Quick View");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");

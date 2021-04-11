@@ -50,6 +50,8 @@ define("_LABEL_NOTE", "Note");
 define("_LABEL_REF", "R&eacute;f&eacute;rence");
 define("_LABEL_PRODUCTS", _TABLE_PRODUCT.'s');
 define("_LABEL_SUMMARY", "Sommaire");
+define("_LABEL_SUMMARY_COUNT_PRODUCT", "Nombre de produits");
+define("_LABEL_SUMMARY_TOTAL_EXTRA", "Total de montant extra");
 define("_LABEL_G", "grammes");
 define("_LABEL_ML", "millilitres");
 define("_LABEL_CHOOSE", "Choisir...");
@@ -57,6 +59,7 @@ define("_LABEL_PURCH_ADD_PRODUCT", "Ajouter un produit");
 define("_LABEL_PURCH_CHG_PRODUCT", "Modifier un produit");
 define("_LABEL_SKU", "Code de produit ou SKU");
 define("_LABEL_OR", "Ou");
+define("_LABEL_PURCH_DETAILS_QUICK", "Aper&ccedil;u rapide");
 
 define("_SETTING_TITLE", "Pr&eacute;f&eacute;rences");
 define("_SETTING_SUBTITLE", "Personnalisez "._NAME." pour le faire fonctionner &agrave; votre go&ucirc;t !");
