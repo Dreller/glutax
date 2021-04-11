@@ -50,6 +50,8 @@ define("_LABEL_NOTE", "Note");
 define("_LABEL_REF", "R&eacute;f&eacute;rence");
 define("_LABEL_PRODUCTS", _TABLE_PRODUCT.'s');
 define("_LABEL_SUMMARY", "Sommaire");
+define("_LABEL_SUMMARY_COUNT_PRODUCT", "Nombre de produits");
+define("_LABEL_SUMMARY_TOTAL_EXTRA", "Total de montant extra");
 define("_LABEL_G", "grammes");
 define("_LABEL_ML", "millilitres");
 define("_LABEL_CHOOSE", "Choisir...");
