@@ -223,7 +223,7 @@ $db = new gtDb();
                                     echo '<option id="option_' . $pID  . '" value="option_'. $pID;
                                     echo '" data-equProd="' . $product['productEquName'] . '" data-equSize="' . $product['productEquSize'] . '" ';
                                     echo 'data-format="' . $product['productFormat'] . '" data-product="' . $product['productName'] . '" ';
-                                    echo 'data-size="' . $product['productSize'] . '" >';
+                                    echo 'data-size="' . $product['productSize'] . '" data-price="'.$product['productPrice'].'" data-equprice="'.$product['productEquPrice'].'">';
                                     echo $product['productName'] . ' (' . $product['productSize'] . ' ' . $product['productFormat'] . ')</option>';
                                 }
                             ?>
@@ -321,8 +321,10 @@ function calcSummary(){
         loadProductName = '';
         loadProductSize = '';
         loadProductFormat = '';
+        loadProductPrice = 0;
         loadProductEquName = '';
         loadProductEquSize = '';
+        loadProductEquPrice = 0;
 
         var enteredCode = $("#loadProductCode").val() + "";
         if( enteredCode == "" ){
@@ -336,14 +338,18 @@ function calcSummary(){
                     var display = '<dl class="row">';
                     display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_GF ?></dt><dd class="col-sm-7 text-start">' + option.product + '</dd>';
                     display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.size + ' ' + option.format + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRICE ?></dt><dd class="col-sm-7 text-start">' + formatter.format(option.price) + '</dd>';
                     display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_EQU ?></dt><dd class="col-sm-7 text-start">' + option.equprod + '</dd>';
-                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.equsize + ' ' + option.format + '</dd></dl>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.equsize + ' ' + option.format + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRICE ?></dt><dd class="col-sm-7 text-start">' + formatter.format(option.equprice) + '</dd></dl>';
 
                     loadProductName = option.product;
                     loadProductSize = option.size;
                     loadProductFormat = option.format;
+                    loadProductPrice = option.price;
                     loadProductEquName = option.equprod;
                     loadProductEquSize = option.equsize;
+                    loadProductEquPrice = option.equprice;
                 }
             }
         
@@ -359,22 +365,28 @@ function calcSummary(){
             loadProductName = '';
             loadProductSize = '';
             loadProductFormat = '';
+            loadProductPrice = 0;
             loadProductEquName = '';
             loadProductEquSize = '';
+            loadProductEquPrice = 0;
 
         }else{
             var option = document.getElementById(selectValue).dataset;
             var display = '<dl class="row">';
-            display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_GF ?></dt><dd class="col-sm-7 text-start">' + option.product + '</dd>';
-            display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.size + ' ' + option.format + '</dd>';
-            display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_EQU ?></dt><dd class="col-sm-7 text-start">' + option.equprod + '</dd>';
-            display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.equsize + ' ' + option.format + '</dd></dl>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_GF ?></dt><dd class="col-sm-7 text-start">' + option.product + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.size + ' ' + option.format + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRICE ?></dt><dd class="col-sm-7 text-start">' + formatter.format(option.price) + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRODUCT_EQU ?></dt><dd class="col-sm-7 text-start">' + option.equprod + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_FORMAT ?></dt><dd class="col-sm-7 text-start">' + option.equsize + ' ' + option.format + '</dd>';
+                    display += '<dt class="col-sm-5 text-end"><?= _LABEL_PRICE ?></dt><dd class="col-sm-7 text-start">' + formatter.format(option.equprice) + '</dd></dl>';
 
             loadProductName = option.product;
             loadProductSize = option.size;
             loadProductFormat = option.format;
+            loadProductPrice = option.price;
             loadProductEquName = option.equprod;
             loadProductEquSize = option.equsize;
+            loadProductEquPrice = option.equprice;
         }
         
         document.getElementById('displayEquivalent').innerHTML = display;
@@ -384,8 +396,10 @@ function calcSummary(){
         $("#popProductName").val(loadProductName);
         $("#popProductSize").val(loadProductSize);
         $("#popProductFormat").val(loadProductFormat);
+        $("#popProductPrice").val(loadProductPrice);
         $("#popEquProductName").val(loadProductEquName);
         $("#popEquProductSize").val(loadProductEquSize);
+        $("#popEquProductPrice").val(loadProductEquPrice);
         
         prepareFormForEntry();
     }
