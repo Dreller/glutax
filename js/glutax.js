@@ -16,6 +16,10 @@ $("#glutaxTitle").on("click", function(){
 $(".navTable").on("click", function(){
     loadPage('table', 't=' + $(this).data("table"));
 });
+// Click on an item in the Top NavBar Menu "Reports"
+$(".navReport").on("click", function(){
+    loadReport($(this).data("report"));
+});
 $("#NavNewPurchase").on("click", function(){
     editPurch(0);
 });
@@ -198,4 +202,46 @@ function toast(message){
         return new bootstrap.Toast(toastEl)
     });
     toastList.forEach(toast => toast.show());
+}
+
+
+function loadReport(report){
+    $("#myBox").load('php/rpt-frame.php?r=' + report, function(){
+    
+        var langPack = ""
+    $('#glutaxReport').DataTable({
+            "processing": true,
+            "language":{
+                "url": "DataTables/lang/" + myLang + ".json"
+            },
+            "pageLength": 50,
+            "sAjaxSource":"php/rpt-data.php?r=" + report,
+            "dom":"Bfrtip",
+            "buttons":[
+                {
+                    extend: 'collection',
+                    text: 'Options',
+                    buttons: [
+                        'colvis',
+                        'colvisRestore',
+                        'pageLength'
+                    ]
+                },
+                {
+                    extend: 'collection',
+                    text: 'Exporter',
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'csv',
+                        'pdf',
+                        'print'
+                    ]
+                }
+            ]
+        });
+
+
+    });
+    
 }
