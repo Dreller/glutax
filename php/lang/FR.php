@@ -77,6 +77,7 @@ define("_SETTING_REGION_LOCALE_HELP", "Choisir la r&eacute;gion qui vous convien
 
 define("_REPORT_PURCH_ALL", "Tous les achats");
 
+
 define("_BUTTON_EXPORT", "Exporter");
 define("_BUTTON_ADD_NEW", "Nouveau");
 define("_BUTTON_ADD_PRODUCT", "Entrer un produit");

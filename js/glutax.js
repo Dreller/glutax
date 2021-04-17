@@ -16,6 +16,11 @@ $("#glutaxTitle").on("click", function(){
 $(".navTable").on("click", function(){
     loadPage('table', 't=' + $(this).data("table"));
 });
+// Click on an item in the Top NavBar Menu "Reports"
+$(".navReport").on("click", function(){
+    //loadPage('report', 'r=' + $(this).data("report"));
+    loadReport();
+});
 $("#NavNewPurchase").on("click", function(){
     editPurch(0);
 });
@@ -198,4 +203,34 @@ function toast(message){
         return new bootstrap.Toast(toastEl)
     });
     toastList.forEach(toast => toast.show());
+}
+
+
+function loadReport(){
+    $("#myBox").load('php/rpt-frame.php', function(){
+
+
+$('#glutaxReport').DataTable({
+        "processing": true,
+        "sAjaxSource":"php/rpt-data.php",
+        "pageLength": 4,
+        "dom":"lBfrtip",
+        "buttons":[
+            {
+                extend: 'collection',
+                text: 'Exporter',
+                buttons: [
+                    'copy',
+                    'excel',
+                    'csv',
+                    'pdf',
+                    'print'
+                ]
+            }
+        ]
+    });
+    
+
+    });
+    
 }
