@@ -1,34 +1,33 @@
 <?php 
-session_start();
-include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
-
-require_once('../php/gtDb.php');
+# Include
+require_once('../php/gtInclude.php');
+# Initialise a database
 $db = new gtDb();
 ?>
-
+<!-- Header -->
 <h1 class="mt-5 text-white font-weight-light"><?= _LABEL_PURCH_NEW ?> </h1>
 <p class="lead text-white-50"></p>
 <hr>
-
+<!-- Form -->
 <div class="bg-light p-3 rounded shadow-sm">
 <h4><?= _LABEL_PURCH_INFO ?></h4>
     <div class="row g-3">
         <div class="col-md-6">
-            <label for="purchaseDate" class="form-label text-start"><?= _LABEL_PURCH_DATE ?></label>
-            <input type="date" id="purchaseDate" name="purchaseDate" value="" class="form-control">
+            <label for="<?= _SQL_PUR_DATE ?>" class="form-label text-start"><?= _LABEL_PURCH_DATE ?></label>
+            <input type="date" id="<?= _SQL_PUR_DATE ?>" name="<?= _SQL_PUR_DATE ?>" value="" class="form-control">
         </div>
         <div class="col-md-6">
-            <label for="purchaseStoreID" class="form-label"><?= _LABEL_STORE ?></label>
-            <select id='purchaseStoreID' name='purchaseStoreID' class='form-select'>
+            <label for="<?= _SQL_PUR_STORE ?>" class="form-label"><?= _LABEL_STORE ?></label>
+            <select id='<?= _SQL_PUR_STORE ?>' name='<?= _SQL_PUR_STORE ?>' class='form-select'>
                 <?php 
-                    $db->where('storeAccountID', $_SESSION['accountID']);
-                    $db->orderBy('storeName', 'ASC');
-                    $options = $db->get('tbStore');
+                    $db->where(_SQL_STO_ACCOUNT, $_ACCT);
+                    $db->orderBy(_SQL_STO_NAME, 'ASC');
+                    $options = $db->get(_SQL_STO);
                     if( $db->count > 1 ){
                         echo "<option value='0'>" . _LABEL_CHOOSE . "</option>";
                     }
                     foreach($options as $option){
-                        echo '<option value="'.$option['storeID'].'">'.$option['storeName'].' - '.$option['storeAddress'].'</option>';
+                        echo '<option value="'.$option[_SQL_STO_ID].'">'.$option[_SQL_STO_NAME].' - '.$option[_SQL_STO_ADDRESS].'</option>';
                     }
                 ?>
             </select>
@@ -37,25 +36,25 @@ $db = new gtDb();
 
     <div class="row g-3">
         <div class="col-md-6">
-            <label for="purchasePersonID" class="form-label text-start"><?= _LABEL_PERSON ?></label>
-            <select id='purchasePersonID' name='purchasePersonID' class='form-select'>
-                <option value='0'>(<?= _SETTING_YOU ?>) <?php echo $_SESSION['accountName']; ?></value>
+            <label for="<?= _SQL_PUR_PERSON ?>" class="form-label text-start"><?= _LABEL_PERSON ?></label>
+            <select id='<?= _SQL_PUR_PERSON ?>' name='<?= _SQL_PUR_PERSON ?>' class='form-select'>
+                <option value='0'>(<?= _SETTING_YOU ?>) <?php echo $_NAME; ?></value>
                 <?php 
-                    $db->where('personAccountID', $_SESSION['accountID']);
-                    $db->orderBy('personName', 'ASC');
-                    $options = $db->get('tbPerson');
+                    $db->where(_SQL_PER_ACCOUNT, $_ACCT);
+                    $db->orderBy(_SQL_PER_NAME, 'ASC');
+                    $options = $db->get(_SQL_PER);
                     if( $db->count > 1 ){
                         echo "<option value='0'>" . _LABEL_CHOOSE . "</option>";
                     }
                     foreach($options as $option){
-                        echo '<option value="'.$option['personID'].'">'.$option['personName'].'</option>';
+                        echo '<option value="'.$option[_SQL_PER_ID].'">'.$option[_SQL_PER_NAME].'</option>';
                     }
                 ?>
             </select>
         </div>
         <div class="col-md-6">
-            <label for="purchaseReference" class="form-label"><?= _LABEL_REF ?></label>
-            <input type="text" class="form-control" id="purchaseReference" name="purchaseReference">
+            <label for="<?= _SQL_PUR_REF ?>" class="form-label"><?= _LABEL_REF ?></label>
+            <input type="text" class="form-control" id="<?= _SQL_PUR_REF ?>" name="<?= _SQL_PUR_REF ?>">
         </div>
     </div>
 </div>
@@ -212,19 +211,27 @@ $db = new gtDb();
                         <select class="form-select" id="loadProduct" onchange="displayProductToLoad();">
                         <option value="0"><?= _LABEL_CHOOSE ?></option>
                             <?php  
-                                $db->where('productAccountID', $_SESSION['accountID']);
-                                $db->orderBy('productName', 'ASC');
-                                $products = $db->get('tbProduct');
+                                $db->where(_SQL_PRO_ACCOUNT, $_ACCT);
+                                $db->orderBy(_SQL_PRO_NAME, 'ASC');
+                                $products = $db->get(_SQL_PRO);
                                 foreach( $products as $product ){
-                                    $pID = $product['productID'];
-                                    if( $product['productSKU'] !== '' ){
-                                        $pID = 'sku_'.$product['productSKU'];
+                                    $pID = $product[_SQL_PRO_ID];
+                                    if( $product[_SQL_PRO_SKU] !== '' ){
+                                        $pID = 'sku_'.$product[_SQL_PRO_SKU];
                                     }
+                                    $pName = $product[_SQL_PRO_NAME];
+                                    $pSize = $product[_SQL_PRO_SIZE];
+                                    $pPrice = $product[_SQL_PRO_PRICE];
+                                    $pFormat = $product[_SQL_PRO_FORMAT];
+                                    $eName = $product[_SQL_EQU_NAME];
+                                    $eSize = $product[_SQL_EQU_SIZE];
+                                    $ePrice = $product[_SQL_EQU_PRICE];
+
                                     echo '<option id="option_' . $pID  . '" value="option_'. $pID;
-                                    echo '" data-equProd="' . $product['productEquName'] . '" data-equSize="' . $product['productEquSize'] . '" ';
-                                    echo 'data-format="' . $product['productFormat'] . '" data-product="' . $product['productName'] . '" ';
-                                    echo 'data-size="' . $product['productSize'] . '" data-price="'.$product['productPrice'].'" data-equprice="'.$product['productEquPrice'].'">';
-                                    echo $product['productName'] . ' (' . $product['productSize'] . ' ' . $product['productFormat'] . ')</option>';
+                                    echo '" data-equProd="' . $eName . '" data-equSize="' . $eSize . '" ';
+                                    echo 'data-format="' . $pFormat . '" data-product="' . $pName . '" ';
+                                    echo 'data-size="' . $pSize . '" data-price="'. $pPrice .'" data-equprice="'. $ePrice .'">';
+                                    echo $pName . ' (' . $pSize . ' ' . $pFormat . ')</option>';
                                 }
                             ?>
                         </select>

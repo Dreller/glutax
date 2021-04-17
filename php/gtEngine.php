@@ -9,23 +9,27 @@ error_reporting(E_ALL);
 require('gtDb.php');
 $db = new gtDb();
 
+$http = 0;
+$json = Array();
+
+
 if( getenv('REQUEST_METHOD') == 'POST' ){
     $raw = file_get_contents("php://input");
 
     $input = json_decode($raw, true);
 
     # Encode all values to their HTML equivalent.
-    foreach( $input as $key => $value ){
-        $input[$key] = htmlspecialchars($value, ENT_QUOTES);
+    foreach( $input as $key => $value ){    
+        if( is_string($value) ){
+            $input[$key] = htmlspecialchars($value, ENT_QUOTES);
+        }
     }
 
     $method = $input['method'];
     unset($input['method']);
         
 
-    $http = 0;
-    $json = Array();
-
+ 
     if( $method == "updateProfile" ){
         $db->where('accountID', $_SESSION['accountID']);
         $db->update('tbAccount', $input);
