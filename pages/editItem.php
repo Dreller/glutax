@@ -47,9 +47,11 @@ switch($tableName){
         insertInForm("productSKU", _LABEL_SKU, "text");
         insertInForm("productSize", _LABEL_SIZE_HELP, "number");
         insertInForm("productFormat", _LABEL_FORMAT_HELP, "list-measure");
+        insertInForm("productPrice", _LABEL_PRICE_UNIT, "number");
         insertSectionInForm(_LABEL_PRODUCT_EQU);
         insertInForm("productEquName", _LABEL_NAME, "text");
         insertInForm("productEquSize", _LABEL_SIZE_HELP, "number");
+        insertInForm("productEquPrice", _LABEL_PRICE_UNIT, "number");
         break;
     case "tbCategory":
         $pageHeader = _TABLE_CATEGORY;

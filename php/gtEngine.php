@@ -11,7 +11,13 @@ $db = new gtDb();
 
 if( getenv('REQUEST_METHOD') == 'POST' ){
     $raw = file_get_contents("php://input");
+
     $input = json_decode($raw, true);
+
+    # Encode all values to their HTML equivalent.
+    foreach( $input as $key => $value ){
+        $input[$key] = htmlspecialchars($value, ENT_QUOTES);
+    }
 
     $method = $input['method'];
     unset($input['method']);
