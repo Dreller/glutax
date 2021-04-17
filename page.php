@@ -79,6 +79,15 @@ body {
                 <li class="nav-item">
                     <a id="NavNewPurchase" class="nav-link" href="#"><?= _NAVBAR_NEW_PURCHASE ?></a>
                 </li>
+            <!-- Reports menu -->
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarReports" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= _NAVBAR_REPORT ?>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarReports">
+                        <a class="dropdown-item navReport" href="#" data-table="purch-all"><?= _REPORT_PURCH_ALL ?></a>
+                    </div>
+                </li>
             <!-- Tables menu -->
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarTables" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

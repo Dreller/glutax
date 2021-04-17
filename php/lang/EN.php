@@ -7,6 +7,7 @@ define("_NAME", "GluTax");
 define("_NAVBAR_NEW_PURCHASE", "New Purchase");
 define("_NAVBAR_TABLE", "Tables");
 define("_NAVBAR_OPTION", "Options");
+define("_NAVBAR_REPORT", "Reports");
 
 define("_TABLE_CATEGORY", "Category");
 define("_TABLE_CATEGORY_HELP", "Add a category to each of your purchases, for a better summary on reports.");
@@ -74,6 +75,7 @@ define("_SETTING_REGION_LANG_HELP", "Language to use for "._NAME." interface.");
 define("_SETTING_REGION_LOCALE", "Region");
 define("_SETTING_REGION_LOCALE_HELP", "Choose the region that fits your local preference.  That will be used to format amounts and dates for you.");
 
+define("_REPORT_PURCH_ALL", "All Purchases");
 
 define("_BUTTON_EXPORT", "Export");
 define("_BUTTON_ADD_NEW", "Add New");
