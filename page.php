@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <?php  
-session_start();
-include('php/lang/'.$_SESSION['accountLanguage'].'.php');
-
+include('php/gtInclude.php');
 ?>
 <html>
 <head>
 <title><?= _NAME ?></title>
+<script>
+    var myLang = "<?= $_SESSION[_SQL_ACC_LANG] ?>";
+</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="DataTables/DataTables-1.10.24/css/jquery.dataTables.css"/>
+<link rel="stylesheet" type="text/css" href="DataTables/DataTables-1.10.24/css/dataTables.bootstrap4.min.css"/>
 <link rel="stylesheet" type="text/css" href="DataTables/Buttons-1.7.0/css/buttons.dataTables.css"/>
 <link rel="stylesheet" type="text/css" href="DataTables/Responsive-2.2.7/css/responsive.dataTables.css"/>
 <link rel="stylesheet" type="text/css" href="DataTables/RowGroup-1.1.2/css/rowGroup.dataTables.css"/>
+<link href="css/glutax.css" rel="stylesheet">
 <style>
 
 @media (min-width: 992px) {
@@ -89,7 +91,8 @@ body {
                         <?= _NAVBAR_REPORT ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarReports">
-                        <a class="dropdown-item navReport" href="#" data-report="purch-all"><?= _REPORT_PURCH_ALL ?></a>
+                        <a class="dropdown-item navReport" href="#" data-report="purch-all-summary"><?= _REPORT_PURCH_ALL_SUMMARY ?></a>
+                        <a class="dropdown-item navReport" href="#" data-report="purch-all-details"><?= _REPORT_PURCH_ALL_DETAILS ?></a>
                     </div>
                 </li>
             <!-- Tables menu -->
@@ -166,6 +169,7 @@ body {
 <script type="text/javascript" src="DataTables/pdfmake-0.1.36/pdfmake.js"></script>
 <script type="text/javascript" src="DataTables/pdfmake-0.1.36/vfs_fonts.js"></script>
 <script type="text/javascript" src="DataTables/DataTables-1.10.24/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="DataTables/DataTables-1.10.24/js/dataTables.bootstrap4.min.js"></script>
 <script type="text/javascript" src="DataTables/Buttons-1.7.0/js/dataTables.buttons.js"></script>
 <script type="text/javascript" src="DataTables/Buttons-1.7.0/js/buttons.colVis.js"></script>
 <script type="text/javascript" src="DataTables/Buttons-1.7.0/js/buttons.html5.js"></script>

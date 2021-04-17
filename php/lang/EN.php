@@ -75,7 +75,8 @@ define("_SETTING_REGION_LANG_HELP", "Language to use for "._NAME." interface.");
 define("_SETTING_REGION_LOCALE", "Region");
 define("_SETTING_REGION_LOCALE_HELP", "Choose the region that fits your local preference.  That will be used to format amounts and dates for you.");
 
-define("_REPORT_PURCH_ALL", "All Purchases");
+define("_REPORT_PURCH_ALL_SUMMARY", "All Purchases Summarized");
+define("_REPORT_PURCH_ALL_DETAILS", "All Purchases Details");
 
 define("_BUTTON_EXPORT", "Export");
 define("_BUTTON_ADD_NEW", "Add New");

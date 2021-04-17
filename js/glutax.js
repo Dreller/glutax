@@ -18,8 +18,7 @@ $(".navTable").on("click", function(){
 });
 // Click on an item in the Top NavBar Menu "Reports"
 $(".navReport").on("click", function(){
-    //loadPage('report', 'r=' + $(this).data("report"));
-    loadReport();
+    loadReport($(this).data("report"));
 });
 $("#NavNewPurchase").on("click", function(){
     editPurch(0);
@@ -206,30 +205,42 @@ function toast(message){
 }
 
 
-function loadReport(){
-    $("#myBox").load('php/rpt-frame.php', function(){
-
-
-$('#glutaxReport').DataTable({
-        "processing": true,
-        "sAjaxSource":"php/rpt-data.php",
-        "pageLength": 4,
-        "dom":"lBfrtip",
-        "buttons":[
-            {
-                extend: 'collection',
-                text: 'Exporter',
-                buttons: [
-                    'copy',
-                    'excel',
-                    'csv',
-                    'pdf',
-                    'print'
-                ]
-            }
-        ]
-    });
+function loadReport(report){
+    $("#myBox").load('php/rpt-frame.php?r=' + report, function(){
     
+        var langPack = ""
+    $('#glutaxReport').DataTable({
+            "processing": true,
+            "language":{
+                "url": "DataTables/lang/" + myLang + ".json"
+            },
+            "pageLength": 50,
+            "sAjaxSource":"php/rpt-data.php?r=" + report,
+            "dom":"Bfrtip",
+            "buttons":[
+                {
+                    extend: 'collection',
+                    text: 'Options',
+                    buttons: [
+                        'colvis',
+                        'colvisRestore',
+                        'pageLength'
+                    ]
+                },
+                {
+                    extend: 'collection',
+                    text: 'Exporter',
+                    buttons: [
+                        'copy',
+                        'excel',
+                        'csv',
+                        'pdf',
+                        'print'
+                    ]
+                }
+            ]
+        });
+
 
     });
     

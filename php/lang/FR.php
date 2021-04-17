@@ -75,8 +75,8 @@ define("_SETTING_REGION_LANG_HELP", "Langue de l'interface "._NAME.".");
 define("_SETTING_REGION_LOCALE", "R&eacute;gion");
 define("_SETTING_REGION_LOCALE_HELP", "Choisir la r&eacute;gion qui vous convient pour d&eacute;terminer comment seront affich&eacute;s les montants et les dates.");
 
-define("_REPORT_PURCH_ALL", "Tous les achats");
-
+define("_REPORT_PURCH_ALL_SUMMARY", "Tous les achats (sommaire)");
+define("_REPORT_PURCH_ALL_DETAILS", "Tous les achats (d&eacute;tails)");
 
 define("_BUTTON_EXPORT", "Exporter");
 define("_BUTTON_ADD_NEW", "Nouveau");
