@@ -7,6 +7,7 @@ define("_SQL_CAT", "tbcategory");
 define("_SQL_EXP", "tbexpense");
 define("_SQL_PER", "tbperson");
 define("_SQL_PUR", "tbpurchase");
+define("_SQL_PRO", "tbproduct");
 define("_SQL_STO", "tbstore");
 
 # Fields in tbAccount
