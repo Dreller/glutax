@@ -1,6 +1,7 @@
 <?php 
 session_start();
 include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
+include('../php/gtMap.php');
 
 $tableCode = strtolower($_GET['t']);
 $tableName = 'tb' . ucwords($tableCode);
@@ -32,30 +33,30 @@ if( isset($_GET['i']) ){
 switch($tableName){
     case "tbStore":
         $pageHeader = _TABLE_STORE;
-        insertInForm("storeName", _LABEL_NAME, "text");
-        insertInForm("storeAddress", _LABEL_ADDRESS, "text");
+        insertInForm(_SQL_STO_NAME, _LABEL_NAME, "text");
+        insertInForm(_SQL_STO_ADDRESS, _LABEL_ADDRESS, "text");
         break;
     case "tbPerson":
         $pageHeader = _TABLE_PERSON;
-        insertInForm("personName", _LABEL_NAME, "text");
+        insertInForm(_SQL_PER_NAME, _LABEL_NAME, "text");
         break;
     case "tbProduct":
         $pageHeader = _TABLE_PRODUCT;
         insertSectionInForm(_LABEL_PRODUCT_GF);
-        insertInForm("productName", _LABEL_NAME, "text");
-        insertInForm("productCategoryID", _LABEL_CATEGORY, "product-category");
-        insertInForm("productSKU", _LABEL_SKU, "text");
-        insertInForm("productSize", _LABEL_SIZE_HELP, "number");
-        insertInForm("productFormat", _LABEL_FORMAT_HELP, "list-measure");
-        insertInForm("productPrice", _LABEL_PRICE_UNIT, "number");
+        insertInForm(_SQL_PRO_NAME, _LABEL_NAME, "text");
+        insertInForm(_SQL_PRO_CATEGORY, _LABEL_CATEGORY, "product-category");
+        insertInForm(_SQL_PRO_SKU, _LABEL_SKU, "text");
+        insertInForm(_SQL_PRO_SIZE, _LABEL_SIZE_HELP, "number");
+        insertInForm(_SQL_PRO_FORMAT, _LABEL_FORMAT_HELP, "list-measure");
+        insertInForm(_SQL_PRO_PRICE, _LABEL_PRICE_UNIT, "number");
         insertSectionInForm(_LABEL_PRODUCT_EQU);
-        insertInForm("productEquName", _LABEL_NAME, "text");
-        insertInForm("productEquSize", _LABEL_SIZE_HELP, "number");
-        insertInForm("productEquPrice", _LABEL_PRICE_UNIT, "number");
+        insertInForm(_SQL_EQU_NAME, _LABEL_NAME, "text");
+        insertInForm(_SQL_EQU_SIZE, _LABEL_SIZE_HELP, "number");
+        insertInForm(_SQL_EQU_PRICE, _LABEL_PRICE_UNIT, "number");
         break;
     case "tbCategory":
         $pageHeader = _TABLE_CATEGORY;
-        insertInForm("categoryName", _LABEL_NAME, "text");
+        insertInForm(_SQL_CAT_NAME, _LABEL_NAME, "text");
         break;
     default:
         $foundFlag = false;
