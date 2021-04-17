@@ -7,7 +7,7 @@ define("_SQL_CAT", "tbcategory");
 define("_SQL_EXP", "tbexpense");
 define("_SQL_PER", "tbperson");
 define("_SQL_PUR", "tbpurchase");
-define("_SQL_STo", "tbstore");
+define("_SQL_STO", "tbstore");
 
 # Fields in tbAccount
 define("_SQL_ACC_ID", "accountID");
@@ -45,6 +45,18 @@ define("_SQL_PRO_FORMAT", "productFormat");
 define("_SQL_EQU_NAME", "productEquName");
 define("_SQL_EQU_SIZE", "productEquSize");
 define("_SQL_EQU_PRICE", "productEquPrice");
+
+# Fields in tbPurchase
+define("_SQL_PUR_ID", "purchaseID");
+define("_SQL_PUR_ACCOUNT", "purchaseAccountID");
+define("_SQL_PUR_DATE", "purchaseDate");
+define("_SQL_PUR_REF", "purchaseReference");
+define("_SQL_PUR_PERSON", "purchasePersonID");
+define("_SQL_PUR_STORE", "purchaseStoreID");
+define("_SQL_PUR_AMT_EQU", "purchaseAmountNormal");
+define("_SQL_PUR_AMT_GF", "purchaseAmountGF");
+define("_SQL_PUR_AMT_EXTRA", "purchaseAmountExtra");
+define("_SQL_PUR_NOTE", "purchaseNote");
 
 
 ?>

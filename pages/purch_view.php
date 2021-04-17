@@ -1,7 +1,5 @@
 <?php 
-session_start();
-include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
-include('../php/gtMap.php');
+include('../php/gtInclude.php');
 
 $fmt_cur = new NumberFormatter($_SESSION['accountLocale'], NumberFormatter::CURRENCY);
 

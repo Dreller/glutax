@@ -1,13 +1,11 @@
 <?php 
-session_start();
-include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
-
+include('../php/gtInclude.php');
 ?>
-
-<h1 class="mt-5 text-white font-weight-light"><?php echo _HOME_WELCOME . ' ' . $_SESSION['accountName']; ?> !</h1>
+<!-- Header -->
+<h1 class="mt-5 text-white font-weight-light"><?php echo _HOME_WELCOME . ' ' . $_NAME; ?> !</h1>
 <p class="lead text-white-50"><?= _HOME_SHORT_MESSAGE ?></p>
 <hr>
-
+<!-- Welcome Page -->
 <div class="bg-light p-3 rounded shadow-sm mt-2">
     <h4><?= _HOME_RECENT_PURCH ?></h4>
     <div class="table-responsive">
@@ -20,19 +18,21 @@ include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
             </thead>
             <tbody>
             <?php
-
-                $fmt_cur = new NumberFormatter($_SESSION['accountLocale'], NumberFormatter::CURRENCY);
-                $fmt_date= new IntlDateFormatter($_SESSION['accountLocale'], IntlDateFormatter::MEDIUM, IntlDateFormatter::MEDIUM);
-
-                require_once('../php/gtDb.php');
                 $db = new gtDb();
-                $db->where('purchaseAccountID', $_SESSION['accountID']);
-                $db->orderBy('purchaseDate', 'DESC');
-                $db->join('tbStore', 'storeID = purchaseStoreID', 'LEFT');
-                $db->join('tbPerson', 'personID = purchasePersonID', 'LEFT');
-                $lines = $db->get('tbPurchase', 20);
+                $db->where(_SQL_PUR_ACCOUNT, $_ACCT);
+                $db->orderBy(_SQL_PUR_DATE, 'DESC');
+                $db->join(_SQL_STO, _SQL_STO_ID .' = '. _SQL_PUR_STORE, 'LEFT');
+                $db->join(_SQL_PER, _SQL_PER_ID .' = '. _SQL_PUR_PERSON, 'LEFT');
+                $lines = $db->get(_SQL_PUR, 20);
                 foreach($lines as $line){
-                    echo '<tr style="cursor:pointer;" onclick="purchReceipt('.$line['purchaseID'].');"><td>'.$line['purchaseDate'].'</td><td>'.$line['storeName'].'</td><td>'.$line['personName'].'</td><td>'.$fmt_cur->format($line['purchaseAmountExtra']).'</td></tr>';
+                    $lineID = $line[_SQL_PUR_ID];
+                    $lineDate = $_DATE->format(strtotime($line[_SQL_PUR_DATE]));
+                    $lineStoreName = $line[_SQL_STO_NAME];
+                    $linePersonName = $line[_SQL_PER_NAME];
+                    $lineAmount = $_CURRENCY->format($line[_SQL_PUR_AMT_EXTRA]);
+
+                    echo '<tr style="cursor:pointer;" onclick="purchReceipt('.$lineID.');"><td>'.$lineDate.'</td><td>'.$lineStoreName;
+                    echo '</td><td>'.$linePersonName.'</td><td>'.$lineAmount.'</td></tr>';
                 }
             ?>
             </tbody>
