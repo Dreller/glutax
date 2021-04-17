@@ -59,5 +59,21 @@ define("_SQL_PUR_AMT_GF", "purchaseAmountGF");
 define("_SQL_PUR_AMT_EXTRA", "purchaseAmountExtra");
 define("_SQL_PUR_NOTE", "purchaseNote");
 
+# Fields in tbExpense
+define("_SQL_EXP_ID", "expenseID");
+define("_SQL_EXP_ACCOUNT", "expenseAccountID");
+define("_SQL_EXP_PURCHASE", "expensePurchaseID");
+define("_SQL_EXP_LINE", "expenseLineID");
+define("_SQL_EXP_PRODUCT", "expenseProductID");
+define("_SQL_EXP_PRO_NAME", "expenseProductName");
+define("_SQL_EXP_QUANTITY", "expenseQuantity");
+define("_SQL_EXP_PRO_SIZE", "expenseProductSize");
+define("_SQL_EXP_PRO_FORMAT", "expenseProductFormat");
+define("_SQL_EXP_PRO_PRICE", "expensePrice");
+define("_SQL_EXP_EQU_NAME", "expenseEquName");
+define("_SQL_EXP_EQU_SIZE", "expenseEquProductSize");
+define("_SQL_EXP_EQU_PRICE", "expenseEquPrice");
+define("_SQL_EXP_EXTRA", "expenseExtra");
+define("_SQL_EXP_NOTE", "expenseNote");
 
 ?>
