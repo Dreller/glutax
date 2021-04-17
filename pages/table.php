@@ -1,55 +1,51 @@
-<?php 
-session_start();
-include('../php/lang/'.$_SESSION['accountLanguage'].'.php');
-
+<?php
+# Global Include.
+include('../php/gtInclude.php');
+# Create the Table Name from incomming parameter.
 $tableCode = strtolower($_GET['t']);
 $tableName = 'tb' . ucwords($tableCode);
-
-# Initialize variables
+# Initialize variables.
 $pageHeader = "Unknown table ($tableName)";
 $pageSubHeader = "This table is not handled by the current code.";
 $foundFlag = true;
-
-/** Table properties */
+# Replace variables according to the Table.
 switch($tableName){
     case "tbStore":
         $pageHeader = _TABLE_STORE."s";
         $pageSubHeader = _TABLE_STORE_HELP;
         $tblColumns = Array(_LABEL_NAME, _LABEL_ADDRESS);
-        $tblSqlID = "storeID";
-        $tblSqlCol = Array("storeName", "storeAddress");
+        $tblSqlID = _SQL_STO_ID;
+        $tblSqlCol = Array(_SQL_STO_NAME, _SQL_STO_ADDRESS);
         break;
     case "tbPerson":
         $pageHeader = _TABLE_PERSON."s";
         $pageSubHeader = _TABLE_PERSON_HELP;
         $tblColumns = Array(_LABEL_NAME);
-        $tblSqlID = "personID";
-        $tblSqlCol = Array("personName");
+        $tblSqlID = _SQL_PER_ID;
+        $tblSqlCol = Array(_SQL_PER_NAME);
         break;
     case "tbProduct":
         $pageHeader = _TABLE_PRODUCT."s";
         $pageSubHeader = _TABLE_PRODUCT_HELP;
         $tblColumns = Array(_LABEL_CATEGORY, _LABEL_PRODUCT_GF, _LABEL_PRODUCT_EQU);
-        $tblSqlID = "productID";
-        $tblSqlCol = Array("(SELECT categoryName FROM tbCategory where categoryID = productCategoryID) As Category", "CONCAT(productName, ' (', productSize, ' ', productFormat, ')') As GFProduct", "CONCAT(productEquName, ' (', productEquSize, ' ', productFormat, ')') AS GProduct");
+        $tblSqlID = _SQL_PRO_ID;
+        $tblSqlCol = Array("(SELECT "._SQL_CAT_NAME." FROM "._SQL_CAT." WHERE "._SQL_CAT_ID." = "._SQL_PRO_CATEGORY.") AS Category", "CONCAT("._SQL_PRO_NAME.", ' (', "._SQL_PRO_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') As GFProduct", "CONCAT("._SQL_EQU_NAME.", ' (', "._SQL_EQU_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') AS GProduct");
         break;
     case "tbCategory":
         $pageHeader = _TABLE_CATEGORY."s";
         $pageSubHeader = _TABLE_CATEGORY_HELP;
         $tblColumns = Array(_LABEL_NAME);
-        $tblSqlID = "categoryID";
-        $tblSqlCol = Array("categoryName");
+        $tblSqlID = _SQL_CAT_ID;
+        $tblSqlCol = Array(_SQL_CAT_NAME);
         break;
     default:
         $foundFlag = false;
 }
-
 ?>
-
+<!-- Header -->
 <h1 class="mt-5 text-white font-weight-light"><?php echo $pageHeader; ?> </h1>
 <p class="lead text-white-50"><?php echo $pageSubHeader; ?></p>
 <hr>
-
 <!-- Toolbar -->
 <div class="container text-end">
     <div id="TableToolbar" class="btn-group my-2" role="group" aria-label="toolbar">
@@ -57,8 +53,7 @@ switch($tableName){
         <button data-type="<?php echo $tableCode; ?>" data-action="add" type="button" class="btn btn-light" onclick="launch(this);"><?= _BUTTON_ADD_NEW ?></button>
     </div>
 </div>
-
-
+<!-- Table -->
 <div class="bg-light p-3 rounded shadow-sm">
 <?php 
 if( $foundFlag ){
@@ -68,9 +63,8 @@ if( $foundFlag ){
     ->striped()
     ->columns($tblColumns);
 
-    require '../php/gtDb.php';
     $db = new gtDb();
-    $db->where($tableCode . "AccountID", $_SESSION['accountID']);
+    $db->where($tableCode . "AccountID", $_ACCT);
     array_push($tblSqlCol, $tblSqlID);
     $datas = $db->get($tableName, null, $tblSqlCol);
     foreach($datas as $data){
@@ -79,7 +73,6 @@ if( $foundFlag ){
         $data['data-type'] = $tableCode;
         $table->addRow($data);
     }
-
     echo $table->make(); 
 }
 ?>
