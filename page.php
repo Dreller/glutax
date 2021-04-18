@@ -6,7 +6,7 @@ include('php/gtInclude.php');
 <head>
 <title><?= _NAME ?></title>
 <script>
-    var myLang = "<?= $_SESSION[_SQL_ACC_LANG] ?>";
+    var myLang = "<?php echo $_LANG; ?>";
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
