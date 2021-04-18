@@ -60,18 +60,19 @@ class gtForm{
         switch($type){
             case "product-category":
                 require_once('gtDb.php');
+                require_once('gtMap.php');
                 $db = new gtDb();
-                $db->where('categoryAccountID', $_SESSION['accountID']);
-                $db->orderBy('categoryName', 'ASC');
-                $options = $db->get('tbCategory');
+                $db->where(_SQL_CAT_ACCOUNT, $_SESSION['accountID']);
+                $db->orderBy(_SQL_CAT_NAME, 'ASC');
+                $options = $db->get(_SQL_CAT);
 
                     $opts = '';
                     foreach($options as $option){
                         $selected = '';
-                        if( $option['categoryID'] == $value ){
+                        if( $option[_SQL_CAT_ID] == $value ){
                             $selected = ' selected';
                         }
-                        $opts.='<option value="'.$option['categoryID'].'"'.$selected.'>'.$option['categoryName'].'</option>';
+                        $opts.='<option value="'.$option[_SQL_CAT_ID].'"'.$selected.'>'.$option[_SQL_CAT_NAME].'</option>';
                     }
                 $wip = "<select class='form-select' id='$id' name='$id'>$opts</select>";
                 break;

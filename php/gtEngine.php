@@ -1,6 +1,7 @@
 <?php 
 session_start();
 include_once( 'lang/' . $_SESSION['accountLanguage'] . '.php' );
+include_once('gtMap.php');
 
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
@@ -31,8 +32,8 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
 
  
     if( $method == "updateProfile" ){
-        $db->where('accountID', $_SESSION['accountID']);
-        $db->update('tbAccount', $input);
+        $db->where(_SQL_ACC_ID, $_SESSION['accountID']);
+        $db->update(_SQL_ACC, $input);
 
         foreach($input as $key=>$value){
             $_SESSION[$key] = $value;
@@ -53,7 +54,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             "purchasePersonID" => $input['purchasePersonID'],
             "purchaseStoreID" => $input['purchaseStoreID']
         );
-        $id = $db->insert('tbPurchase', $new);
+        $id = $db->insert(_SQL_PUR, $new);
 
         if( $id ){
             # Multi Insert
@@ -85,7 +86,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 $upd["purchaseAmountGF"] = floatval($upd["purchaseAmountGF"]) + floatval(($exp['popCalcGF_PricePer100']/100)*$exp['popProductSize']);
                 $upd["purchaseAmountExtra"] = floatval($upd["purchaseAmountExtra"]) + floatval($exp['popCalcExtra']);
             }
-            $ids = $db->insertMulti('tbExpense', $new);
+            $ids = $db->insertMulti(_SQL_EXP, $new);
             if( !$ids ){
                 $http = 500;
                 $json['status'] = "error";
@@ -98,7 +99,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 # Add totals to purchase record
                 $db->where('purchaseID', $id);
                 $db->where('purchaseAccountID', $_SESSION['accountID']);
-                $db->update('tbPurchase', $upd);
+                $db->update(_SQL_PUR, $upd);
 
                 $http = 201;
                 $json['status'] = "callback";

@@ -61,6 +61,9 @@ define("_LABEL_PURCH_CHG_PRODUCT", "Edit a Product");
 define("_LABEL_SKU", "Product ID or SKU");
 define("_LABEL_OR", "Or");
 define("_LABEL_PURCH_DETAILS_QUICK", "Quick View");
+define("_LABEL_LOAD_LIST", "Choose from list");
+define("_LABEL_LOAD_CODE", "Enter a code/SKU");
+define("_LABEL_NOT_FOUND", "not found!");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");

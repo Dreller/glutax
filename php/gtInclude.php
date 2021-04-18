@@ -3,11 +3,23 @@
 # =========================================================
 session_start();
 # Handle situations where a session is not set.
+if( !isset($_SESSION['accountID']) || empty($_SESSION['accountID']) ){
+    session_destroy();
+    header('Location: https://dreller.dev/glutax');
+    exit();
+}
+# =========================================================
+# Enable short-code opening
+ini_set('short_open_tag', 'On');
 # =========================================================
 # Shortcuts for Sessions
 $_ACCT = $_SESSION['accountID'];
 $_NAME = $_SESSION['accountName'];
 $_LOCALE = $_SESSION['accountLocale'];
+$_LANG = $_SESSION['accountLanguage'];
+    if( $_LANG == "" ){
+        $_LANG = "FR";
+    }
 # =========================================================
 # Display every error messages
 if( $_SERVER['REMOTE_ADDR'] == '::1' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
@@ -17,9 +29,9 @@ if( $_SERVER['REMOTE_ADDR'] == '::1' || $_SERVER['REMOTE_ADDR'] == '127.0.0.1'){
 }
 # =========================================================
 # Load Translation
-$_langSource = '../php/lang/'.$_SESSION['accountLanguage'].'.php';
+$_langSource = '../php/lang/' . $_LANG . '.php';
 if( !file_exists($_langSource) ){
-    $_langSource = 'php/lang/'.$_SESSION['accountLanguage'].'.php';
+    $_langSource = 'php/lang/' . $_LANG .'.php';
 }
 include( $_langSource );
 # =========================================================
