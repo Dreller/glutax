@@ -1,7 +1,7 @@
-<!DOCTYPE html>
 <?php  
 include('php/gtInclude.php');
 ?>
+<!DOCTYPE html>
 <html>
 <head>
 <title><?= _NAME ?></title>

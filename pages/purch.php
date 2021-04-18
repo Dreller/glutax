@@ -198,16 +198,16 @@ $db = new gtDb();
 
                 <ul class="nav nav-tabs" id="tabsProductLoad" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link active" id="tabProductLoadList" data-bs-toggle="tab" data-bs-target="#prodLoadList" type="button" role="tab" aria-controls="prodLoadList" aria-selected="true" href="#">Choose from list</a>
+                        <a class="nav-link active" id="tabProductLoadList" data-bs-toggle="tab" data-bs-target="#prodLoadList" type="button" role="tab" aria-controls="prodLoadList" aria-selected="true" href="#"><?= _LABEL_LOAD_LIST ?></a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <a class="nav-link" id="tabProductLoadCode" data-bs-toggle="tab" data-bs-target="#prodLoadCode" type="button" role="tab" aria-controls="prodLoadCode" aria-selected="false" href="#">Enter a code</a>
+                        <a class="nav-link" id="tabProductLoadCode" data-bs-toggle="tab" data-bs-target="#prodLoadCode" type="button" role="tab" aria-controls="prodLoadCode" aria-selected="false" href="#"><?= _LABEL_LOAD_CODE ?></a>
                     </li>
                 </ul>
 
                 <div class="tab-content mt-1" id="tabsProductLoadContent">
                     <div class="tab-pane fade show active" id="prodLoadList" role="tabpanel" aria-labelledby="tabProductLoadList">
-                        <label for="loadProduct" class="form-label">Product to load</label>
+                        <label for="loadProduct" class="form-label">&nbsp;</label>
                         <select class="form-select" id="loadProduct" onchange="displayProductToLoad();">
                         <option value="0"><?= _LABEL_CHOOSE ?></option>
                             <?php  
@@ -237,7 +237,7 @@ $db = new gtDb();
                         </select>
                     </div>
                     <div class="tab-pane fade show" id="prodLoadCode" role="tabpanel" aria-labelledby="tabProductLoadCode">
-                        <label for="loadProductCode" class="form-label">Product code or SKU</label>
+                        <label for="loadProductCode" class="form-label">&nbsp;</label>
                             <div class="input-group mb-3">
                                 <input type="text" class="form-control" id="loadProductCode">
                                 <button class="btn btn-outline-primary" type="button" id="btnAddOnProdCode" onclick="searchProductToLoad();">&#128269;</button>
@@ -255,7 +255,7 @@ $db = new gtDb();
             <div class="modal-footer" id="modalFooterProductEntry">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
                 <button type="button" class="btn btn-danger disabled" id="modalProductDelete" onclick="deleteProduct();"><?= _BUTTON_DELETE?></button>
-                <button type="button" class="btn btn-success" onclick="calc();">CALC</button>
+                <!--<button type="button" class="btn btn-success" onclick="calc();">CALC</button>-->
                 <button type="button" class="btn btn-primary" id="modalProductOK" onclick="saveProduct();">(OK)</button>
             </div>
         </div>
@@ -339,7 +339,7 @@ function calcSummary(){
         }else{
             var el = document.getElementById('option_sku_' + enteredCode);
             if( el === null ){
-                display = 'Product <strong>' + enteredCode + '</strong> not found!';
+                display = '<?= _TABLE_PRODUCT ?> <strong>' + enteredCode + '</strong> <?= _LABEL_NOT_FOUND ?>';
             }else{
                 var option = el.dataset;
                     var display = '<dl class="row">';
