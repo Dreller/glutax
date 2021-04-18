@@ -249,11 +249,11 @@ $db = new gtDb();
                 <div id="displayEquivalent"></div>
             </div>
             <div class="modal-footer d-none" id="modalFooterProductLoad">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearModal();"><?= _BUTTON_CANCEL?></button>
                 <button type="button" class="btn btn-primary" id="modalLoadProductOK" onclick="loadProduct();"><?= _BUTTON_NEXT ?></button>
             </div>
             <div class="modal-footer" id="modalFooterProductEntry">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="clearModal();"><?= _BUTTON_CANCEL?></button>
                 <button type="button" class="btn btn-danger disabled" id="modalProductDelete" onclick="deleteProduct();"><?= _BUTTON_DELETE?></button>
                 <!--<button type="button" class="btn btn-success" onclick="calc();">CALC</button>-->
                 <button type="button" class="btn btn-primary" id="modalProductOK" onclick="saveProduct();">(OK)</button>
@@ -296,7 +296,12 @@ $(document).ready(function(){
     document.getElementById("summaryExtraAmount").innerHTML = formatter.format(0);
 });
 
-
+function clearModal(){
+    $("#loadProduct").val(0);
+    $("#loadProductCode").val('');
+    $("#displayEquivalent").html('');
+    $('[id^=pop]').val('');
+}
 
 function calcSummary(){
     var runCount = 0;
@@ -485,6 +490,7 @@ function calcSummary(){
             document.getElementById("modalProductDelete").dataset.stage='ready';
         }else{
             $("#" + actualID).remove();
+            clearModal();
             modalProductEntry.hide();
         }
     }
@@ -559,6 +565,7 @@ function calcSummary(){
 
         // Calculate Purchase Summary
         calcSummary();
+        clearModal();
         modalProductEntry.hide();
     }
     function chgLine(data){
@@ -579,7 +586,8 @@ function calcSummary(){
             $('.' + actualID + 'popEquProductSize').html(dat['popEquProductSize'] + ' ' + dat['popProductFormat'] + '.');
 
             $('.' + actualID + 'popCalcExtra').html(formatter.format(dat['popCalcExtra']));
-
+        
+        clearModal();
         myModal.hide();
         
     }
