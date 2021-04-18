@@ -2,7 +2,7 @@
 Online tool to track Gluten-free expenses for easy tax reporting.  In Canada, Canada Revenue Avency does allow a tax deduction for the extra amount you pay for a Gluten-free product.  Unfortunately, managing a spreadsheet can be complicated and the calculation for the *extra* amount is not simple.
 
 ## You are welcome to use GluTax, totally free, here:  https://dreller.dev/glutax 😃
----
+
 
 ## Links for users
 * **Did you find a bug ?**  Sorry for that !  I will try to fix it as soon as possible.  Please, [click here](https://github.com/Dreller/glutax/issues/new?labels=bug) and describe the problem you have found.  Thank you very much for your help !
@@ -14,7 +14,7 @@ Online tool to track Gluten-free expenses for easy tax reporting.  In Canada, Ca
 ## Developers ?
 GluTax is open source, so everyone can take the code to build it's own GluTax system at home.  If you want to contribute, feel free to fork the repo and create a pull request !  I would love to see your contribution to my project !
 
----
+
 
 ## Resouces
 GluTax uses:
