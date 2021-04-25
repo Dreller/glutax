@@ -4,7 +4,7 @@ require_once('../php/gtInclude.php');
 # Initialise a database
 $db = new gtDb();
 # Set as if we are in ADD mode.
-$mode = "ADD";
+$mode = "new";
 $purchID = 0;
 $pageTitle = _LABEL_PURCH_NEW;
 
@@ -23,9 +23,9 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
     $purch = $db->getOne(_SQL_PUR);
     # If nothing selected, force ADD mode
     if($db->count == 0){
-        $mode = "ADD";
+        $mode = "new";
     }else{
-        $mode = "EDIT";
+        $mode = "edit";
         $pageTitle = _LABEL_PURCH_EDIT;
 
         $purchDate = $purch[_SQL_PUR_DATE];
@@ -133,7 +133,7 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
                     <?php  
 
                         # If in EDIT mode, load products from this purchase.
-                        if($mode == 'EDIT'){
+                        if($mode == 'edit'){
                             $db->where(_SQL_EXP_ACCOUNT, $_ACCT);
                             $db->where(_SQL_EXP_PURCHASE, $purch[_SQL_PUR_ID]);
                             $exps = $db->get(_SQL_EXP);
@@ -688,11 +688,12 @@ function calcSummary(){
 
     function savePurchase(){
         var myData = {
-            method: 'newPurchase',
+            method: '<?php echo $mode; ?>Purchase',
             purchaseDate: $("#purchaseDate").val(),
             purchaseStoreID: $("#purchaseStoreID").val(),
             purchasePersonID: $("#purchasePersonID").val(),
-            purchaseReference: $("#purchaseReference").val()
+            purchaseReference: $("#purchaseReference").val(),
+            purchaseID: <?php echo $purchID; ?>
         }
 
         var myExpenses = {};

@@ -65,6 +65,72 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             goto OutputJSON;
         }
     }
+    if( $method == "editPurchase" ){
+        # Array of the purchase
+        $updated = Array(
+            "purchaseDate" => $input['purchaseDate'],
+            "purchaseReference" => $input['purchaseReference'],
+            "purchasePersonID" => $input['purchasePersonID'],
+            "purchaseStoreID" => $input['purchaseStoreID']
+        );
+
+        $db->where("purchaseAccountID", $_SESSION['accountID']);
+        $db->where("purchaseID", $input['purchaseID']);
+        $db->update(_SQL_PUR, $updated);
+
+        # Update lines
+        $upd = Array(
+            "purchaseAmountNormal" => 0,
+            "purchaseAmountGF" => 0,
+            "purchaseAmountExtra" => 0
+        );
+
+        foreach( $input['expenses'] as $key=>$exp ){
+                $new = Array(
+                    "expenseProductName" => $exp['popProductName'],
+                    "expenseQuantity" => $exp['popProductQuantity'],
+                    "expenseProductSize" => $exp['popProductSize'],
+                    "expenseProductFormat" => $exp['popProductFormat'],
+                    "expensePrice" => $exp['popProductPrice'],
+                    "expenseEquName" => $exp['popEquProductName'],
+                    "expenseEquProductSize" => $exp['popEquProductSize'],
+                    "expenseEquPrice" => $exp['popEquProductPrice'],
+                    "expenseExtra" => $exp['popCalcExtra']
+                );
+
+                # Determine if it already exists
+                $db->where(_SQL_EXP_ACCOUNT, $_SESSION['accountID']);
+                $db->where(_SQL_EXP_PURCHASE, $input['purchaseID']);
+                $db->where(_SQL_EXP_LINE, $key);
+                $db->get(_SQL_EXP);
+
+                if( $db->count == 0 ){
+                    $new['expenseAccountID'] = $_SESSION['accountID'];
+                    $new['expensePurchaseID'] = $input['purchaseID'];
+                    $new['expenseLineID'] = $key;
+                    $db->insert(_SQL_EXP, $new);
+                }else{
+                    $db->where(_SQL_EXP_ACCOUNT, $_SESSION['accountID']);
+                    $db->where(_SQL_EXP_PURCHASE, $input['purchaseID']);
+                    $db->where(_SQL_EXP_LINE, $key);
+                    $db->update(_SQL_EXP, $new);
+                }
+
+                # Add to totals
+                $upd["purchaseAmountNormal"] = floatval($upd["purchaseAmountNormal"]) + floatval(($exp['popCalcREG_PricePer100']/100)*$exp['popProductSize']);
+                $upd["purchaseAmountGF"] = floatval($upd["purchaseAmountGF"]) + floatval(($exp['popCalcGF_PricePer100']/100)*$exp['popProductSize']);
+                $upd["purchaseAmountExtra"] = floatval($upd["purchaseAmountExtra"]) + floatval($exp['popCalcExtra']);
+            }
+
+            $db->where('purchaseID', $input['purchaseID']);
+            $db->update(_SQL_PUR, $upd);
+
+            $http = 200;
+            $json['status'] = "callback";
+            $json['cb_fct'] = "goHome";
+            $json['toast'] = "Purchase updated";
+            goto OutputJSON;
+    }
     if( $method == "newPurchase" ){
         # Create the purchase
         $new = Array(
