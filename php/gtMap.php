@@ -75,5 +75,8 @@ define("_SQL_EXP_EQU_SIZE", "expenseEquProductSize");
 define("_SQL_EXP_EQU_PRICE", "expenseEquPrice");
 define("_SQL_EXP_EXTRA", "expenseExtra");
 define("_SQL_EXP_NOTE", "expenseNote");
+define("_SQL_EXP_PRO_PP100", "expenseProductPP100");
+define("_SQL_EXP_EQU_PP100", "expenseEquPP100");
+define("_SQL_EXP_DIFF_PP100", "expenseDiffPP100");
 
 ?>

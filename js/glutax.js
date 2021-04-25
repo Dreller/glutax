@@ -32,6 +32,13 @@ function bigRefresh(){
 }
 
 /**
+ * Reload to the home page.
+ */
+function goHome(){
+    loadPage();
+}
+
+/**
  * Load the page 'table.php' and pass the table to display on screen.
  * @param {String} type Table Type -> person, product, store.
  */
@@ -102,7 +109,9 @@ function loadPage(page, args){
     $("#myBox").load(myURL);
 }
 
+var myPurchaseID;
 function purchReceipt(i){
+    myPurchaseID = i;
     modalPurchReceipt.show();
     $("#purchaseReceiptBody").html("<div class='d-flex justify-content-center'><div class='spinner-border text-primary mt-5' role='status'><span class='visually hidden'></span></div></div>");
     myURL = 'pages/purch_view.php?i=' + i;

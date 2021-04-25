@@ -38,6 +38,7 @@ define("_LABEL_PERSON", _TABLE_PERSON);
 define("_LABEL_PURCH_EXTRA", "Extra Amount");
 define("_LABEL_PURCH_EXTRA_SHORT", "Extra");
 define("_LABEL_PURCH_NEW", _NAVBAR_NEW_PURCHASE);
+define("_LABEL_PURCH_EDIT", "Modify a Purchase");
 define("_LABEL_PURCH_INFO", "Purchase info");
 define("_LABEL_DESCRIPTION", "Description");
 define("_LABEL_QUANTIY", "Quantity");
@@ -64,8 +65,6 @@ define("_LABEL_PURCH_DETAILS_QUICK", "Quick View");
 define("_LABEL_LOAD_LIST", "Choose from list");
 define("_LABEL_LOAD_CODE", "Enter a code/SKU");
 define("_LABEL_NOT_FOUND", "not found!");
-define("_LABEL_PURCH_NEW", "New Purchase");
-define("_LABEL_PURCH_EDIT", "Modify a Purchase");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");

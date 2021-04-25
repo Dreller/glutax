@@ -44,7 +44,27 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
         $json['cb_fct'] = "bigRefresh";
         goto OutputJSON;
     }
-
+    if( $method == "deletePurchase"){
+        # Check if this user is the owner of the purchase
+        $db->where("purchaseAccountID", $_SESSION['accountID']);
+        $db->where("purchaseID", $input['purchaseID']);
+        if( $db->delete(_SQL_PUR) ){
+                $db->where("expenseAccountID", $_SESSION['accountID']);
+                $db->where("expensePurchaseID", $input['purchaseID']);
+                $db->delete(_SQL_EXP);
+            $http = 200;
+            $json['status'] = "callback";
+            $json['cb_fct'] = "goHome";
+            $json['toast'] = "Purchase deleted";
+            goto OutputJSON;
+        }else{
+            $http = 200;
+            $json['status'] = "error";
+            $json['error'] = $db->getLastError;
+            $json['toast'] = "ERROR DELETING THIS PURCHASE";
+            goto OutputJSON;
+        }
+    }
     if( $method == "newPurchase" ){
         # Create the purchase
         $new = Array(
