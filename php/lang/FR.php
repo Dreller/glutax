@@ -38,6 +38,7 @@ define("_LABEL_PERSON", _TABLE_PERSON);
 define("_LABEL_PURCH_EXTRA", "Montant extra");
 define("_LABEL_PURCH_EXTRA_SHORT", "Extra");
 define("_LABEL_PURCH_NEW", _NAVBAR_NEW_PURCHASE);
+define("_LABEL_PURCH_EDIT", "Modifier un achat");
 define("_LABEL_PURCH_INFO", "Informations sur l'achat");
 define("_LABEL_DESCRIPTION", "Description");
 define("_LABEL_QUANTIY", "Quantit&eacute;");

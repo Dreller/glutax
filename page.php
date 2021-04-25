@@ -153,7 +153,8 @@ body {
             <div class="modal-content p-3" id="purchaseReceiptBody">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CLOSE ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="loadPage('purch', 'p=' + myPurchaseID);"><?= _BUTTON_UPDATE ?></button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><?= _BUTTON_CLOSE ?></button>
             </div>
         </div>
     </div>

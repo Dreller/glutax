@@ -3,9 +3,40 @@
 require_once('../php/gtInclude.php');
 # Initialise a database
 $db = new gtDb();
+# Set as if we are in ADD mode.
+$mode = "new";
+$purchID = 0;
+$pageTitle = _LABEL_PURCH_NEW;
+
+$purchDate = "";
+$purchStore = 0;
+$purchBuyer = 0;
+$purchRef = "";
+
+# Override variables if we are in EDIT mode.
+if( isset($_GET['p']) && $_GET['p'] != ''){
+    $purchID = $_GET['p'];
+    # Retrieve Purchase infos and validate if it's owned 
+    # by the active user.
+    $db->where(_SQL_PUR_ACCOUNT, $_ACCT);
+    $db->where(_SQL_PUR_ID, $purchID);
+    $purch = $db->getOne(_SQL_PUR);
+    # If nothing selected, force ADD mode
+    if($db->count == 0){
+        $mode = "new";
+    }else{
+        $mode = "edit";
+        $pageTitle = _LABEL_PURCH_EDIT;
+
+        $purchDate = $purch[_SQL_PUR_DATE];
+        $purchStore = $purch[_SQL_PUR_STORE];
+        $purchBuyer = $purch[_SQL_PUR_PERSON];
+        $purchRef = $purch[_SQL_PUR_REF];
+    }
+}
 ?>
 <!-- Header -->
-<h1 class="mt-5 text-white font-weight-light"><?= _LABEL_PURCH_NEW ?> </h1>
+<h1 class="mt-5 text-white font-weight-light"><?php echo $pageTitle; ?> </h1>
 <p class="lead text-white-50"></p>
 <hr>
 <!-- Form -->
@@ -14,7 +45,7 @@ $db = new gtDb();
     <div class="row g-3">
         <div class="col-md-6">
             <label for="<?= _SQL_PUR_DATE ?>" class="form-label text-start"><?= _LABEL_PURCH_DATE ?></label>
-            <input type="date" id="<?= _SQL_PUR_DATE ?>" name="<?= _SQL_PUR_DATE ?>" value="" class="form-control">
+            <input type="date" id="<?= _SQL_PUR_DATE ?>" name="<?= _SQL_PUR_DATE ?>" value="<?= $purchDate ?>" class="form-control">
         </div>
         <div class="col-md-6">
             <label for="<?= _SQL_PUR_STORE ?>" class="form-label"><?= _LABEL_STORE ?></label>
@@ -27,7 +58,11 @@ $db = new gtDb();
                         echo "<option value='0'>" . _LABEL_CHOOSE . "</option>";
                     }
                     foreach($options as $option){
-                        echo '<option value="'.$option[_SQL_STO_ID].'">'.$option[_SQL_STO_NAME].' - '.$option[_SQL_STO_ADDRESS].'</option>';
+                        $selected = '';
+                        if($purchStore != 0 && $option[_SQL_STO_ID]==$purchStore){
+                            $selected = ' selected';
+                        }
+                        echo '<option value="'.$option[_SQL_STO_ID].'"'.$selected.'>'.$option[_SQL_STO_NAME].' - '.$option[_SQL_STO_ADDRESS].'</option>';
                     }
                 ?>
             </select>
@@ -47,14 +82,18 @@ $db = new gtDb();
                         echo "<option value='0'>" . _LABEL_CHOOSE . "</option>";
                     }
                     foreach($options as $option){
-                        echo '<option value="'.$option[_SQL_PER_ID].'">'.$option[_SQL_PER_NAME].'</option>';
+                        $selected = '';
+                        if($purchBuyer != 0 && $option[_SQL_PER_ID]==$purchBuyer){
+                            $selected = ' selected';
+                        }
+                        echo '<option value="'.$option[_SQL_PER_ID].'"'.$selected.'>'.$option[_SQL_PER_NAME].'</option>';
                     }
                 ?>
             </select>
         </div>
         <div class="col-md-6">
             <label for="<?= _SQL_PUR_REF ?>" class="form-label"><?= _LABEL_REF ?></label>
-            <input type="text" class="form-control" id="<?= _SQL_PUR_REF ?>" name="<?= _SQL_PUR_REF ?>">
+            <input type="text" class="form-control" id="<?= _SQL_PUR_REF ?>" name="<?= _SQL_PUR_REF ?>" value="<?= $purchRef ?>">
         </div>
     </div>
 </div>
@@ -91,6 +130,45 @@ $db = new gtDb();
                 </th>
             </thead>
             <tbody id="purchTableBody">
+                    <?php  
+
+                        # If in EDIT mode, load products from this purchase.
+                        if($mode == 'edit'){
+                            $db->where(_SQL_EXP_ACCOUNT, $_ACCT);
+                            $db->where(_SQL_EXP_PURCHASE, $purch[_SQL_PUR_ID]);
+                            $exps = $db->get(_SQL_EXP);
+                            foreach($exps as $exp){
+                                $trID = $exp[_SQL_EXP_LINE];
+                                $trJSON = Array(
+                                    'popProductName' => htmlspecialchars($exp[_SQL_EXP_PRO_NAME], ENT_QUOTES),
+                                    'popProductQuantity' => $exp[_SQL_EXP_QUANTITY],
+                                    'popProductPrice' => $exp[_SQL_EXP_PRO_PRICE],
+                                    'popProductSize' => $exp[_SQL_EXP_PRO_SIZE],
+                                    'popProductFormat' => $exp[_SQL_EXP_PRO_FORMAT],
+                                    'popEquProductName' => htmlspecialchars($exp[_SQL_EXP_EQU_NAME], ENT_QUOTES),
+                                    'popEquProductPrice' => $exp[_SQL_EXP_EQU_PRICE],
+                                    'popEquProductSize' => $exp[_SQL_EXP_EQU_SIZE],
+                                    'popProductNote' => htmlspecialchars($exp[_SQL_EXP_NOTE], ENT_QUOTES),
+                                    'popCalcGF_PricePer100' => $exp[_SQL_EXP_PRO_PP100],
+                                    'popCalcREG_PricePer100' => $exp[_SQL_EXP_EQU_PP100],
+                                    'popCalcDiffPer100' => $exp[_SQL_EXP_DIFF_PP100],
+                                    'popCalcExtra' => $exp[_SQL_EXP_EXTRA]
+                                );
+                                $trJSON = json_encode($trJSON, JSON_FORCE_OBJECT);
+                                
+                                echo "<tr id='".$trID."' data-raw='".$trJSON."' data-extra='".$exp[_SQL_EXP_EXTRA]."' style='cursor:pointer;' onclick='chgProduct(\"".$trID."\");'>";
+                                echo '<td class="'.$trID.'popProductName">'.$exp[_SQL_EXP_PRO_NAME].'</td>';
+                                echo '<td class="'.$trID.'popProductQuantity">'.$exp[_SQL_EXP_QUANTITY].'</td>';
+                                echo '<td class="'.$trID.'popProductPrice">'.$_CURRENCY->format($exp[_SQL_EXP_PRO_PRICE]).'</td>';
+                                echo '<td class="'.$trID.'popProductSize">'.$exp[_SQL_EXP_PRO_SIZE].' '.$exp[_SQL_EXP_PRO_FORMAT].'.</td>';
+                                echo '<td class="'.$trID.'popEquProductName">'.$exp[_SQL_EXP_EQU_NAME].'</td>';
+                                echo '<td class="'.$trID.'popEquProductPrice">'.$_CURRENCY->format($exp[_SQL_EXP_EQU_PRICE]).'</td>';
+                                echo '<td class="'.$trID.'popEquProductSize">'.$exp[_SQL_EXP_EQU_SIZE].' '.$exp[_SQL_EXP_PRO_FORMAT].'.</td>';
+                                echo '<td class="'.$trID.'popCalcExtra" data-amount="'.$exp[_SQL_EXP_EXTRA].'">'.$_CURRENCY->format($exp[_SQL_EXP_EXTRA]).'</td>';
+                                echo '</tr>';
+                            }
+                        }
+                    ?>
             </tbody>
         </table>
     </div>
@@ -111,7 +189,11 @@ $db = new gtDb();
             <dd id="summaryExtraAmount" class="col-sm-6 text-start"></dd>
         </dl>
 
-
+    <?php 
+        if( $mode == "EDIT"){
+            echo '<button class="btn btn-danger" onclick="deletePurchase();">' . _BUTTON_DELETE . '</button>';
+        }
+    ?>
     <button class="btn btn-primary" onclick="savePurchase();"><?= _BUTTON_SAVE ?></button>
 </div>
 
@@ -261,7 +343,6 @@ $db = new gtDb();
         </div>
     </div>
 </div>
-
 <script>
 var actualAction = "";
 var actualID = "";
@@ -607,11 +688,12 @@ function calcSummary(){
 
     function savePurchase(){
         var myData = {
-            method: 'newPurchase',
+            method: '<?php echo $mode; ?>Purchase',
             purchaseDate: $("#purchaseDate").val(),
             purchaseStoreID: $("#purchaseStoreID").val(),
             purchasePersonID: $("#purchasePersonID").val(),
-            purchaseReference: $("#purchaseReference").val()
+            purchaseReference: $("#purchaseReference").val(),
+            purchaseID: <?php echo $purchID; ?>
         }
 
         var myExpenses = {};
@@ -631,6 +713,27 @@ function calcSummary(){
             processResult(result);
         }
         });
+    }
+
+    function deletePurchase(){
+        var resp = confirm("Delete this purchase ?");
+        if ( resp === true ){
+            var myData = {
+                method: 'deletePurchase',
+                purchaseID: <?php echo $purchID; ?>
+            }
+            var json = JSON.stringify(myData);
+            $.ajax({
+                type: "POST",
+                url: "php/gtEngine.php",
+                data: json,
+                success: function(result){
+                    processResult(result);
+                }
+            });
+        }else{
+            return false;
+        }
     }
 
 

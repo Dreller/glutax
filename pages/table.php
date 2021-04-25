@@ -16,6 +16,7 @@ switch($tableName){
         $tblColumns = Array(_LABEL_NAME, _LABEL_ADDRESS);
         $tblSqlID = _SQL_STO_ID;
         $tblSqlCol = Array(_SQL_STO_NAME, _SQL_STO_ADDRESS);
+        $sortCol = _SQL_STO_NAME;
         break;
     case _SQL_PER:
         $pageHeader = _TABLE_PERSON."s";
@@ -23,6 +24,7 @@ switch($tableName){
         $tblColumns = Array(_LABEL_NAME);
         $tblSqlID = _SQL_PER_ID;
         $tblSqlCol = Array(_SQL_PER_NAME);
+        $sortCol = _SQL_PER_NAME;
         break;
     case _SQL_PRO:
         $pageHeader = _TABLE_PRODUCT."s";
@@ -30,6 +32,7 @@ switch($tableName){
         $tblColumns = Array(_LABEL_CATEGORY, _LABEL_PRODUCT_GF, _LABEL_PRODUCT_EQU);
         $tblSqlID = _SQL_PRO_ID;
         $tblSqlCol = Array("(SELECT "._SQL_CAT_NAME." FROM "._SQL_CAT." WHERE "._SQL_CAT_ID." = "._SQL_PRO_CATEGORY.") AS Category", "CONCAT("._SQL_PRO_NAME.", ' (', "._SQL_PRO_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') As GFProduct", "CONCAT("._SQL_EQU_NAME.", ' (', "._SQL_EQU_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') AS GProduct");
+        $sortCol = _SQL_PRO_NAME;
         break;
     case _SQL_CAT:
         $pageHeader = _TABLE_CATEGORY."s";
@@ -37,6 +40,7 @@ switch($tableName){
         $tblColumns = Array(_LABEL_NAME);
         $tblSqlID = _SQL_CAT_ID;
         $tblSqlCol = Array(_SQL_CAT_NAME);
+        $sortCol = _SQL_CAT_NAME;
         break;
     default:
         $foundFlag = false;
@@ -66,6 +70,7 @@ if( $foundFlag ){
     $db = new gtDb();
     $db->where($tableCode . "AccountID", $_ACCT);
     array_push($tblSqlCol, $tblSqlID);
+    $db->orderBy($sortCol, 'ASC');
     $datas = $db->get($tableName, null, $tblSqlCol);
     foreach($datas as $data){
         $data['data-id'] = $data[$tblSqlID];
