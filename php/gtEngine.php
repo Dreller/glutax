@@ -45,23 +45,33 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
         goto OutputJSON;
     }
     if( $method == "deletePurchase"){
+        # Get the Purchase Number
+        $thisNumber = $input['purchaseNumber'];
+
         # Check if this user is the owner of the purchase
         $db->where("purchaseAccountID", $_SESSION['accountID']);
         $db->where("purchaseID", $input['purchaseID']);
         if( $db->delete(_SQL_PUR) ){
                 $db->where("expenseAccountID", $_SESSION['accountID']);
                 $db->where("expensePurchaseID", $input['purchaseID']);
-                $db->delete(_SQL_EXP);
-            $http = 200;
-            $json['status'] = "callback";
-            $json['cb_fct'] = "goHome";
-            $json['toast'] = "Purchase deleted";
-            goto OutputJSON;
+                if( $db->delete(_SQL_EXP) ){
+                    $http = 200;
+                    $json['status'] = "callback";
+                    $json['cb_fct'] = "goHome";
+                    $json['toast'] = "Purchase $thisNumber deleted";
+                    goto OutputJSON;
+                }else{
+                    $http = 503;
+                    $json['status'] = "callback";
+                    $json['cb_fct'] = "goHome";
+                    $json['toast'] = "Purchase $thisNumber deleted but not able to delete products in the purchase";
+                    goto OutputJSON;
+                }
         }else{
             $http = 200;
             $json['status'] = "error";
             $json['error'] = $db->getLastError;
-            $json['toast'] = "ERROR DELETING THIS PURCHASE";
+            $json['toast'] = "ERROR DELETING PURCHASE # $thisNumber";
             goto OutputJSON;
         }
     }

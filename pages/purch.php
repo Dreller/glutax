@@ -192,7 +192,7 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
         </dl>
 
     <?php 
-        if( $mode == "EDIT"){
+        if( $mode == "edit"){
             echo '<button class="btn btn-danger" onclick="deletePurchase();">' . _BUTTON_DELETE . '</button>';
         }
     ?>
@@ -723,7 +723,8 @@ function calcSummary(){
         if ( resp === true ){
             var myData = {
                 method: 'deletePurchase',
-                purchaseID: <?php echo $purchID; ?>
+                purchaseID: <?php echo $purchID; ?>,
+                purchaseNumber: <?php echo $purchNumber; ?>
             }
             var json = JSON.stringify(myData);
             $.ajax({
