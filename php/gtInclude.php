@@ -52,5 +52,11 @@ require_once($_dbSource);
 # Formatters
 $_CURRENCY = new NumberFormatter($_LOCALE, NumberFormatter::CURRENCY);
 $_DATE = new IntlDateFormatter($_LOCALE, IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, 'America/Toronto', IntlDateFormatter::GREGORIAN);
-
+# =========================================================
+# General Arrays
+$_UM = Array(
+    "g" => _LABEL_G,
+    "mL" => _LABEL_ML,
+    "u" => _LABEL_U
+);
 ?>

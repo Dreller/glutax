@@ -78,8 +78,10 @@ class gtForm{
                 break;
             case "list-measure":
                 $wip = "<select class='form-select' id='$id' name='$id'>";
-                $wip.= "<option value='g'".($value=='g'?' selected':'').">"._LABEL_G."</option>";
-                $wip.= "<option value='mL'".($value=='g'?' selected':'').">"._LABEL_ML."</option>";
+                global $_UM;
+                foreach($_UM as $key => $value){
+                    $wip.= "<option value='$key'".($value==$key?' selected':'').">$value</option>";
+                }
                 $wip.= "</select>";
                 break;
             default:

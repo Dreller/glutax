@@ -237,8 +237,11 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
                         <div class="col">
                             <label for="popProductFormat" class="form-label text-start"><?= _LABEL_FORMAT ?></label>
                             <select class="form-select" id="popProductFormat">
-                                <option value="g"><?= _LABEL_G ?></option>
-                                <option value="mL"><?= _LABEL_ML ?></option>
+                                <?php  
+                                    foreach($_UM as $key => $value ){
+                                        echo "<option value='$key'>$value</option>";
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>
