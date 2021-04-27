@@ -11,6 +11,7 @@ include('../php/gtInclude.php');
     <div class="table-responsive">
         <table class="table table-hover">
             <thead>
+                <th>#</th>
                 <th><?= _LABEL_PURCH_DATE ?></th>
                 <th><?= _LABEL_STORE ?></th>
                 <th><?= _LABEL_PERSON ?></th>
@@ -26,12 +27,13 @@ include('../php/gtInclude.php');
                 $lines = $db->get(_SQL_PUR, 20);
                 foreach($lines as $line){
                     $lineID = $line[_SQL_PUR_ID];
+                    $lineNo = $line[_SQL_PUR_NUMBER];
                     $lineDate = $_DATE->format(strtotime($line[_SQL_PUR_DATE]));
                     $lineStoreName = $line[_SQL_STO_NAME];
                     $linePersonName = $line[_SQL_PER_NAME];
                     $lineAmount = $_CURRENCY->format($line[_SQL_PUR_AMT_EXTRA]);
 
-                    echo '<tr style="cursor:pointer;" onclick="purchReceipt('.$lineID.');"><td>'.$lineDate.'</td><td>'.$lineStoreName;
+                    echo '<tr style="cursor:pointer;" onclick="purchReceipt('.$lineID.');"><td>'.$lineNo.'</td><td>'.$lineDate.'</td><td>'.$lineStoreName;
                     echo '</td><td>'.$linePersonName.'</td><td>'.$lineAmount.'</td></tr>';
                 }
             ?>

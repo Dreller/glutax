@@ -74,6 +74,9 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             "purchaseStoreID" => $input['purchaseStoreID']
         );
 
+        # Store Purchase number.
+        $thisNumber = $input['purchaseNumber'];
+
         $db->where("purchaseAccountID", $_SESSION['accountID']);
         $db->where("purchaseID", $input['purchaseID']);
         $db->update(_SQL_PUR, $updated);
@@ -128,13 +131,25 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             $http = 200;
             $json['status'] = "callback";
             $json['cb_fct'] = "goHome";
-            $json['toast'] = "Purchase updated";
+            $json['toast'] = "Purchase #$thisNumber updated";
             goto OutputJSON;
     }
     if( $method == "newPurchase" ){
+        # Get the next purchase number for this account
+        $thisNumber = ($_SESSION[_SQL_ACC_NEXT_PURCH]);
+        $_SESSION[_SQL_ACC_NEXT_PURCH] = $thisNumber + 1;
+
+        $new = Array(
+            _SQL_ACC_NEXT_PURCH => $_SESSION[_SQL_ACC_NEXT_PURCH]
+        );
+
+        $db->where(_SQL_ACC_ID, $_SESSION[_SQL_ACC_ID]);
+        $db->update(_SQL_ACC, $new);
+
         # Create the purchase
         $new = Array(
             "purchaseAccountID" => $_SESSION['accountID'],
+            "purchaseNumber" => $thisNumber,
             "purchaseDate" => $input['purchaseDate'],
             "purchaseReference" => $input['purchaseReference'],
             "purchasePersonID" => $input['purchasePersonID'],
@@ -190,7 +205,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 $http = 201;
                 $json['status'] = "callback";
                 $json['cb_fct'] = "loadPage";
-                $json['toast'] = _TOAST_PURCH_ADDED;
+                $json['toast'] = _TOAST_PURCH_ADDED . " (# $thisNumber )";
                 goto OutputJSON;
             }
         }else{

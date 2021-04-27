@@ -17,6 +17,7 @@ define("_SQL_ACC_EMAIL", "accountEmail");
 define("_SQL_ACC_PWD", "accountPasswd");
 define("_SQL_ACC_LANG", "accountLanguage");
 define("_SQL_ACC_LOCAL", "accountLocale");
+define("_SQL_ACC_NEXT_PURCH", "accountNextPurchNo");
 
 # Fields in tbCategory
 define("_SQL_CAT_ID", "categoryID");
@@ -50,6 +51,7 @@ define("_SQL_EQU_PRICE", "productEquPrice");
 # Fields in tbPurchase
 define("_SQL_PUR_ID", "purchaseID");
 define("_SQL_PUR_ACCOUNT", "purchaseAccountID");
+define("_SQL_PUR_NUMBER", "purchaseNumber");
 define("_SQL_PUR_DATE", "purchaseDate");
 define("_SQL_PUR_REF", "purchaseReference");
 define("_SQL_PUR_PERSON", "purchasePersonID");

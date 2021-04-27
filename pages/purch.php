@@ -6,6 +6,7 @@ $db = new gtDb();
 # Set as if we are in ADD mode.
 $mode = "new";
 $purchID = 0;
+$purchNumber = 0;
 $pageTitle = _LABEL_PURCH_NEW;
 
 $purchDate = "";
@@ -28,6 +29,7 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
         $mode = "edit";
         $pageTitle = _LABEL_PURCH_EDIT;
 
+        $purchNumber = $purch[_SQL_PUR_NUMBER];
         $purchDate = $purch[_SQL_PUR_DATE];
         $purchStore = $purch[_SQL_PUR_STORE];
         $purchBuyer = $purch[_SQL_PUR_PERSON];
@@ -693,7 +695,8 @@ function calcSummary(){
             purchaseStoreID: $("#purchaseStoreID").val(),
             purchasePersonID: $("#purchasePersonID").val(),
             purchaseReference: $("#purchaseReference").val(),
-            purchaseID: <?php echo $purchID; ?>
+            purchaseID: <?php echo $purchID; ?>,
+            purchaseNumber: <?php echo $purchNumber; ?>
         }
 
         var myExpenses = {};
