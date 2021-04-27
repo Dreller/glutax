@@ -56,6 +56,7 @@ define("_LABEL_SUMMARY_COUNT_PRODUCT", "Nombre de produits");
 define("_LABEL_SUMMARY_TOTAL_EXTRA", "Total de montant extra");
 define("_LABEL_G", "grammes");
 define("_LABEL_ML", "millilitres");
+define("_LABEL_U", "unit&eacute;s");
 define("_LABEL_CHOOSE", "Choisir...");
 define("_LABEL_PURCH_ADD_PRODUCT", "Ajouter un produit");
 define("_LABEL_PURCH_CHG_PRODUCT", "Modifier un produit");

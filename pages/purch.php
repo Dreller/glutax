@@ -6,6 +6,7 @@ $db = new gtDb();
 # Set as if we are in ADD mode.
 $mode = "new";
 $purchID = 0;
+$purchNumber = 0;
 $pageTitle = _LABEL_PURCH_NEW;
 
 $purchDate = "";
@@ -28,6 +29,7 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
         $mode = "edit";
         $pageTitle = _LABEL_PURCH_EDIT;
 
+        $purchNumber = $purch[_SQL_PUR_NUMBER];
         $purchDate = $purch[_SQL_PUR_DATE];
         $purchStore = $purch[_SQL_PUR_STORE];
         $purchBuyer = $purch[_SQL_PUR_PERSON];
@@ -190,7 +192,7 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
         </dl>
 
     <?php 
-        if( $mode == "EDIT"){
+        if( $mode == "edit"){
             echo '<button class="btn btn-danger" onclick="deletePurchase();">' . _BUTTON_DELETE . '</button>';
         }
     ?>
@@ -235,8 +237,11 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
                         <div class="col">
                             <label for="popProductFormat" class="form-label text-start"><?= _LABEL_FORMAT ?></label>
                             <select class="form-select" id="popProductFormat">
-                                <option value="g"><?= _LABEL_G ?></option>
-                                <option value="mL"><?= _LABEL_ML ?></option>
+                                <?php  
+                                    foreach($_UM as $key => $value ){
+                                        echo "<option value='$key'>$value</option>";
+                                    }
+                                ?>
                             </select>
                         </div>
                     </div>
@@ -693,7 +698,8 @@ function calcSummary(){
             purchaseStoreID: $("#purchaseStoreID").val(),
             purchasePersonID: $("#purchasePersonID").val(),
             purchaseReference: $("#purchaseReference").val(),
-            purchaseID: <?php echo $purchID; ?>
+            purchaseID: <?php echo $purchID; ?>,
+            purchaseNumber: <?php echo $purchNumber; ?>
         }
 
         var myExpenses = {};
@@ -720,7 +726,8 @@ function calcSummary(){
         if ( resp === true ){
             var myData = {
                 method: 'deletePurchase',
-                purchaseID: <?php echo $purchID; ?>
+                purchaseID: <?php echo $purchID; ?>,
+                purchaseNumber: <?php echo $purchNumber; ?>
             }
             var json = JSON.stringify(myData);
             $.ajax({
