@@ -86,6 +86,9 @@ class gtForm{
                 }
                 $wip.= "</select>";
                 break;
+            case "sku":
+                $wip = "<input type='text' id='$id' name='$id' class='form-control' value='$value' autocomplete='off' pattern='^[a-zA-Z0-9]*$'>";
+                break;
             default:
             # By default, it's a regular and basic Input.
                 $wip = "<input type='text' id='$id' name='$id' class='form-control' value='$value' autocomplete='off'>";
