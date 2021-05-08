@@ -6,6 +6,28 @@ include('../php/gtInclude.php');
 <p class="lead text-white-50"><?= _HOME_SHORT_MESSAGE ?></p>
 <hr>
 <!-- Welcome Page -->
+
+<!-- Metrics --> 
+
+    <!-- YTD Metrics --> 
+    <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
+        <div class="card-header"><?= _LABEL_YTD ?></div>
+        <div class="card-body">
+            <h5 class="card-title">
+                <?php  
+                     $db = new gtDb();
+                     $db->where(_SQL_PUR_ACCOUNT, $_ACCT);
+                     $db->where('YEAR('._SQL_PUR_DATE.')', date("Y"));
+
+                     $metrics = $db->rawQueryOne("SELECT Count("._SQL_PUR_ID.") AS pCount, Sum("._SQL_PUR_AMT_EXTRA.") AS pSum FROM "._SQL_PUR." WHERE YEAR("._SQL_PUR_DATE.") = ".date('Y')." AND "._SQL_PUR_ACCOUNT."=".$_ACCT);
+                     echo $_CURRENCY->format($metrics["pSum"]);
+                ?>
+            </h5>
+            <p class="card-text"><?php printf(_LABEL_METRICS_PAID_ON_PURCH, $metrics["pCount"]); ?></p>
+        </div>
+    </div>
+
+<!-- List of recent purchases -->
 <div class="bg-light p-3 rounded shadow-sm mt-2">
     <h4><?= _HOME_RECENT_PURCH ?></h4>
     <div class="table-responsive">

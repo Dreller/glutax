@@ -66,6 +66,8 @@ define("_LABEL_PURCH_DETAILS_QUICK", "Aper&ccedil;u rapide");
 define("_LABEL_LOAD_LIST", "Choisir dans la liste");
 define("_LABEL_LOAD_CODE", "Entrer le code/SKU");
 define("_LABEL_NOT_FOUND", "introuvable!");
+define("_LABEL_YTD", "Ann&eacute;e en cours");
+define("_LABEL_METRICS_PAID_ON_PURCH", "Pay&eacute; en extra sur %s achats.");
 
 define("_SETTING_TITLE", "Pr&eacute;f&eacute;rences");
 define("_SETTING_SUBTITLE", "Personnalisez "._NAME." pour le faire fonctionner &agrave; votre go&ucirc;t !");
