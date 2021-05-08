@@ -68,6 +68,7 @@ define("_LABEL_LOAD_CODE", "Enter a code/SKU");
 define("_LABEL_NOT_FOUND", "not found!");
 define("_LABEL_YTD", "Year to Date");
 define("_LABEL_METRICS_PAID_ON_PURCH", "Paid in extra on %s purchases.");
+define("_LABEL_NEW_STORE", "Enter the new store name");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");

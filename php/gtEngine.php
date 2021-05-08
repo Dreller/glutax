@@ -13,6 +13,18 @@ $db = new gtDb();
 $http = 0;
 $json = Array();
 
+function handleStoreID($input){
+    global $db;
+    $wip = $input;
+    if( is_string($wip) ){
+        $newStore = Array(
+            _SQL_STO_ACCOUNT => $_SESSION['accountID'],
+            _SQL_STO_NAME => urldecode($wip)
+        );
+        $wip = $db->insert(_SQL_STO, $newStore);
+    }
+    return $wip;
+}
 
 if( getenv('REQUEST_METHOD') == 'POST' ){
     $raw = file_get_contents("php://input");
@@ -76,12 +88,16 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
         }
     }
     if( $method == "editPurchase" ){
+
+        # Handle a case where the store needs to be created 
+        $storeID = handleStoreID($input['purchaseStoreID']);
+
         # Array of the purchase
         $updated = Array(
             "purchaseDate" => $input['purchaseDate'],
             "purchaseReference" => $input['purchaseReference'],
             "purchasePersonID" => $input['purchasePersonID'],
-            "purchaseStoreID" => $input['purchaseStoreID']
+            "purchaseStoreID" => $storeID
         );
 
         # Store Purchase number.
@@ -156,6 +172,9 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
         $db->where(_SQL_ACC_ID, $_SESSION[_SQL_ACC_ID]);
         $db->update(_SQL_ACC, $new);
 
+        # Handle a case where the store needs to be created 
+        $storeID = handleStoreID($input['purchaseStoreID']);
+
         # Create the purchase
         $new = Array(
             "purchaseAccountID" => $_SESSION['accountID'],
@@ -163,7 +182,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             "purchaseDate" => $input['purchaseDate'],
             "purchaseReference" => $input['purchaseReference'],
             "purchasePersonID" => $input['purchasePersonID'],
-            "purchaseStoreID" => $input['purchaseStoreID']
+            "purchaseStoreID" => $storeID
         );
         $id = $db->insert(_SQL_PUR, $new);
 
