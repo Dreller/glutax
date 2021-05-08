@@ -59,6 +59,7 @@ class gtForm{
 
         switch($type){
             case "product-category":
+            # List of Product categories
                 require_once('gtDb.php');
                 require_once('gtMap.php');
                 $db = new gtDb();
@@ -77,6 +78,7 @@ class gtForm{
                 $wip = "<select class='form-select' id='$id' name='$id'>$opts</select>";
                 break;
             case "list-measure":
+            # List of Measurement (grams, ml, units).
                 $wip = "<select class='form-select' id='$id' name='$id'>";
                 global $_UM;
                 foreach($_UM as $key => $value){
@@ -85,7 +87,8 @@ class gtForm{
                 $wip.= "</select>";
                 break;
             default:
-                $wip = "<input type='text' id='$id' name='$id' class='form-control' value='$value'>";
+            # By default, it's a regular and basic Input.
+                $wip = "<input type='text' id='$id' name='$id' class='form-control' value='$value' autocomplete='off'>";
         }
         return $wip;
     }
