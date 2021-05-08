@@ -674,7 +674,7 @@ function calcSummary(){
             $('.' + actualID + 'popCalcExtra').html(formatter.format(dat['popCalcExtra']));
         
         clearModal();
-        myModal.hide();
+        modalProductEntry.hide();
         
     }
 
