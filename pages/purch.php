@@ -380,6 +380,11 @@ $(document).ready(function(){
     });
 
     document.getElementById("summaryExtraAmount").innerHTML = formatter.format(0);
+    // Should I calculate the summary ?
+    var phpPurchID = "<?php echo $purchID; ?>";
+    if( phpPurchID != "0" ){
+        calcSummary();
+    }
 });
 
 function clearModal(){
@@ -673,6 +678,7 @@ function calcSummary(){
 
             $('.' + actualID + 'popCalcExtra').html(formatter.format(dat['popCalcExtra']));
         
+        calcSummary();
         clearModal();
         modalProductEntry.hide();
         
