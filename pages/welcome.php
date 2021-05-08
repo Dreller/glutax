@@ -11,7 +11,7 @@ include('../php/gtInclude.php');
 
     <!-- YTD Metrics --> 
     <div class="card text-dark bg-light mb-3" style="max-width: 18rem;">
-        <div class="card-header"><?= _LABEL_YTD ?></div>
+        <div class="card-header"><?= _LABEL_YTD . " (" . date("Y") . ")" ?></div>
         <div class="card-body">
             <h5 class="card-title">
                 <?php  
