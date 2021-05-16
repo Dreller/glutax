@@ -82,6 +82,14 @@ define("_SETTING_REGION_LANG", "Language");
 define("_SETTING_REGION_LANG_HELP", "Language to use for "._NAME." interface.");
 define("_SETTING_REGION_LOCALE", "Region");
 define("_SETTING_REGION_LOCALE_HELP", "Choose the region that fits your local preference.  That will be used to format amounts and dates for you.");
+define("_SETTING_MISC", "Other preferences");
+define("_SETTING_MISC_USE_PC", "Use Product Categories");
+define("_SETTING_MISC_USE_PERSONS", "Use Persons");
+define("_SETTING_MISC_DEFAULT_PDATE", "Default Purchase Date");
+define("_SETTING_MISC_CONFIRM_PN", "Confirm Purchase Number");
+define("_SETTING_MISC_LINES_WELCOME", "Number of Lines in Recent Purchases");
+define("_SETTING_MISC_LINES_REPORTS", "Number of Lines in one Report Page");
+
 
 define("_REPORT_PURCH_ALL_SUMMARY", "All Purchases Summarized");
 define("_REPORT_PURCH_ALL_DETAILS", "All Purchases Details");

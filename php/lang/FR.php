@@ -82,6 +82,13 @@ define("_SETTING_REGION_LANG", "Langue");
 define("_SETTING_REGION_LANG_HELP", "Langue de l'interface "._NAME.".");
 define("_SETTING_REGION_LOCALE", "R&eacute;gion");
 define("_SETTING_REGION_LOCALE_HELP", "Choisir la r&eacute;gion qui vous convient pour d&eacute;terminer comment seront affich&eacute;s les montants et les dates.");
+define("_SETTING_MISC", "Autres pr&eacute;f&eacute;rences");
+define("_SETTING_MISC_USE_PC", "Activer les cat&eacute;gories de produits");
+define("_SETTING_MISC_USE_PERSONS", "Activer les Persones");
+define("_SETTING_MISC_DEFAULT_PDATE", "Date d'achat par d&eacute;faut");
+define("_SETTING_MISC_CONFIRM_PN", "Confirmer le num&eacute;ro d'un nouvel achat");
+define("_SETTING_MISC_LINES_WELCOME", "Nombre de lignes dans les achats r&eacute;cents");
+define("_SETTING_MISC_LINES_REPORTS", "Nombre de lignes dans une page de rapport");
 
 define("_REPORT_PURCH_ALL_SUMMARY", "Tous les achats (sommaire)");
 define("_REPORT_PURCH_ALL_DETAILS", "Tous les achats (d&eacute;tails)");

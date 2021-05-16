@@ -50,6 +50,19 @@ $db = new gtDb();
             <div id="<?= _SQL_ACC_LOCAL ?>Help" class="form-text text-start"><?= _SETTING_REGION_LOCALE_HELP ?></div>
         </div>
     </div>
+    <h4><?= _SETTING_MISC ?></h4>
+    <div class="row mb-3">
+        <!--<div class="col">
+            <label for="<?= _SQL_ACC_NAME ?>" class="form-label text-left"><?= _SETTING_YOU_NAME ?></label>
+            <input type="text" id="<?= _SQL_ACC_NAME ?>" name="<?= _SQL_ACC_NAME ?>" value="<?php echo $_NAME; ?>" class="form-control" aria-describedby="<?= _SQL_ACC_NAME ?>Help">
+            <div id="<?= _SQL_ACC_NAME ?>Help" class="form-text text-start"><?= _SETTING_YOU_NAME_HELP ?></div>
+        </div>
+        <div class="col">
+            <label for="<?= _SQL_ACC_EMAIL ?>" class="form-label text-start"><?= _SETTING_YOU_EMAIL ?></label>
+            <input type="email" id="<?= _SQL_ACC_EMAIL ?>" name="<?= _SQL_ACC_EMAIL ?>" value="<?php echo $_SESSION[_SQL_ACC_EMAIL]; ?>" class="form-control" aria-describedby="<?= _SQL_ACC_EMAIL ?>Help">
+            <div id="<?= _SQL_ACC_EMAIL ?>Help" class="form-text text-start"><?= _SETTING_YOU_EMAIL_HELP ?></div>
+        </div>-->
+    </div>
 
 <input type="hidden" name="method" id="method" value="updateProfile">
 <button class="btn btn-primary" onclick="sendForm();"><?= _BUTTON_SAVE ?></button>
