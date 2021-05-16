@@ -18,6 +18,12 @@ define("_SQL_ACC_PWD", "accountPasswd");
 define("_SQL_ACC_LANG", "accountLanguage");
 define("_SQL_ACC_LOCAL", "accountLocale");
 define("_SQL_ACC_NEXT_PURCH", "accountNextPurchNo");
+define("_SQL_ACC_USE_PC", "accountUsePC");
+define("_SQL_ACC_USE_PERSONS", "accountUsePersons");
+define("_SQL_ACC_DEF_PDATE_OS", "accountDefaultPDateOffset");
+define("_SQL_ACC_CONF_PN", "accountConfirmPN");
+define("_SQL_ACC_LINES_WELCOME", "accountLinesWelcome");
+define("_SQL_ACC_LINES_REPORTS", "accountLinesReport");
 
 # Fields in tbCategory
 define("_SQL_CAT_ID", "categoryID");
