@@ -223,7 +223,7 @@ function loadReport(report){
             "language":{
                 "url": "DataTables/lang/" + myLang + ".json"
             },
-            "pageLength": 50,
+            "pageLength": myReportLines,
             "sAjaxSource":"php/rpt-data.php?r=" + report,
             "dom":"Bfrtip",
             "buttons":[
