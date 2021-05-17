@@ -29,10 +29,15 @@ switch($tableName){
     case _SQL_PRO:
         $pageHeader = _TABLE_PRODUCT."s";
         $pageSubHeader = _TABLE_PRODUCT_HELP;
-        $tblColumns = Array(_LABEL_CATEGORY, _LABEL_PRODUCT_GF, _LABEL_PRODUCT_EQU);
+        $tblColumns = Array(_LABEL_PRODUCT_GF, _LABEL_PRODUCT_EQU);
         $tblSqlID = _SQL_PRO_ID;
-        $tblSqlCol = Array("(SELECT "._SQL_CAT_NAME." FROM "._SQL_CAT." WHERE "._SQL_CAT_ID." = "._SQL_PRO_CATEGORY.") AS Category", "CONCAT("._SQL_PRO_NAME.", ' (', "._SQL_PRO_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') As GFProduct", "CONCAT("._SQL_EQU_NAME.", ' (', "._SQL_EQU_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') AS GProduct");
+        $tblSqlCol = Array("CONCAT("._SQL_PRO_NAME.", ' (', "._SQL_PRO_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') As GFProduct", "CONCAT("._SQL_EQU_NAME.", ' (', "._SQL_EQU_SIZE.", ' ', "._SQL_PRO_FORMAT.", ')') AS GProduct");
         $sortCol = _SQL_PRO_NAME;
+        # If the user uses Product Categories:
+        if( $_SESSION[_SQL_ACC_USE_PC] == 1 ){
+            array_unshift($tblColumns, _LABEL_CATEGORY);
+            array_unshift($tblSqlCol, "(SELECT "._SQL_CAT_NAME." FROM "._SQL_CAT." WHERE "._SQL_CAT_ID." = "._SQL_PRO_CATEGORY.") AS Category");
+        }
         break;
     case _SQL_CAT:
         $pageHeader = _TABLE_CATEGORY."s";

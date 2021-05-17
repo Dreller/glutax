@@ -102,8 +102,10 @@ body {
                         <?= _NAVBAR_TABLE ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarTables">
-                        <a class="dropdown-item navTable" href="#" data-table="category"><?= _TABLE_CATEGORY ?></a>
                         <?php  
+                            if( $_SESSION[_SQL_ACC_USE_PC] == 1 ){
+                                echo '<a class="dropdown-item navTable" href="#" data-table="category">' . _TABLE_CATEGORY . '</a>';
+                            }
                             if($_SESSION[_SQL_ACC_USE_PERSONS] == 1){
                                 echo '<a class="dropdown-item navTable" href="#" data-table="person">' . _TABLE_PERSON . '</a>';
                             }

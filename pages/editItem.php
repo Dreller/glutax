@@ -37,7 +37,9 @@ switch($tableName){
         $pageHeader = _TABLE_PRODUCT;
         insertSectionInForm(_LABEL_PRODUCT_GF);
         insertInForm(_SQL_PRO_NAME, _LABEL_NAME, "text");
-        insertInForm(_SQL_PRO_CATEGORY, _LABEL_CATEGORY, "product-category");
+        if( $_SESSION[_SQL_ACC_USE_PC] == 1 ){
+            insertInForm(_SQL_PRO_CATEGORY, _LABEL_CATEGORY, "product-category");
+        }
         insertInForm(_SQL_PRO_SKU, _LABEL_SKU, "sku");
         insertInForm(_SQL_PRO_SIZE, _LABEL_SIZE_HELP, "number");
         insertInForm(_SQL_PRO_FORMAT, _LABEL_FORMAT_HELP, "list-measure");
