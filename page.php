@@ -148,6 +148,20 @@ body {
 </div>
 <!-- END: Toast -->
 
+<!-- Modal / Tell Message --> 
+<div class="modal fade" id="tellModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="tellModalText">
+                (placeholder)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal / Purchase Receipt -->
 <div class="modal fade" id="purchaseReceipt" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">

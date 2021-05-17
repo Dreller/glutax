@@ -196,6 +196,11 @@ function wrapForm(formID){
         }
         toast(myData['toast']);
     }
+
+    // Tell 
+    if( myData['tell'] != undefined ){
+        tell(myData['tell']);
+    }
 }
 
 /**
@@ -211,6 +216,14 @@ function toast(message){
         return new bootstrap.Toast(toastEl)
     });
     toastList.forEach(toast => toast.show());
+}
+
+function tell(message){
+
+    document.getElementById('tellModalText').innerHTML = message;
+    var tellModal = new bootstrap.Modal(document.getElementById('tellModal'));
+    tellModal.show();
+
 }
 
 

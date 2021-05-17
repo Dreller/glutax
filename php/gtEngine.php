@@ -16,7 +16,7 @@ $json = Array();
 function handleStoreID($input){
     global $db;
     $wip = $input;
-    if( is_string($wip) ){
+    if( !is_numeric($wip) ){
         $newStore = Array(
             _SQL_STO_ACCOUNT => $_SESSION['accountID'],
             _SQL_STO_NAME => urldecode($wip)
@@ -161,6 +161,11 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             goto OutputJSON;
     }
     if( $method == "newPurchase" ){
+        # Set the level of PN Confirmation
+        $PN_Level = "toast";
+        if( $_SESSION[_SQL_ACC_CONF_PN] == 1){
+            $PN_Level = "tell";
+        }
         # Get the next purchase number for this account
         $thisNumber = ($_SESSION[_SQL_ACC_NEXT_PURCH]);
         $_SESSION[_SQL_ACC_NEXT_PURCH] = $thisNumber + 1;
@@ -222,7 +227,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 $json['status'] = "error";
                 $json['error'] = $db->getLastError();
                 $json['query'] = $db->getLastQuery();
-                $json['toast'] = "Unable to save Expenses for Purchase # $id .";
+                $json[$PN_Level] = "Unable to save Expenses for Purchase # $id .";
                 goto OutputJSON;
             }else{
                 
@@ -234,7 +239,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 $http = 201;
                 $json['status'] = "callback";
                 $json['cb_fct'] = "loadPage";
-                $json['toast'] = _TOAST_PURCH_ADDED . " (# $thisNumber )";
+                $json[$PN_Level] = _TOAST_PURCH_ADDED . " (# $thisNumber )";
                 goto OutputJSON;
             }
         }else{
@@ -242,7 +247,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             $json['status'] = "error";
             $json['error'] = $db->getLastError();
             $json['query'] = $db->getLastQuery();
-            $json['toast'] = "Unable to create the new Purchase.  Expenses wasn't saved either.";
+            $json[$PN_Level] = "Unable to create the new Purchase.  Expenses wasn't saved either.";
         }
         goto OutputJSON;
     }
