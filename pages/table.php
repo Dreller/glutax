@@ -40,7 +40,7 @@ switch($tableName){
         }
         break;
     case _SQL_CAT:
-        $pageHeader = _TABLE_CATEGORY."s";
+        $pageHeader = _TABLE_CATEGORIES;
         $pageSubHeader = _TABLE_CATEGORY_HELP;
         $tblColumns = Array(_LABEL_NAME);
         $tblSqlID = _SQL_CAT_ID;

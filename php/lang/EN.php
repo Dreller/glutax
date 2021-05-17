@@ -10,6 +10,7 @@ define("_NAVBAR_OPTION", "Options");
 define("_NAVBAR_REPORT", "Reports");
 
 define("_TABLE_CATEGORY", "Category");
+define("_TABLE_CATEGORIES", "Categories");
 define("_TABLE_CATEGORY_HELP", "Add a category to each of your purchases, for a better summary on reports.");
 define("_TABLE_PERSON", "Person");
 define("_TABLE_PERSON_HELP", "You may often buy products by yourself, and sometime, other can buy them for you. Track who is the buyer of each expenses for a more accurate tracking.");

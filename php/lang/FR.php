@@ -10,6 +10,7 @@ define("_NAVBAR_OPTION", "Options");
 define("_NAVBAR_REPORT", "Rapports");
 
 define("_TABLE_CATEGORY", "Cat&eacute;gorie");
+define("_TABLE_CATEGORIES", _TABLE_CATEGORY."s");
 define("_TABLE_CATEGORY_HELP", "Ajoutez des cat&eacute;gories aux produits pour obtenir un meilleur sommaire sur les rapports.");
 define("_TABLE_PERSON", "Personne");
 define("_TABLE_PERSON_HELP", "Vous faites souvent vos achats vous-m&ecirc;me, mais il est possible qu'une autre personne les fassent &agrave; votre place.  Effectuez le suivi de l'acheteur pour un suivi plus pr&eacute;cis.");
