@@ -69,6 +69,33 @@ $db = new gtDb();
             <div id="<?= _SQL_ACC_USE_PERSONS ?>Help" class="form-text text-start"><?= _SETTING_MISC_USE_PERSONS_HELP ?></div>
         </div>
     </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label for="<?= _SQL_ACC_DEF_PDATE_OS ?>" class="form-label text-start"><?= _SETTING_MISC_DEFAULT_PDATE ?></label>
+            <input type="text" id="<?= _SQL_ACC_DEF_PDATE_OS ?>" name="<?= _SQL_ACC_DEF_PDATE_OS ?>" value="<?php echo $_SESSION[_SQL_ACC_DEF_PDATE_OS]; ?>" class="form-control" aria-describedby="<?= _SQL_ACC_DEF_PDATE_OS ?>Help">
+            <div id="<?= _SQL_ACC_DEF_PDATE_OS ?>Help" class="form-text text-start"><?= _SETTING_MISC_DEFAULT_PDATE_HELP ?></div>
+        </div>
+        <div class="col">
+            <label for="<?= _SQL_ACC_CONF_PN ?>" class="form-label text-start"><?= _SETTING_MISC_CONFIRM_PN ?></label>
+            <select id="<?= _SQL_ACC_CONF_PN ?>" name="<?= _SQL_ACC_CONF_PN ?>" class="form-select" aria-describedby="<?= _SQL_ACC_CONF_PN ?>Help">
+                <option value="0" <?php echo ($_SESSION[_SQL_ACC_CONF_PN]=='0'?' selected':''); ?>><?= _SETTING_OFF ?></option>
+                <option value="1" <?php echo ($_SESSION[_SQL_ACC_CONF_PN]=='1'?' selected':''); ?>><?= _SETTING_ON ?></option>
+            </select>
+            <div id="<?= _SQL_ACC_CONF_PN ?>Help" class="form-text text-start"><?= _SETTING_MISC_CONFIRM_PN_HELP ?></div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col">
+            <label for="<?= _SQL_ACC_LINES_WELCOME ?>" class="form-label text-start"><?= _SETTING_MISC_LINES_WELCOME?></label>
+            <input type="text" id="<?= _SQL_ACC_LINES_WELCOME ?>" name="<?= _SQL_ACC_LINES_WELCOME ?>" value="<?php echo $_SESSION[_SQL_ACC_LINES_WELCOME]; ?>" class="form-control" aria-describedby="<?= _SQL_ACC_LINES_WELCOME ?>Help">
+            <div id="<?= _SQL_ACC_LINES_WELCOME ?>Help" class="form-text text-start"><?= _SETTING_MISC_LINES_WELCOME_HELP ?></div>
+        </div>
+        <div class="col">
+            <label for="<?= _SQL_ACC_LINES_REPORTS ?>" class="form-label text-start"><?= _SETTING_MISC_LINES_REPORTS ?></label>
+            <input type="text" id="<?= _SQL_ACC_LINES_REPORTS ?>" name="<?= _SQL_ACC_LINES_REPORTS ?>" value="<?php echo $_SESSION[_SQL_ACC_LINES_REPORTS]; ?>" class="form-control" aria-describedby="<?= _SQL_ACC_LINES_REPORTS ?>Help">
+            <div id="<?= _SQL_ACC_LINES_REPORTS ?>Help" class="form-text text-start"><?= _SETTING_MISC_LINES_REPORTS_HELP ?></div>
+        </div>
+    </div>
 
 <input type="hidden" name="method" id="method" value="updateProfile">
 <button class="btn btn-primary" onclick="sendForm();"><?= _BUTTON_SAVE ?></button>
