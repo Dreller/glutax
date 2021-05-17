@@ -9,7 +9,10 @@ $purchID = 0;
 $purchNumber = 0;
 $pageTitle = _LABEL_PURCH_NEW;
 
-$purchDate = "";
+$workDate = new DateTime(date('Y-m-d'));
+date_sub($workDate, date_interval_create_from_date_string(abs($_SESSION[_SQL_ACC_DEF_PDATE_OS]) . ' days'));
+$purchDate = date_format($workDate, 'Y-m-d');
+
 $purchStore = 0;
 $purchBuyer = 0;
 $purchRef = "";
