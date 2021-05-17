@@ -12,6 +12,10 @@ if( !isset($_SESSION['accountID']) || empty($_SESSION['accountID']) ){
 # Enable short-code opening
 ini_set('short_open_tag', 'On');
 # =========================================================
+# Application 
+$appVersion = "0.07";
+
+# =========================================================
 # Shortcuts for Sessions
 $_ACCT = $_SESSION['accountID'];
 $_NAME = $_SESSION['accountName'];
