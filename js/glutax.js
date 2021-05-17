@@ -196,6 +196,11 @@ function wrapForm(formID){
         }
         toast(myData['toast']);
     }
+
+    // Tell 
+    if( myData['tell'] != undefined ){
+        tell(myData['tell']);
+    }
 }
 
 /**
@@ -213,6 +218,14 @@ function toast(message){
     toastList.forEach(toast => toast.show());
 }
 
+function tell(message){
+
+    document.getElementById('tellModalText').innerHTML = message;
+    var tellModal = new bootstrap.Modal(document.getElementById('tellModal'));
+    tellModal.show();
+
+}
+
 
 function loadReport(report){
     $("#myBox").load('php/rpt-frame.php?r=' + report, function(){
@@ -223,7 +236,7 @@ function loadReport(report){
             "language":{
                 "url": "DataTables/lang/" + myLang + ".json"
             },
-            "pageLength": 50,
+            "pageLength": myReportLines,
             "sAjaxSource":"php/rpt-data.php?r=" + report,
             "dom":"Bfrtip",
             "buttons":[

@@ -13,6 +13,18 @@ $db = new gtDb();
 $http = 0;
 $json = Array();
 
+function handleStoreID($input){
+    global $db;
+    $wip = $input;
+    if( !is_numeric($wip) ){
+        $newStore = Array(
+            _SQL_STO_ACCOUNT => $_SESSION['accountID'],
+            _SQL_STO_NAME => urldecode($wip)
+        );
+        $wip = $db->insert(_SQL_STO, $newStore);
+    }
+    return $wip;
+}
 
 if( getenv('REQUEST_METHOD') == 'POST' ){
     $raw = file_get_contents("php://input");
@@ -76,12 +88,16 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
         }
     }
     if( $method == "editPurchase" ){
+
+        # Handle a case where the store needs to be created 
+        $storeID = handleStoreID($input['purchaseStoreID']);
+
         # Array of the purchase
         $updated = Array(
             "purchaseDate" => $input['purchaseDate'],
             "purchaseReference" => $input['purchaseReference'],
             "purchasePersonID" => $input['purchasePersonID'],
-            "purchaseStoreID" => $input['purchaseStoreID']
+            "purchaseStoreID" => $storeID
         );
 
         # Store Purchase number.
@@ -145,6 +161,11 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             goto OutputJSON;
     }
     if( $method == "newPurchase" ){
+        # Set the level of PN Confirmation
+        $PN_Level = "toast";
+        if( $_SESSION[_SQL_ACC_CONF_PN] == 1){
+            $PN_Level = "tell";
+        }
         # Get the next purchase number for this account
         $thisNumber = ($_SESSION[_SQL_ACC_NEXT_PURCH]);
         $_SESSION[_SQL_ACC_NEXT_PURCH] = $thisNumber + 1;
@@ -156,6 +177,9 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
         $db->where(_SQL_ACC_ID, $_SESSION[_SQL_ACC_ID]);
         $db->update(_SQL_ACC, $new);
 
+        # Handle a case where the store needs to be created 
+        $storeID = handleStoreID($input['purchaseStoreID']);
+
         # Create the purchase
         $new = Array(
             "purchaseAccountID" => $_SESSION['accountID'],
@@ -163,7 +187,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             "purchaseDate" => $input['purchaseDate'],
             "purchaseReference" => $input['purchaseReference'],
             "purchasePersonID" => $input['purchasePersonID'],
-            "purchaseStoreID" => $input['purchaseStoreID']
+            "purchaseStoreID" => $storeID
         );
         $id = $db->insert(_SQL_PUR, $new);
 
@@ -203,7 +227,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 $json['status'] = "error";
                 $json['error'] = $db->getLastError();
                 $json['query'] = $db->getLastQuery();
-                $json['toast'] = "Unable to save Expenses for Purchase # $id .";
+                $json[$PN_Level] = "Unable to save Expenses for Purchase # $id .";
                 goto OutputJSON;
             }else{
                 
@@ -215,7 +239,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
                 $http = 201;
                 $json['status'] = "callback";
                 $json['cb_fct'] = "loadPage";
-                $json['toast'] = _TOAST_PURCH_ADDED . " (# $thisNumber )";
+                $json[$PN_Level] = _TOAST_PURCH_ADDED . " (# $thisNumber )";
                 goto OutputJSON;
             }
         }else{
@@ -223,7 +247,7 @@ if( getenv('REQUEST_METHOD') == 'POST' ){
             $json['status'] = "error";
             $json['error'] = $db->getLastError();
             $json['query'] = $db->getLastQuery();
-            $json['toast'] = "Unable to create the new Purchase.  Expenses wasn't saved either.";
+            $json[$PN_Level] = "Unable to create the new Purchase.  Expenses wasn't saved either.";
         }
         goto OutputJSON;
     }

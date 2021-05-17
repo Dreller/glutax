@@ -7,6 +7,7 @@ include('php/gtInclude.php');
 <title><?= _NAME ?></title>
 <script>
     var myLang = "<?php echo $_LANG; ?>";
+    var myReportLines = <?php echo $_SESSION[_SQL_ACC_LINES_REPORTS]; ?>;
 </script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -101,8 +102,14 @@ body {
                         <?= _NAVBAR_TABLE ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarTables">
-                        <a class="dropdown-item navTable" href="#" data-table="category"><?= _TABLE_CATEGORY ?></a>
-                        <a class="dropdown-item navTable" href="#" data-table="person"><?= _TABLE_PERSON ?></a>
+                        <?php  
+                            if( $_SESSION[_SQL_ACC_USE_PC] == 1 ){
+                                echo '<a class="dropdown-item navTable" href="#" data-table="category">' . _TABLE_CATEGORY . '</a>';
+                            }
+                            if($_SESSION[_SQL_ACC_USE_PERSONS] == 1){
+                                echo '<a class="dropdown-item navTable" href="#" data-table="person">' . _TABLE_PERSON . '</a>';
+                            }
+                        ?>
                         <a class="dropdown-item navTable" href="#" data-table="product"><?= _TABLE_PRODUCT ?></a>
                         <a class="dropdown-item navTable" href="#" data-table="store"><?= _TABLE_STORE ?></a>
                     </div>
@@ -142,6 +149,20 @@ body {
     </div>
 </div>
 <!-- END: Toast -->
+
+<!-- Modal / Tell Message --> 
+<div class="modal fade" id="tellModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body" id="tellModalText">
+                (placeholder)
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- Modal / Purchase Receipt -->
 <div class="modal fade" id="purchaseReceipt" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">

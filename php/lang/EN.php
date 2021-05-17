@@ -10,6 +10,7 @@ define("_NAVBAR_OPTION", "Options");
 define("_NAVBAR_REPORT", "Reports");
 
 define("_TABLE_CATEGORY", "Category");
+define("_TABLE_CATEGORIES", "Categories");
 define("_TABLE_CATEGORY_HELP", "Add a category to each of your purchases, for a better summary on reports.");
 define("_TABLE_PERSON", "Person");
 define("_TABLE_PERSON_HELP", "You may often buy products by yourself, and sometime, other can buy them for you. Track who is the buyer of each expenses for a more accurate tracking.");
@@ -66,6 +67,9 @@ define("_LABEL_PURCH_DETAILS_QUICK", "Quick View");
 define("_LABEL_LOAD_LIST", "Choose from list");
 define("_LABEL_LOAD_CODE", "Enter a code/SKU");
 define("_LABEL_NOT_FOUND", "not found!");
+define("_LABEL_YTD", "Year to Date");
+define("_LABEL_METRICS_PAID_ON_PURCH", "Paid in extra on %s purchases.");
+define("_LABEL_NEW_STORE", "Enter the new store name");
 
 define("_SETTING_TITLE", "Settings");
 define("_SETTING_SUBTITLE", "Customize "._NAME." to make it works the way you want !");
@@ -79,6 +83,22 @@ define("_SETTING_REGION_LANG", "Language");
 define("_SETTING_REGION_LANG_HELP", "Language to use for "._NAME." interface.");
 define("_SETTING_REGION_LOCALE", "Region");
 define("_SETTING_REGION_LOCALE_HELP", "Choose the region that fits your local preference.  That will be used to format amounts and dates for you.");
+define("_SETTING_MISC", "Other preferences");
+define("_SETTING_MISC_USE_PC", "Product Category");
+define("_SETTING_MISC_USE_PC_HELP", "Add a 'Category' prompt in Products.");
+define("_SETTING_MISC_USE_PERSONS", "Persons");
+define("_SETTING_MISC_USE_PERSONS_HELP", "Add a 'Buyer' prompt in Purchases.");
+define("_SETTING_MISC_DEFAULT_PDATE", "Default Purchase Date Offset");
+define("_SETTING_MISC_DEFAULT_PDATE_HELP", "To define the default Purchase Date in a new Purchase, decrease this number from the current date.");
+define("_SETTING_MISC_CONFIRM_PN", "Confirm Purchase Number");
+define("_SETTING_MISC_CONFIRM_PN_HELP", "Display the new Purchase Number in a Message instead of only a small Toast.");
+define("_SETTING_MISC_LINES_WELCOME", "Number of Lines in Recent Purchases");
+define("_SETTING_MISC_LINES_WELCOME_HELP", "Number of recent Purchases to display in the Welcome Screen.");
+define("_SETTING_MISC_LINES_REPORTS", "Number of Lines in one Report Page");
+define("_SETTING_MISC_LINES_REPORTS_HELP", "Number of lines to display in a report before breaking to a new page.");
+define("_SETTING_ON", "Activate");
+define("_SETTING_OFF", "Deactivate");
+
 
 define("_REPORT_PURCH_ALL_SUMMARY", "All Purchases Summarized");
 define("_REPORT_PURCH_ALL_DETAILS", "All Purchases Details");

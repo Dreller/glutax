@@ -9,7 +9,10 @@ $purchID = 0;
 $purchNumber = 0;
 $pageTitle = _LABEL_PURCH_NEW;
 
-$purchDate = "";
+$workDate = new DateTime(date('Y-m-d'));
+date_sub($workDate, date_interval_create_from_date_string(abs($_SESSION[_SQL_ACC_DEF_PDATE_OS]) . ' days'));
+$purchDate = date_format($workDate, 'Y-m-d');
+
 $purchStore = 0;
 $purchBuyer = 0;
 $purchRef = "";
@@ -51,7 +54,7 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
         </div>
         <div class="col-md-6">
             <label for="<?= _SQL_PUR_STORE ?>" class="form-label"><?= _LABEL_STORE ?></label>
-            <select id='<?= _SQL_PUR_STORE ?>' name='<?= _SQL_PUR_STORE ?>' class='form-select'>
+            <select id='<?= _SQL_PUR_STORE ?>' name='<?= _SQL_PUR_STORE ?>' class='form-select' onchange='triggerNewStore();'>
                 <?php 
                     $db->where(_SQL_STO_ACCOUNT, $_ACCT);
                     $db->orderBy(_SQL_STO_NAME, 'ASC');
@@ -66,18 +69,22 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
                         }
                         echo '<option value="'.$option[_SQL_STO_ID].'"'.$selected.'>'.$option[_SQL_STO_NAME].' - '.$option[_SQL_STO_ADDRESS].'</option>';
                     }
+                    echo '<option value="NEW">'._BUTTON_ADD_NEW.'...</option>';
                 ?>
             </select>
         </div>
     </div>
 
     <div class="row g-3">
-        <div class="col-md-6">
-            <label for="<?= _SQL_PUR_PERSON ?>" class="form-label text-start"><?= _LABEL_PERSON ?></label>
-            <select id='<?= _SQL_PUR_PERSON ?>' name='<?= _SQL_PUR_PERSON ?>' class='form-select'>
-                <option value='0'>(<?= _SETTING_YOU ?>) <?php echo $_NAME; ?></value>
-                <?php 
-                    $db->where(_SQL_PER_ACCOUNT, $_ACCT);
+    <?php 
+        $col = 12;
+        if( $_SESSION[_SQL_ACC_USE_PERSONS] == 1 ){
+            $col = 6;
+            echo "<div class='col-md-$col'>";
+            echo "<label for='" . _SQL_PUR_PERSON . "' class='form-label text-start'>" . _LABEL_PERSON . "</label>";
+            echo "<select id='" . _SQL_PUR_PERSON . "' name='" . _SQL_PUR_PERSON . "' class='form-select'>";
+            echo "<option value='0'>(". _SETTING_YOU .") " . $_NAME . "</value>";
+               $db->where(_SQL_PER_ACCOUNT, $_ACCT);
                     $db->orderBy(_SQL_PER_NAME, 'ASC');
                     $options = $db->get(_SQL_PER);
                     if( $db->count > 1 ){
@@ -90,10 +97,12 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
                         }
                         echo '<option value="'.$option[_SQL_PER_ID].'"'.$selected.'>'.$option[_SQL_PER_NAME].'</option>';
                     }
-                ?>
-            </select>
-        </div>
-        <div class="col-md-6">
+            echo "</select></div>";
+        }else{
+            echo "<input type='hidden' name='" . _SQL_PUR_PERSON . "' id='" . _SQL_PUR_PERSON . "' value='0'>";
+        }
+    ?>
+        <div class="col-md-<?php echo $col; ?>">
             <label for="<?= _SQL_PUR_REF ?>" class="form-label"><?= _LABEL_REF ?></label>
             <input type="text" class="form-control" id="<?= _SQL_PUR_REF ?>" name="<?= _SQL_PUR_REF ?>" value="<?= $purchRef ?>">
         </div>
@@ -198,7 +207,6 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
     ?>
     <button class="btn btn-primary" onclick="savePurchase();"><?= _BUTTON_SAVE ?></button>
 </div>
-
 
 <!-- MODAL: Edit Product Line -->  
 <div class="modal fade" id="modalProduct" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
@@ -348,6 +356,24 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
         </div>
     </div>
 </div>
+
+<!-- MODAL: Text input --> 
+<div class="modal fade" id="modalInputText" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- First body for manual product entry -->
+            <div class="modal-body" id="modalInputTextForm">
+                <label for="txtGenericInput" class="form-label"><?php echo _LABEL_NEW_STORE; ?></label>
+                <input type="text" id="txtGenericInput" class="form-control" autocomplete="off">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><?= _BUTTON_CANCEL?></button>
+                <button type="button" class="btn btn-primary" id="modalInputTextOK" onclick="handleNewStore();">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
 var actualAction = "";
 var actualID = "";
@@ -361,6 +387,7 @@ var loadProductEquSize = "";
 
 var modalProductEntry;
 var modalProductLoad;
+var modalInputText;
 
 var formatter = new Intl.NumberFormat('<?php echo $_SESSION['accountLocale']; ?>', {
         style: 'currency',
@@ -379,7 +406,18 @@ $(document).ready(function(){
         backdrop: 'static'
     });
 
+    modalInputText = new bootstrap.Modal(document.getElementById('modalInputText'),{
+        keyboard: false,
+        backdrop: 'static'
+    });
+
+
     document.getElementById("summaryExtraAmount").innerHTML = formatter.format(0);
+    // Should I calculate the summary ?
+    var phpPurchID = "<?php echo $purchID; ?>";
+    if( phpPurchID != "0" ){
+        calcSummary();
+    }
 });
 
 function clearModal(){
@@ -673,8 +711,9 @@ function calcSummary(){
 
             $('.' + actualID + 'popCalcExtra').html(formatter.format(dat['popCalcExtra']));
         
+        calcSummary();
         clearModal();
-        myModal.hide();
+        modalProductEntry.hide();
         
     }
 
@@ -710,6 +749,7 @@ function calcSummary(){
         myData.expenses = myExpenses;
 
         var json = JSON.stringify(myData);
+        console.log(json);
         
         $.ajax({
         type: "POST",
@@ -743,7 +783,29 @@ function calcSummary(){
         }
     }
 
+    function triggerNewStore(){
+        var myStoreID = document.getElementById("<?php echo _SQL_PUR_STORE; ?>").value;
+        if( myStoreID == "NEW" ){
+            modalInputText.show();
+        }
+    }
 
+    function handleNewStore(){
+        var myStoreName = document.getElementById("txtGenericInput").value;
+
+        modalInputText.hide();
+        
+        var newOption = document.createElement("option");
+        newOption.text = myStoreName;
+        var storeVal = encodeURIComponent(myStoreName);
+        newOption.value = storeVal;
+
+        var selStore = document.getElementById("<?php echo _SQL_PUR_STORE; ?>");
+        var ndx = selStore.length - 1;
+
+        selStore.add(newOption, ndx);
+        selStore.value = storeVal;
+    }
 
 
     
