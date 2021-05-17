@@ -46,7 +46,7 @@ include('../php/gtInclude.php');
                 $db->orderBy(_SQL_PUR_DATE, 'DESC');
                 $db->join(_SQL_STO, _SQL_STO_ID .' = '. _SQL_PUR_STORE, 'LEFT');
                 $db->join(_SQL_PER, _SQL_PER_ID .' = '. _SQL_PUR_PERSON, 'LEFT');
-                $lines = $db->get(_SQL_PUR, 20);
+                $lines = $db->get(_SQL_PUR, $_SESSION[_SQL_ACC_LINES_WELCOME]);
                 foreach($lines as $line){
                     $lineID = $line[_SQL_PUR_ID];
                     $lineNo = $line[_SQL_PUR_NUMBER];
