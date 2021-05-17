@@ -36,7 +36,11 @@ include('../php/gtInclude.php');
                 <th>#</th>
                 <th><?= _LABEL_PURCH_DATE ?></th>
                 <th><?= _LABEL_STORE ?></th>
-                <th><?= _LABEL_PERSON ?></th>
+                <?php  
+                    if($_SESSION[_SQL_ACC_USE_PERSONS] == 1){
+                        echo '<th>' . _LABEL_PERSON . '</th>';
+                    }
+                ?>
                 <th><?= _LABEL_PURCH_EXTRA ?></th>
             </thead>
             <tbody>
@@ -56,7 +60,11 @@ include('../php/gtInclude.php');
                     $lineAmount = $_CURRENCY->format($line[_SQL_PUR_AMT_EXTRA]);
 
                     echo '<tr style="cursor:pointer;" onclick="purchReceipt('.$lineID.');"><td>'.$lineNo.'</td><td>'.$lineDate.'</td><td>'.$lineStoreName;
-                    echo '</td><td>'.$linePersonName.'</td><td>'.$lineAmount.'</td></tr>';
+                    echo '</td>';
+                    if($_SESSION[_SQL_ACC_USE_PERSONS] == 1){
+                        echo '<td>'.$linePersonName.'</td>';
+                    }
+                    echo '<td>'.$lineAmount.'</td></tr>';
                 }
             ?>
             </tbody>

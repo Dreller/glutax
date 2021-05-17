@@ -76,12 +76,15 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
     </div>
 
     <div class="row g-3">
-        <div class="col-md-6">
-            <label for="<?= _SQL_PUR_PERSON ?>" class="form-label text-start"><?= _LABEL_PERSON ?></label>
-            <select id='<?= _SQL_PUR_PERSON ?>' name='<?= _SQL_PUR_PERSON ?>' class='form-select'>
-                <option value='0'>(<?= _SETTING_YOU ?>) <?php echo $_NAME; ?></value>
-                <?php 
-                    $db->where(_SQL_PER_ACCOUNT, $_ACCT);
+    <?php 
+        $col = 12;
+        if( $_SESSION[_SQL_ACC_USE_PERSONS] == 1 ){
+            $col = 6;
+            echo "<div class='col-md-$col'>";
+            echo "<label for='" . _SQL_PUR_PERSON . "' class='form-label text-start'>" . _LABEL_PERSON . "</label>";
+            echo "<select id='" . _SQL_PUR_PERSON . "' name='" . _SQL_PUR_PERSON . "' class='form-select'>";
+            echo "<option value='0'>(". _SETTING_YOU .") " . $_NAME . "</value>";
+               $db->where(_SQL_PER_ACCOUNT, $_ACCT);
                     $db->orderBy(_SQL_PER_NAME, 'ASC');
                     $options = $db->get(_SQL_PER);
                     if( $db->count > 1 ){
@@ -94,10 +97,12 @@ if( isset($_GET['p']) && $_GET['p'] != ''){
                         }
                         echo '<option value="'.$option[_SQL_PER_ID].'"'.$selected.'>'.$option[_SQL_PER_NAME].'</option>';
                     }
-                ?>
-            </select>
-        </div>
-        <div class="col-md-6">
+            echo "</select></div>";
+        }else{
+            echo "<input type='hidden' name='" . _SQL_PUR_PERSON . "' id='" . _SQL_PUR_PERSON . "' value='0'>";
+        }
+    ?>
+        <div class="col-md-<?php echo $col; ?>">
             <label for="<?= _SQL_PUR_REF ?>" class="form-label"><?= _LABEL_REF ?></label>
             <input type="text" class="form-control" id="<?= _SQL_PUR_REF ?>" name="<?= _SQL_PUR_REF ?>" value="<?= $purchRef ?>">
         </div>

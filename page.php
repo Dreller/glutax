@@ -103,7 +103,11 @@ body {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarTables">
                         <a class="dropdown-item navTable" href="#" data-table="category"><?= _TABLE_CATEGORY ?></a>
-                        <a class="dropdown-item navTable" href="#" data-table="person"><?= _TABLE_PERSON ?></a>
+                        <?php  
+                            if($_SESSION[_SQL_ACC_USE_PERSONS] == 1){
+                                echo '<a class="dropdown-item navTable" href="#" data-table="person">' . _TABLE_PERSON . '</a>';
+                            }
+                        ?>
                         <a class="dropdown-item navTable" href="#" data-table="product"><?= _TABLE_PRODUCT ?></a>
                         <a class="dropdown-item navTable" href="#" data-table="store"><?= _TABLE_STORE ?></a>
                     </div>
