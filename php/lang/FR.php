@@ -100,6 +100,7 @@ define("_SETTING_MISC_LINES_REPORTS_HELP", "Nombre de lignes &agrave; afficher d
 define("_SETTING_ON", "Activer");
 define("_SETTING_OFF", "D&eacute;sactiver");
 
+define("_REPORT_BROWSER", "Navigateur");
 define("_REPORT_PURCH_ALL_SUMMARY", "Tous les achats (sommaire)");
 define("_REPORT_PURCH_ALL_DETAILS", "Tous les achats (d&eacute;tails)");
 

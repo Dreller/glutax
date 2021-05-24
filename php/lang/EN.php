@@ -100,7 +100,7 @@ define("_SETTING_MISC_LINES_REPORTS_HELP", "Number of lines to display in a repo
 define("_SETTING_ON", "Activate");
 define("_SETTING_OFF", "Deactivate");
 
-
+define("_REPORT_BROWSER", "Browser");
 define("_REPORT_PURCH_ALL_SUMMARY", "All Purchases Summarized");
 define("_REPORT_PURCH_ALL_DETAILS", "All Purchases Details");
 

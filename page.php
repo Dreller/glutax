@@ -92,6 +92,8 @@ body {
                         <?= _NAVBAR_REPORT ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarReports">
+                        <a class="dropdown-item" href="#" onclick="loadPage('browser', '');"><?= _REPORT_BROWSER ?></a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item navReport" href="#" data-report="purch-all-summary"><?= _REPORT_PURCH_ALL_SUMMARY ?></a>
                         <a class="dropdown-item navReport" href="#" data-report="purch-all-details"><?= _REPORT_PURCH_ALL_DETAILS ?></a>
                     </div>
