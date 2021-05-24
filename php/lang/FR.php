@@ -20,6 +20,7 @@ define("_TABLE_STORE", "Commerce");
 define("_TABLE_STORE_HELP", "Enregistrez les informations des commerces o&ugrave; vous allez souvent, et &eacute;viter de les saisie &agrave; chaque achat.");
 
 define("_OPTION_SETTING", "Pr&eacute;f&eacute;rences");
+define("_OPTION_SYSTEM", "Syst&egrave;me");
 define("_OPTION_LOGOUT", "D&eacute;connecter");
 
 define("_HOME_WELCOME", "Bonjour");

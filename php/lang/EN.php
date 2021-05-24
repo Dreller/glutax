@@ -20,6 +20,7 @@ define("_TABLE_STORE", "Store");
 define("_TABLE_STORE_HELP", "Record informations about stores you often go, to avoid re-entering the same infos again and again.");
 
 define("_OPTION_SETTING", "Settings");
+define("_OPTION_SYSTEM", "System");
 define("_OPTION_LOGOUT", "Logout");
 
 define("_HOME_WELCOME", "Welcome");

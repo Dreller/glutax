@@ -121,6 +121,11 @@ body {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarOptions">
                         <a class="dropdown-item" href="#" onclick="loadPage('settings','');"><?= _OPTION_SETTING ?></a>
+                        <?php  
+                            if( $_SESSION['accountID'] == 1 ){
+                                echo '<a class="dropdown-item" href="#" onclick="loadPage(\'system\',\'\');">' . _OPTION_SYSTEM . '</a>';
+                            }
+                        ?>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#"><?= _OPTION_LOGOUT ?></a>
                     </div>
