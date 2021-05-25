@@ -120,4 +120,6 @@ define("_TOAST_PURCH_ADDED", "Achat sauvegard&eacute;");
 define("_TOAST_TABLE_ADDED", "Nouvel item ajout&eacute;");
 define("_TOAST_TABLE_UPDATED", "Item modifi&eacute;");
 
+define("_ERROR_SKU_USED", "<strong>%s</strong> d&eacute;j&agrave; utilis&eacute; par le produit <strong>%s</strong>");
+
 ?>

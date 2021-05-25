@@ -87,15 +87,8 @@ class gtForm{
                 $wip.= "</select>";
                 break;
             case "sku":
-                $wip = "<input type='text' id='$id' name='$id' class='form-control' value='$value' autocomplete='off' onblur='this.value=cleanSKU(this.value);'>";
-                $wip.= "<script language='javascript' type='text/javascript'>
-                    function cleanSKU(string){
-                        var wip = '';
-                        wip = string.split(' ').join('');
-                        wip = wip.toUpperCase();
-                        return wip;
-                    }
-                </script>";
+                $wip = "<input type='text' id='$id' name='$id' class='form-control' value='$value' autocomplete='off' onblur='validateSKU(this);'>";
+                $wip.= "<div class='invalid-feedback' id='$id-invalid'></div>";
                 break;
             default:
             # By default, it's a regular and basic Input.
