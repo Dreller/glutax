@@ -101,6 +101,11 @@ define("_SETTING_ON", "Activer");
 define("_SETTING_OFF", "D&eacute;sactiver");
 
 define("_REPORT_BROWSER", "Navigateur");
+define("_REPORT_BROWSER_SEL_TITLE", "Crit&egrave;res de recherche");
+define("_REPORT_BROWSER_SEL_HELP", "Le navigateur vous permet de faire votre propre recherche dans vos donn&eacute;es.");
+define("_REPORT_BROWSER_SEL_START", "Date de d&eacute;but");
+define("_REPORT_BROWSER_SEL_END", "Date de fin");
+define("_REPORT_BROWSER_SEL_GO", "D&eacute;marrer");
 define("_REPORT_PURCH_ALL_SUMMARY", "Tous les achats (sommaire)");
 define("_REPORT_PURCH_ALL_DETAILS", "Tous les achats (d&eacute;tails)");
 

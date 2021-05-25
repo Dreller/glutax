@@ -16,11 +16,8 @@ $toCurrency = Array(
 $toDate = Array(
     _SQL_PUR_DATE
 );
-# Set Report parameters
-switch($reportType){
-    case "purch-all-summary":
-        $table = _SQL_PUR;
-        $cols = Array(
+# Define sets of columns
+$cols_summary = Array(
             _SQL_PUR_DATE,
             _SQL_STO_NAME,
             _SQL_PER_NAME,
@@ -28,25 +25,60 @@ switch($reportType){
             _SQL_PUR_NOTE
         );
 
+$cols_details = Array(
+    _SQL_PUR_DATE,
+    _SQL_STO_NAME,
+    _SQL_PRO_SKU,
+    _SQL_EXP_PRO_NAME,
+    _SQL_EXP_PRO_PRICE,
+    'CONCAT('._SQL_EXP_PRO_SIZE.'," ",'._SQL_EXP_PRO_FORMAT.') AS prodPackage',
+    _SQL_EXP_EQU_NAME,
+    _SQL_EXP_EQU_PRICE,
+    'CONCAT('._SQL_EXP_EQU_SIZE.'," ",'._SQL_EXP_PRO_FORMAT.') AS equPackage',
+    _SQL_EXP_QUANTITY
+);
+
+# Set Report parameters
+switch($reportType){
+    case "custom":
+
+        $startDate = $_GET['start'];
+        $endDate = $_GET['end'];
+        $summary = $_GET['summ'];
+
+        $table = _SQL_PUR;
+
+        $db->where(_SQL_PUR_DATE, $startDate, ">=");
+        $db->where(_SQL_PUR_DATE, $endDate, "<=");
+
+        if( $summary == "y" ){
+            $cols = $cols_summary;
+            $db->join(_SQL_STO, _SQL_STO_ID .'='. _SQL_PUR_STORE, 'LEFT');
+            $db->join(_SQL_PER, _SQL_PER_ID .'='. _SQL_PUR_PERSON, 'LEFT');
+        }else{
+            $cols = $cols_details;
+            $db->join(_SQL_EXP, _SQL_EXP_PURCHASE . '=' . _SQL_PUR_ID);
+            $db->join(_SQL_STO, _SQL_STO_ID .'='. _SQL_PUR_STORE, 'LEFT');
+            $db->join(_SQL_PRO, _SQL_PRO_ID. '=' . _SQL_EXP_PRODUCT, 'LEFT');
+        }
+
+        $db->orderBy(_SQL_PUR_DATE, 'DESC'); 
+        break;
+    case "purch-all-summary":
+        $table = _SQL_PUR;
+        $cols = $cols_summary;
         $db->join(_SQL_STO, _SQL_STO_ID .'='. _SQL_PUR_STORE, 'LEFT');
         $db->join(_SQL_PER, _SQL_PER_ID .'='. _SQL_PUR_PERSON, 'LEFT');
         $db->orderBy(_SQL_PUR_DATE, 'DESC');        
         break;
-        case "purch-all-details":
-            $table = _SQL_PUR;
-            $cols = Array(
-                _SQL_PUR_DATE,
-                _SQL_STO_NAME,
-                _SQL_EXP_PRO_NAME,
-                _SQL_EXP_QUANTITY,
-                _SQL_EXP_PRO_PRICE,
-                'CONCAT('._SQL_EXP_PRO_SIZE.'," ",'._SQL_EXP_PRO_FORMAT.') AS prodPackage'
-            );
-    
-            $db->join(_SQL_EXP, _SQL_EXP_PURCHASE . '=' . _SQL_PUR_ID);
-            $db->join(_SQL_STO, _SQL_STO_ID .'='. _SQL_PUR_STORE, 'LEFT');
-            $db->orderBy(_SQL_PUR_DATE, 'DESC');        
-            break;
+    case "purch-all-details":
+        $table = _SQL_PUR;
+        $cols = $cols_details;
+        $db->join(_SQL_EXP, _SQL_EXP_PURCHASE . '=' . _SQL_PUR_ID);
+        $db->join(_SQL_STO, _SQL_STO_ID .'='. _SQL_PUR_STORE, 'LEFT');
+        $db->join(_SQL_PRO, _SQL_PRO_ID. '=' . _SQL_EXP_PRODUCT, 'LEFT');
+        $db->orderBy(_SQL_PUR_DATE, 'DESC');        
+        break;
 }
 # Execute the query
 $rows = $db->get($table, null, $cols);

@@ -101,6 +101,11 @@ define("_SETTING_ON", "Activate");
 define("_SETTING_OFF", "Deactivate");
 
 define("_REPORT_BROWSER", "Browser");
+define("_REPORT_BROWSER_SEL_TITLE", "Search Criteria");
+define("_REPORT_BROWSER_SEL_HELP", "The browser allow you to perform your own researches in your datas.");
+define("_REPORT_BROWSER_SEL_START", "Start Date");
+define("_REPORT_BROWSER_SEL_END", "End Date");
+define("_REPORT_BROWSER_SEL_GO", "Start");
 define("_REPORT_PURCH_ALL_SUMMARY", "All Purchases Summarized");
 define("_REPORT_PURCH_ALL_DETAILS", "All Purchases Details");
 
