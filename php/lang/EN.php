@@ -8,6 +8,7 @@ define("_NAVBAR_NEW_PURCHASE", "New Purchase");
 define("_NAVBAR_TABLE", "Tables");
 define("_NAVBAR_OPTION", "Options");
 define("_NAVBAR_REPORT", "Reports");
+define("_NAVBAR_HELP", "Help");
 
 define("_TABLE_CATEGORY", "Category");
 define("_TABLE_CATEGORIES", "Categories");
@@ -20,7 +21,11 @@ define("_TABLE_STORE", "Store");
 define("_TABLE_STORE_HELP", "Record informations about stores you often go, to avoid re-entering the same infos again and again.");
 
 define("_OPTION_SETTING", "Settings");
+define("_OPTION_SYSTEM", "System");
 define("_OPTION_LOGOUT", "Logout");
+
+define("_HELP_CALC", "Extra Calculation");
+define("_HELP_CALC_HELP", "This page explains how the <i>extra</i> amount is calculated for your purchases.");
 
 define("_HOME_WELCOME", "Welcome");
 define("_HOME_SHORT_MESSAGE", _NAME.", your tracking solution for gluten-free expenses.");
@@ -99,7 +104,12 @@ define("_SETTING_MISC_LINES_REPORTS_HELP", "Number of lines to display in a repo
 define("_SETTING_ON", "Activate");
 define("_SETTING_OFF", "Deactivate");
 
-
+define("_REPORT_BROWSER", "Browser");
+define("_REPORT_BROWSER_SEL_TITLE", "Search Criteria");
+define("_REPORT_BROWSER_SEL_HELP", "The browser allow you to perform your own researches in your datas.");
+define("_REPORT_BROWSER_SEL_START", "Start Date");
+define("_REPORT_BROWSER_SEL_END", "End Date");
+define("_REPORT_BROWSER_SEL_GO", "Start");
 define("_REPORT_PURCH_ALL_SUMMARY", "All Purchases Summarized");
 define("_REPORT_PURCH_ALL_DETAILS", "All Purchases Details");
 
@@ -114,9 +124,12 @@ define("_BUTTON_UPDATE", "Update");
 define("_BUTTON_CONFIRM", "Are you sure ?");
 define("_BUTTON_CLOSE", "Close");
 define("_BUTTON_NEXT", "Next");
+define("_BUTTON_EXPAND", "Open");
 
 define("_TOAST_PURCH_ADDED", "Purchase saved");
 define("_TOAST_TABLE_ADDED", "New item added");
 define("_TOAST_TABLE_UPDATED", "Item updated");
+
+define("_ERROR_SKU_USED", "%s already used by product %s");
 
 ?>

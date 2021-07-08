@@ -92,6 +92,8 @@ body {
                         <?= _NAVBAR_REPORT ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarReports">
+                        <a class="dropdown-item" href="#" onclick="loadPage('browser', '');"><?= _REPORT_BROWSER ?></a>
+                        <div class="dropdown-divider"></div>
                         <a class="dropdown-item navReport" href="#" data-report="purch-all-summary"><?= _REPORT_PURCH_ALL_SUMMARY ?></a>
                         <a class="dropdown-item navReport" href="#" data-report="purch-all-details"><?= _REPORT_PURCH_ALL_DETAILS ?></a>
                     </div>
@@ -121,8 +123,22 @@ body {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarOptions">
                         <a class="dropdown-item" href="#" onclick="loadPage('settings','');"><?= _OPTION_SETTING ?></a>
+                        <?php  
+                            if( $_SESSION['accountID'] == 1 ){
+                                echo '<a class="dropdown-item" href="#" onclick="loadPage(\'system\',\'\');">' . _OPTION_SYSTEM . '</a>';
+                            }
+                        ?>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="#"><?= _OPTION_LOGOUT ?></a>
+                    </div>
+                </li>
+            <!-- Help Menu -->
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarHelp" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= _NAVBAR_HELP ?>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarHelp">
+                        <a class="dropdown-item" href="#" onclick="loadPage('help-calc','');"><?= _HELP_CALC ?></a>
                     </div>
                 </li>
             </ul>
@@ -174,7 +190,7 @@ body {
             <div class="modal-content p-3" id="purchaseReceiptBody">
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="loadPage('purch', 'p=' + myPurchaseID);"><?= _BUTTON_UPDATE ?></button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="loadPage('purch', 'p=' + myPurchaseID);"><?= _BUTTON_EXPAND ?></button>
                 <button type="button" class="btn btn-primary" data-bs-dismiss="modal"><?= _BUTTON_CLOSE ?></button>
             </div>
         </div>

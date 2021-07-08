@@ -8,6 +8,7 @@ define("_NAVBAR_NEW_PURCHASE", "Nouvel achat");
 define("_NAVBAR_TABLE", "Tables");
 define("_NAVBAR_OPTION", "Options");
 define("_NAVBAR_REPORT", "Rapports");
+define("_NAVBAR_HELP", "Aide");
 
 define("_TABLE_CATEGORY", "Cat&eacute;gorie");
 define("_TABLE_CATEGORIES", _TABLE_CATEGORY."s");
@@ -20,7 +21,11 @@ define("_TABLE_STORE", "Commerce");
 define("_TABLE_STORE_HELP", "Enregistrez les informations des commerces o&ugrave; vous allez souvent, et &eacute;viter de les saisie &agrave; chaque achat.");
 
 define("_OPTION_SETTING", "Pr&eacute;f&eacute;rences");
+define("_OPTION_SYSTEM", "Syst&egrave;me");
 define("_OPTION_LOGOUT", "D&eacute;connecter");
+
+define("_HELP_CALC", "Calcul de l'extra");
+define("_HELP_CALC_HELP", "Cette page d&eacute;crit comment est calcul&eacute; le montant <i>extra</i> sur vos achats.");
 
 define("_HOME_WELCOME", "Bonjour");
 define("_HOME_SHORT_MESSAGE", _NAME.", votre solution de suivi des d&eacute;penses li&eacute;es aux produits sans gluten.");
@@ -99,6 +104,12 @@ define("_SETTING_MISC_LINES_REPORTS_HELP", "Nombre de lignes &agrave; afficher d
 define("_SETTING_ON", "Activer");
 define("_SETTING_OFF", "D&eacute;sactiver");
 
+define("_REPORT_BROWSER", "Navigateur");
+define("_REPORT_BROWSER_SEL_TITLE", "Crit&egrave;res de recherche");
+define("_REPORT_BROWSER_SEL_HELP", "Le navigateur vous permet de faire votre propre recherche dans vos donn&eacute;es.");
+define("_REPORT_BROWSER_SEL_START", "Date de d&eacute;but");
+define("_REPORT_BROWSER_SEL_END", "Date de fin");
+define("_REPORT_BROWSER_SEL_GO", "D&eacute;marrer");
 define("_REPORT_PURCH_ALL_SUMMARY", "Tous les achats (sommaire)");
 define("_REPORT_PURCH_ALL_DETAILS", "Tous les achats (d&eacute;tails)");
 
@@ -113,9 +124,12 @@ define("_BUTTON_UPDATE", "Modifier");
 define("_BUTTON_CONFIRM", "Certain ?");
 define("_BUTTON_CLOSE", "Fermer");
 define("_BUTTON_NEXT", "Suivant");
+define("_BUTTON_EXPAND", "Ouvrir");
 
 define("_TOAST_PURCH_ADDED", "Achat sauvegard&eacute;");
 define("_TOAST_TABLE_ADDED", "Nouvel item ajout&eacute;");
 define("_TOAST_TABLE_UPDATED", "Item modifi&eacute;");
+
+define("_ERROR_SKU_USED", "<strong>%s</strong> d&eacute;j&agrave; utilis&eacute; par le produit <strong>%s</strong>");
 
 ?>

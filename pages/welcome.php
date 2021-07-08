@@ -71,3 +71,4 @@ include('../php/gtInclude.php');
         </table>
     </div>
 </div>
+<span class="text-muted"><?php echo _NAME . ' ' . $appVersion; ?></span>

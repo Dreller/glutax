@@ -1,4 +1,5 @@
 var modalPurchReceipt;
+var temporaryObjectStore;
 
 $(document).ready(function(){
     modalPurchReceipt = new bootstrap.Modal(document.getElementById('purchaseReceipt'), {
@@ -6,7 +7,6 @@ $(document).ready(function(){
     });
     loadPage();
 });
-
 
 // Click on the Website title in the Top NavBar
 $("#glutaxTitle").on("click", function(){
@@ -204,6 +204,68 @@ function wrapForm(formID){
 }
 
 /**
+ * Send a GET request to the server
+ * @param {String} queryType Type of query: SKU.
+ * @param {String} queryData 
+ */
+function queryDB(queryType, queryData, queryCallback){
+        var engineURL = "php/gtQuery.php";
+
+        var url = engineURL + "?type=" + queryType + "&" + queryData;
+        console.log("Query to: " + url);
+
+        var http = new XMLHttpRequest();
+        http.open("GET", url, true);
+        
+        http.onreadystatechange = function(){
+            if( http.readyState === 4 && http.status === 200){
+                window[queryCallback](http.responseText);
+            }
+        }
+        http.send();
+}
+
+/**
+ * 
+ * @param {String} sku SKU to validate
+ * @returns SKU if it can be used, or empty if SKU is already used.
+ */
+function validateSKU(obj){
+    var wip = '';
+    temporaryObjectStore = obj;
+    var sku = obj.value + '';
+
+    if( sku == '' ){
+        temporaryObjectStore.classList.remove("is-invalid");
+        document.getElementById(temporaryObjectStore.id + "-invalid").innerHTML = "";
+        return false;
+    }
+
+    wip = sku.split(' ').join('');
+    wip = wip.toUpperCase();
+
+    var db = "";
+    var queryString = "sku=" + wip + "&p=" + $("#id").val();
+    db = queryDB('SKU', queryString, 'validateSKU_cb');
+}
+
+
+function validateSKU_cb(data){
+    console.log('My response = ' + data);
+    var resp = JSON.parse(data);
+
+    if( resp.result != 'ok' ){
+        temporaryObjectStore.classList.add("is-invalid");
+        document.getElementById(temporaryObjectStore.id + "-invalid").innerHTML = resp.msg;
+        $("#Save").addClass("disabled");
+    } else {
+        temporaryObjectStore.classList.remove("is-invalid");
+        document.getElementById(temporaryObjectStore.id + "-invalid").innerHTML = "";
+        $("#Save").removeClass("disabled");
+    }
+}
+
+/**
  * Display a message as a toast.
  * @param {String} message Message to show in the Toast.
  */
@@ -218,6 +280,10 @@ function toast(message){
     toastList.forEach(toast => toast.show());
 }
 
+/**
+ * Display a message in a modal, the user will have to click OK.
+ * @param {String} message Message to show in the Modal.
+ */
 function tell(message){
 
     document.getElementById('tellModalText').innerHTML = message;
@@ -227,43 +293,71 @@ function tell(message){
 }
 
 
-function loadReport(report){
-    $("#myBox").load('php/rpt-frame.php?r=' + report, function(){
+function loadReport(report, defn = ''){
+$("#myBox").load('php/rpt-frame.php?r=' + report + defn, function(){
     
-        var langPack = ""
-    $('#glutaxReport').DataTable({
-            "processing": true,
-            "language":{
-                "url": "DataTables/lang/" + myLang + ".json"
+// Basic set of options
+    var dataOptions = {
+        "processing": true,
+        "language":{
+            "url": "DataTables/lang/" + myLang + ".json"
+        },
+        "responsive": true,
+        "pageLength": myReportLines,
+        "sAjaxSource":"php/rpt-data.php?r=" + report + defn,
+        "dom":"Bfrtip",
+        "buttons":[
+            {
+                extend: 'collection',
+                text: 'Options',
+                buttons: [
+                    'colvis',
+                    'colvisRestore',
+                    'pageLength'
+                ]
             },
-            "pageLength": myReportLines,
-            "sAjaxSource":"php/rpt-data.php?r=" + report,
-            "dom":"Bfrtip",
-            "buttons":[
-                {
-                    extend: 'collection',
-                    text: 'Options',
-                    buttons: [
-                        'colvis',
-                        'colvisRestore',
-                        'pageLength'
-                    ]
-                },
-                {
-                    extend: 'collection',
-                    text: 'Exporter',
-                    buttons: [
-                        'copy',
-                        'excel',
-                        'csv',
-                        'pdf',
-                        'print'
-                    ]
-                }
-            ]
-        });
+            {
+                extend: 'collection',
+                text: 'Exporter',
+                buttons: [
+                    'copy',
+                    'excel',
+                    'csv',
+                    'pdf',
+                    'print'
+                ]
+            }
+        ]
+    };
 
+// Create the column Indices to hide according to the Report Type.
+    var myCols;
+    if( defn.search("summ=y") > 0 || report.search("summary") > 0 ){
+        // Summary
+        myCols = [
+            {"visible": false, "targets": [0], "searchable": false}
+        ];
+    }else{
+        // Details
+        myCols = [
+            {"visible": false, "targets": [2,6,7,8]},
+            {"visible": false, "targets": [0], "searchable": false}
+        ];
+    }
 
+// Inject "columnDefs" option
+    if( myCols !== '' ){
+        dataOptions.columnDefs = myCols;
+    }
+
+// Send Options
+    var myTable = $('#glutaxReport').DataTable(dataOptions);
+
+// Add On Click
+    myTable.on('click', 'tr', function(){
+        var pID = myTable.row( this ).data()[0];
+        purchReceipt( pID );
     });
     
+});
 }
