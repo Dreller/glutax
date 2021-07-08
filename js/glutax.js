@@ -8,7 +8,6 @@ $(document).ready(function(){
     loadPage();
 });
 
-
 // Click on the Website title in the Top NavBar
 $("#glutaxTitle").on("click", function(){
     loadPage();
@@ -333,21 +332,32 @@ $("#myBox").load('php/rpt-frame.php?r=' + report + defn, function(){
 
 // Create the column Indices to hide according to the Report Type.
     var myCols;
-    if( defn.search("summ=y") > 0 ){
+    if( defn.search("summ=y") > 0 || report.search("summary") > 0 ){
         // Summary
-        myCols = '';
+        myCols = [
+            {"visible": false, "targets": [0], "searchable": false}
+        ];
     }else{
         // Details
         myCols = [
-            {"visible": false, "targets": [2,6,7,8]}
+            {"visible": false, "targets": [2,6,7,8]},
+            {"visible": false, "targets": [0], "searchable": false}
         ];
     }
+
 // Inject "columnDefs" option
     if( myCols !== '' ){
         dataOptions.columnDefs = myCols;
     }
+
 // Send Options
-    $('#glutaxReport').DataTable(dataOptions);   
+    var myTable = $('#glutaxReport').DataTable(dataOptions);
+
+// Add On Click
+    myTable.on('click', 'tr', function(){
+        var pID = myTable.row( this ).data()[0];
+        purchReceipt( pID );
+    });
     
 });
 }

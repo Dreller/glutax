@@ -18,6 +18,7 @@ $toDate = Array(
 );
 # Define sets of columns
 $cols_summary = Array(
+            _SQL_PUR_ID,
             _SQL_PUR_DATE,
             _SQL_STO_NAME,
             _SQL_PER_NAME,
@@ -26,6 +27,7 @@ $cols_summary = Array(
         );
 
 $cols_details = Array(
+    _SQL_PUR_ID,
     _SQL_PUR_DATE,
     _SQL_STO_NAME,
     _SQL_PRO_SKU,
@@ -107,6 +109,10 @@ foreach($rows as $row){
     }
     # Insert in parent-array
     $data[] = $lowLevel;
+}
+# If $data is not set, set it to empty.
+if(!isset($data)){
+    $data = "";
 }
 # Prepare the output
 $dtable = Array(

@@ -11,6 +11,7 @@ $reportTitle = "";
 
 # Define sets of columns
 $cols_summary = Array(
+    "iID",
     _LABEL_PURCH_DATE,
     _LABEL_STORE,
     _LABEL_PERSON,
@@ -19,6 +20,7 @@ $cols_summary = Array(
 ); 
 
 $cols_details = Array(
+    "iID",
     _LABEL_PURCH_DATE,
     _LABEL_STORE,
     _LABEL_SKU,
@@ -34,7 +36,7 @@ $cols_details = Array(
 # Set Report parameters
 switch($reportType){
     case "custom":
-        $reportTitle = "=BROWSE=";
+        $reportTitle = _REPORT_BROWSER;
         $summary = $_GET['summ'];
         $cols = ($summary == "y" ? $cols_summary:$cols_details);
         break;

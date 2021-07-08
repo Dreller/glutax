@@ -120,6 +120,7 @@ define("_BUTTON_UPDATE", "Modifier");
 define("_BUTTON_CONFIRM", "Certain ?");
 define("_BUTTON_CLOSE", "Fermer");
 define("_BUTTON_NEXT", "Suivant");
+define("_BUTTON_EXPAND", "Ouvrir");
 
 define("_TOAST_PURCH_ADDED", "Achat sauvegard&eacute;");
 define("_TOAST_TABLE_ADDED", "Nouvel item ajout&eacute;");

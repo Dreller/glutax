@@ -1,5 +1,5 @@
 {
-    "emptyTable": "Aucune donnée disponible dans le tableau",
+    "emptyTable": "Aucune donnée disponible pour ce rapport",
     "lengthMenu": "Afficher _MENU_ éléments",
     "loadingRecords": "Chargement...",
     "processing": "Traitement...",
@@ -8,7 +8,7 @@
         "first": "Premier",
         "last": "Dernier",
         "previous": "Précédent",
-        "next": "Suiv"
+        "next": "Suivant"
     },
     "aria": {
         "sortAscending": ": activer pour trier la colonne par ordre croissant",
