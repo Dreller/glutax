@@ -132,6 +132,15 @@ body {
                         <a class="dropdown-item" href="#"><?= _OPTION_LOGOUT ?></a>
                     </div>
                 </li>
+            <!-- Help Menu -->
+            <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarHelp" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <?= _NAVBAR_HELP ?>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right animate slideIn" aria-labelledby="navbarHelp">
+                        <a class="dropdown-item" href="#" onclick="loadPage('help-calc','');"><?= _HELP_CALC ?></a>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

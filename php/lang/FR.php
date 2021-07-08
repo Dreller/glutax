@@ -8,6 +8,7 @@ define("_NAVBAR_NEW_PURCHASE", "Nouvel achat");
 define("_NAVBAR_TABLE", "Tables");
 define("_NAVBAR_OPTION", "Options");
 define("_NAVBAR_REPORT", "Rapports");
+define("_NAVBAR_HELP", "Aide");
 
 define("_TABLE_CATEGORY", "Cat&eacute;gorie");
 define("_TABLE_CATEGORIES", _TABLE_CATEGORY."s");
@@ -22,6 +23,9 @@ define("_TABLE_STORE_HELP", "Enregistrez les informations des commerces o&ugrave
 define("_OPTION_SETTING", "Pr&eacute;f&eacute;rences");
 define("_OPTION_SYSTEM", "Syst&egrave;me");
 define("_OPTION_LOGOUT", "D&eacute;connecter");
+
+define("_HELP_CALC", "Calcul de l'extra");
+define("_HELP_CALC_HELP", "Cette page d&eacute;crit comment est calcul&eacute; le montant <i>extra</i> sur vos achats.");
 
 define("_HOME_WELCOME", "Bonjour");
 define("_HOME_SHORT_MESSAGE", _NAME.", votre solution de suivi des d&eacute;penses li&eacute;es aux produits sans gluten.");

@@ -8,6 +8,7 @@ define("_NAVBAR_NEW_PURCHASE", "New Purchase");
 define("_NAVBAR_TABLE", "Tables");
 define("_NAVBAR_OPTION", "Options");
 define("_NAVBAR_REPORT", "Reports");
+define("_NAVBAR_HELP", "Help");
 
 define("_TABLE_CATEGORY", "Category");
 define("_TABLE_CATEGORIES", "Categories");
@@ -22,6 +23,9 @@ define("_TABLE_STORE_HELP", "Record informations about stores you often go, to a
 define("_OPTION_SETTING", "Settings");
 define("_OPTION_SYSTEM", "System");
 define("_OPTION_LOGOUT", "Logout");
+
+define("_HELP_CALC", "Extra Calculation");
+define("_HELP_CALC_HELP", "This page explains how the <i>extra</i> amount is calculated for your purchases.");
 
 define("_HOME_WELCOME", "Welcome");
 define("_HOME_SHORT_MESSAGE", _NAME.", your tracking solution for gluten-free expenses.");
